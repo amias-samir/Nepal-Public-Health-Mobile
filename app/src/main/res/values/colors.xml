@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-</resources>
+    <resources>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="primary_darker">#030c91</color>
+    <color name="primary_light">#C5CAE9</color>
+    <!--<color name="accent">#9E9E9E</color>-->
+    <color name="accent">#000000</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#212121</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+
+
+    <color name="blue_btn_bg_color">#388e3c</color>
+    <color name="blue_btn_bg_pressed_color">#96BFD2</color>
+    <color name="float_transparent">#00000000</color>
+    <color name="error_stroke_color">#b11919</color>
+    <color name="success_stroke_color">#109412</color>
+    <color name="trans_success_stroke_color">#33A5DC86</color>
+    <color name="warning_stroke_color">#F8BB86</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="sweet_dialog_bg_color">#FFFFFF</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
+    <color name="red_btn_bg_color">#b93319</color>
+    <color name="red_btn_bg_pressed_color">#cc3830</color>
+
+
+        <color name="tabIconColor">#BDBDBD</color>
+        <color name="black">#000000</color>
+        <color name="jet">#222222</color>
+        <color name="oil">#333333</color>
+        <color name="monsoon">#777777</color>
+        <color name="jumbo">#888888</color>
+        <color name="aluminum">#999999</color>
+        <color name="base">#AAAAAA</color>
+        <color name="iron">#CCCCCC</color>
+        <color name="white">#FFFFFF</color>
+
+        <color name="colorFAB1">#2d9a59</color>
+        <color name="colorFAB2">#2d9a59</color>
+        <color name="colorFAB3">#2d9a59</color>
+        <color name="transparent">#00e040fb</color>
+
+
+        <color name="tab1">#2d9a59</color>
+        <color name="tab2">#3b86c7</color>
+        <color name="tab3">#8db307</color>
+        <color name="tab4">#da553d</color>
+        <color name="tab5">#5e877f</color>
+        <color name="tab6">#9252ce</color>
+
+        <color name="divider_grey">#D4D4D4</color>
+
+        <color name="orange">#FA0</color>
+
+        <color name="nliveo_black">#000000</color>
+        <color name="nliveo_white">#ffffff</color>
+        <color name="textColor">#282828</color>
+
+        <color name="text_title_dark_ask_for_help">#063D71</color>
+
+        <color name="ask_for_help_button_color">#ff23729a</color>
+        <!--<color name="colorPrimary">#03A9F4</color>-->
+        <color name="light_balck">#616161</color>
+    </resources>
