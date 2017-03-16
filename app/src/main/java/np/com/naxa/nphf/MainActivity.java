@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
             } else {
                 //Displaying another toast if permission is not granted
-                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_SHORT).show();
             }
         }
     }

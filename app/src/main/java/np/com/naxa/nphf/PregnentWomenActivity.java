@@ -366,13 +366,44 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
 
                     if (networkInfo != null && networkInfo.isConnected()) {
-                        mProgressDlg = new ProgressDialog(context);
-                        mProgressDlg.setMessage("Please wait...");
-                        mProgressDlg.setIndeterminate(false);
-                        mProgressDlg.setCancelable(true);
-                        mProgressDlg.show();
 
-                        convertDataToJson();
+
+                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
+
+                        final Dialog showDialog = new Dialog(context);
+                        showDialog.setContentView(R.layout.alert_dialog_before_send);
+                        final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
+                        final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
+
+                        showDialog.setTitle("WARNING !!!");
+                        showDialog.setCancelable(false);
+                        showDialog.show();
+                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDialog.dismiss();
+                                mProgressDlg = new ProgressDialog(context);
+                                mProgressDlg.setMessage("Please wait...");
+                                mProgressDlg.setIndeterminate(false);
+                                mProgressDlg.setCancelable(false);
+                                mProgressDlg.show();
+                                convertDataToJson();
+//                                finish();
+                            }
+                        });
+
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDialog.dismiss();
+                            }
+                        });
+
+
 
                     } else {
                         final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
