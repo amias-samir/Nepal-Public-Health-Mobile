@@ -18,7 +18,7 @@ import np.com.naxa.nphf.R;
  */
 public class SplashScreenActivity extends Activity {
 
-    TextView textView1, textView2, textView3, textView4;
+    TextView  textView3, textView4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
