@@ -51,4 +51,12 @@
         <item name="android:textColorSecondary">@color/white</item>
     </style>
 
+
+    <style name="MySpinner" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:divider">@null</item>
+        <item name="overlapAnchor">true</item>
+    </style>
+
 </resources>
