@@ -89,7 +89,7 @@ import np.com.naxa.nphf.model.UrlClass;
 
 public class PregnentWomenActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private static final String TAG ="PregnentWomenActivity" ;
+    private static final String TAG = "PregnentWomenActivity";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
     Spinner spinnerANCVisit, spinnerTD, spinnerTDPlus, spinnerVitA, spinnerReceivedIron, spinnerGravawatiBhet, spinnerFCHVsHelp;
@@ -108,7 +108,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     double initLong;
     double finalLong;
     ImageView previewImageSite;
-    Bitmap thumbnail ;
+    Bitmap thumbnail;
     PendingIntent pendingIntent;
     BroadcastReceiver mReceiver;
     AlarmManager alarmManager;
@@ -118,7 +118,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     String latLangArray = "", jsonLatLangArray = "";
 
     AutoCompleteTextView tvPregnentWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvLMP, tvEDD, tvVisitDate,
-            tvVisitTime, tvDeliveryDate, tvContactNo, tvSMName ;
+            tvVisitTime, tvDeliveryDate, tvContactNo, tvSMName;
 
     String pregenent_women_name, vdc_name, ward_no, ethnicity, age, lmp, edd, visit_date, visit_time, delivery_date, contact_no, sm_name,
             anc_visit, td, td_plus, vit_a, received_iron, garvawati_bhet, fchv_help, img;
@@ -364,7 +364,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                     sm_name = tvSMName.getText().toString();
 
 
-
                     if (networkInfo != null && networkInfo.isConnected()) {
 
 
@@ -404,7 +403,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         });
 
 
-
                     } else {
                         final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
                         Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
@@ -418,9 +416,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         });
 
     }
-
-
-
 
 
     @Override
@@ -517,7 +512,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 
     @Override
@@ -630,8 +624,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     }
 
 
-
-
     // data convert
     public void convertDataToJson() {
         //function in the activity that corresponds to the layout button
@@ -663,12 +655,13 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             header.put("image", encodedImage);
 
 
-
             jsonToSend = header.toString();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Log.d("Nishon", jsonToSend);
 
         sendDatToserver();
     }
@@ -691,7 +684,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             String text = null;
             text = POST(UrlClass.URL_DATA_SEND);
-            Log.d(TAG, "RAW resposne"+text);
+            Log.d(TAG, "RAW resposne" + text);
 
             return text.toString();
         }
@@ -701,18 +694,19 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             // TODO Auto-generated method stub
             mProgressDlg.dismiss();
 
-            Log.d(TAG, "on post resposne"+result);
+            Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(result);
                 dataSentStatus = jsonObject.getString("status");
 
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if (dataSentStatus.equals("200")){
+
+
+            if (dataSentStatus.equals("200")) {
                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
                 previewImageSite.setVisibility(View.GONE);
 
@@ -782,8 +776,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     }
 
 
-
-
     //Date picker
     // display current date
     public void setCurrentDateOnView() {
@@ -837,7 +829,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             }
 
         });
-
 
 
     }
