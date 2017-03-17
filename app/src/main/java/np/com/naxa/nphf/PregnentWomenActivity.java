@@ -347,72 +347,70 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
 
-                try {
 
-                    pregenent_women_name = tvDeliveryDate.getText().toString();
-                    vdc_name = tvVDCName.getText().toString();
-                    ward_no = tvWardNo.getText().toString();
-                    ethnicity = tvEthnicity.getText().toString();
-                    age = tvAge.getText().toString();
-                    lmp = tvLMP.getText().toString();
-                    edd = tvEDD.getText().toString();
-                    visit_date = tvVisitTime.getText().toString();
-                    visit_time = tvVisitTime.getText().toString();
-                    img = encodedImage;
-                    delivery_date = tvDeliveryDate.getText().toString();
-                    contact_no = tvContactNo.getText().toString();
-                    sm_name = tvSMName.getText().toString();
-
-
-                    if (networkInfo != null && networkInfo.isConnected()) {
+                pregenent_women_name = tvPregnentWomenName.getText().toString();
+                vdc_name = tvVDCName.getText().toString();
+                ward_no = tvWardNo.getText().toString();
+                ethnicity = tvEthnicity.getText().toString();
+                age = tvAge.getText().toString();
+                lmp = tvLMP.getText().toString();
+                edd = tvEDD.getText().toString();
+                visit_date = tvVisitTime.getText().toString();
+                visit_time = tvVisitTime.getText().toString();
+                img = encodedImage;
+                delivery_date = tvDeliveryDate.getText().toString();
+                contact_no = tvContactNo.getText().toString();
+                sm_name = tvSMName.getText().toString();
 
 
-                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                        int width = metrics.widthPixels;
-                        int height = metrics.heightPixels;
+                if (networkInfo != null && networkInfo.isConnected()) {
 
-                        final Dialog showDialog = new Dialog(context);
-                        showDialog.setContentView(R.layout.alert_dialog_before_send);
-                        final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
-                        final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
 
-                        showDialog.setTitle("WARNING !!!");
-                        showDialog.setCancelable(false);
-                        showDialog.show();
-                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
 
-                        yes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showDialog.dismiss();
-                                mProgressDlg = new ProgressDialog(context);
-                                mProgressDlg.setMessage("Please wait...");
-                                mProgressDlg.setIndeterminate(false);
-                                mProgressDlg.setCancelable(false);
-                                mProgressDlg.show();
-                                convertDataToJson();
+                    final Dialog showDialog = new Dialog(context);
+                    showDialog.setContentView(R.layout.alert_dialog_before_send);
+                    final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
+                    final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
+
+                    showDialog.setTitle("WARNING !!!");
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                            mProgressDlg = new ProgressDialog(context);
+                            mProgressDlg.setMessage("Please wait...");
+                            mProgressDlg.setIndeterminate(false);
+                            mProgressDlg.setCancelable(false);
+                            mProgressDlg.show();
+                            convertDataToJson();
 //                                finish();
-                            }
-                        });
+                        }
+                    });
 
-                        no.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showDialog.dismiss();
-                            }
-                        });
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                        }
+                    });
 
 
-                    } else {
-                        final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
-                        Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
-                                .setAction("Retry", null).show();
-                    }
-
-                } catch (Exception ex) {
+                } else {
+                    final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
+                    Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
+                            .setAction("Retry", null).show();
                 }
 
             }
+
+
         });
 
     }
@@ -703,7 +701,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
 
             if (dataSentStatus.equals("200")) {
