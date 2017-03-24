@@ -44,18 +44,17 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".PregnentWomenActivity"
-
+            android:name=".activities.PregnentWomenActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity android:name=".gps.MapPointActivity" />
         <activity android:name=".gps.MapPolyLineActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".activities.LactatingWomenActivity"></activity>
     </application>
 
 </manifest>

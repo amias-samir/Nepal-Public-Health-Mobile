@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import np.com.naxa.nphf.activities.PregnentWomenActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String TAG = "MainActivity";

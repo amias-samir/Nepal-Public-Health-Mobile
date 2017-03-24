@@ -1,4 +1,4 @@
-package np.com.naxa.nphf;
+package np.com.naxa.nphf.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -79,6 +79,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -191,7 +192,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         previewImageSite.setVisibility(View.GONE);
 
         spinnerANCVisit = (Spinner) findViewById(R.id.pregnent_women_anc_visit_type);
-        spinnerTD = (Spinner) findViewById(R.id.pregnent_women_td);
+        spinnerTD = (Spinner) findViewById(R.id.pregnant_women_45days_iron);
         spinnerTDPlus = (Spinner) findViewById(R.id.pregnent_women_td_plus);
         spinnerVitA = (Spinner) findViewById(R.id.pregnent_women_vitA);
         spinnerReceivedIron = (Spinner) findViewById(R.id.pregnent_women_iron);
@@ -438,7 +439,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             }
         }
 
-        if (spinnerId == R.id.pregnent_women_td) {
+        if (spinnerId == R.id.pregnant_women_45days_iron) {
             switch (position) {
                 case 0:
                     td = "Yes";
