@@ -160,7 +160,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        /**
+        /**₧
          * Author Susan Lama
          */
         client = new GoogleApiClient.Builder(this)

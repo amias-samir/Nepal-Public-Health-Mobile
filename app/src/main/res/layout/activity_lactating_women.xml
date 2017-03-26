@@ -8,7 +8,7 @@
     tools:context="np.com.naxa.nphf.activities.LactatingWomenActivity">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/lactating_toolbar"
         layout="@layout/toolbar" />
 
     <ScrollView
@@ -75,7 +75,7 @@
                         android:textColor="@color/black" />
                 </android.support.design.widget.TextInputLayout>
 
-                <!--Agreement No-->
+                <!--Ward No-->
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/vdcwardNo"
                     android:layout_width="match_parent"
@@ -252,7 +252,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@+id/received_active_management"
                     android:layout_toRightOf="@+id/received_active_management"
-                    android:id="@+id/lactaing_women_3rd_labour" />
+                    android:id="@+id/lactating_women_3rd_labour" />
 
             </RelativeLayout>
 
@@ -277,7 +277,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/birthplace_of_child_of_lactating_women"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -295,7 +294,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@+id/oxytocin_received"
                     android:layout_toRightOf="@+id/oxytocin_received"
-                    android:id="@+id/birthplace_of_child_of_lactating_women" />
+                    android:id="@+id/oxytocin_received_after_birth" />
 
             </RelativeLayout>
 
@@ -336,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:id="@+id/lactating_women_eonates_asphysia"
+                    android:id="@+id/lactating_women_neonates_asphysia"
                     android:layout_toEndOf="@+id/received_neonates"
                     android:layout_toRightOf="@+id/received_neonates" />
 

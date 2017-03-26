@@ -306,7 +306,7 @@
                     android:id="@+id/child_2_weight" />
 
                 <Spinner
-                    android:id="@+id/first_visit_child_0-11_months"
+                    android:id="@+id/first_visit_child0_11months"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
