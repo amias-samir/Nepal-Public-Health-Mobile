@@ -133,6 +133,101 @@
 
         </android.support.v7.widget.CardView>
 
+        <!--get Gps Location House hold-->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            card_view:cardBackgroundColor="@color/transparent"
+            card_view:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/layout_margin"
+                    android:padding="5dp">
+
+                    <Button
+                        android:id="@+id/children_2_GpsStart"
+                        android:layout_width="212dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:gravity="center"
+                        android:text="Get gps location"
+                        android:textColor="#ffffff" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/children_2_preview_map"
+                    android:layout_width="212dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_pressed_hwc_light"
+                    android:text="Preview Map"
+                    android:textColor="#ffffff" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <!--Photograph of the site, victim and wild animal-->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardBackgroundColor="@color/transparent"
+            card_view:cardElevation="1dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/layout_margin"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/children_2_PhotographSiteLable"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="Photograph"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageButton
+                    android:id="@+id/children_2_photo_site"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/children_2_PhotographSiteLable"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/ic_photo"
+                    android:src="@drawable/button_pressed_transparent" />
+
+                <ImageView
+                    android:id="@+id/children_2_PhotographSiteimageViewPreview"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/children_2_PhotographSiteLable"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
         <!--Registered for growth monitoring -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -208,65 +303,14 @@
                     android:id="@+id/vaccination_details" />
 
                 <Spinner
-                    android:id="@+id/bcg_spinner"
+                    android:id="@+id/spinner_vaccination_details"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/vaccination_details" />
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/dpt_hepB_Hib_Polio_pvc_1st_dose"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/vaccination_details"-->
-                    <!--android:layout_toRightOf="@+id/vaccination_details"/>-->
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/dpt_hepB_Hib_Polio_pvc_2nd_dose"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/vaccination_details"-->
-                    <!--android:layout_toRightOf="@+id/vaccination_details"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/dpt_hepB_Hib_Polio_pvc_3rd_dose"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/vaccination_details"-->
-                    <!--android:layout_toRightOf="@+id/vaccination_details"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/pcv3rd_MR_1st"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toRightOf="@+id/vaccination_details"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/je"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/vaccination_details"-->
-                    <!--android:layout_toRightOf="@+id/vaccination_details"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/mr2nd"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/vaccination_details"-->
-                    <!--android:layout_toRightOf="@+id/vaccination_details"/>-->
 
             </RelativeLayout>
 
@@ -306,39 +350,12 @@
                     android:id="@+id/child_2_weight" />
 
                 <Spinner
-                    android:id="@+id/first_visit_child0_11months"
+                    android:id="@+id/visit_for_weight2"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/child_2_weight" />
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/firstvisit_child_12-13_months"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/child_2_weight"-->
-                    <!--android:layout_toRightOf="@+id/child_2_weight"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/secondvisit_child_0-11_months"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/child_2_weight"-->
-                    <!--android:layout_toRightOf="@+id/child_2_weight"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/secondvisit_child_12-23_months"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/child_2_weight"-->
-                    <!--android:layout_toRightOf="@+id/child_2_weight"/>-->
 
 
             </RelativeLayout>
@@ -380,6 +397,59 @@
             android:text="DOUBLE TAP EDITTEXT TO SELECT DATE"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff" />
+
+
+        <!--name of SM-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/children_2_sm_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:hint="Name of SM"
+                android:inputType="text"
+                android:textColor="@color/black" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--date-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/date_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/children_2_visit_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:hint="Date"
+                android:inputType="date"
+                android:textColor="@color/black" />
+        </android.support.design.widget.TextInputLayout>
+        <!--time-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/time_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/children_2_visit_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:hint="Time"
+                android:inputType="date"
+                android:textColor="@color/black" />
+        </android.support.design.widget.TextInputLayout>
+
+
 
 
         <!--save / send-->
