@@ -244,10 +244,10 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         tvVisitDate = (AutoCompleteTextView)findViewById(R.id.children_2_visit_date);
         tvVisitTime = (AutoCompleteTextView)findViewById(R.id.children_2_visit_time);
 
-//        setCurrentDateOnView();
-//        addListenerOnButton();
-//        setCurrentTimeOnView();
-//        addListenerOnTimeButton();
+        setCurrentDateOnView();
+        addListenerOnButton();
+        setCurrentTimeOnView();
+        addListenerOnTimeButton();
 
         photo = (ImageButton)findViewById(R.id.children_2_photo_site);
         previewImageSite = (ImageView)findViewById(R.id.children_2_PhotographSiteimageViewPreview);

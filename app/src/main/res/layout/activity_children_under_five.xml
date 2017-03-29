@@ -23,7 +23,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp">
 
-    </ScrollView>
+
     <!--Children under five year diseases details-->
     <LinearLayout
         android:id="@+id/top_layout"
@@ -265,6 +265,22 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/diarrhoea_details" />
 
+                <Spinner
+                    android:id="@+id/treated_zinc_diarrhoea_spinner"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/diarrhoea_details" />
+
+                <Spinner
+                    android:id="@+id/referred_diarrhoea_spinner"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/diarrhoea_details" />
+
 
 
             </RelativeLayout>
@@ -306,6 +322,22 @@
 
                 <Spinner
                     android:id="@+id/suffered_from_ARI"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ari_details" />
+
+                <Spinner
+                    android:id="@+id/treated_zinc_ari_spinner"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ari_details" />
+
+                <Spinner
+                    android:id="@+id/referred_ari_spinner"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -424,7 +456,8 @@
         </android.support.v7.widget.CardView>
 
 
-    </LinearLayout>
+         </LinearLayout>
 
+    </ScrollView>
 
 </RelativeLayout>
