@@ -100,7 +100,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
-    String imagePath, encodedImage = null, imageName = "no_photo";
+    String imagePath, encodedImage = null, imageName = "pregnent_women";
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -706,7 +706,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             if (dataSentStatus.equals("200")) {
                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
-                previewImageSite.setVisibility(View.GONE);
+                previewImageSite.setVisibility(View.VISIBLE);
 
                 tvPregnentWomenName.setText(pregenent_women_name);
                 tvVDCName.setText(vdc_name);

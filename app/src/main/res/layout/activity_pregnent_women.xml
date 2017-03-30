@@ -12,6 +12,7 @@
         layout="@layout/toolbar" />
 
     <ScrollView
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,14 +20,13 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp">
 
-    </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/toolbar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
@@ -717,6 +717,8 @@
             </RelativeLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>

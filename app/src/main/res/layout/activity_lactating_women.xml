@@ -12,6 +12,7 @@
         layout="@layout/toolbar" />
 
     <ScrollView
+        android:layout_below="@+id/lactating_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,14 +20,13 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp">
 
-    </ScrollView>
+
     <!--delivery place details-->
     <LinearLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/toolbar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
@@ -63,8 +63,7 @@
                 <!--VDC name-->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp">
+                    android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
                         android:id="@+id/lactating_women_vdc_name"
@@ -137,13 +136,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,15 +159,13 @@
                     android:id="@+id/delivery_place" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/delivery_place"
-                    android:layout_toRightOf="@+id/delivery_place"
                     android:id="@+id/delivery_at_place" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -274,13 +272,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -297,15 +296,13 @@
 
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/birth_attended"
-                    android:layout_toRightOf="@+id/birth_attended"
                     android:id="@+id/birth_attended_by_lcw" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -318,13 +315,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -341,19 +339,19 @@
                     android:layout_alignParentBottom="true" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/received_active_management"
-                    android:layout_toRightOf="@+id/received_active_management"
                     android:id="@+id/lactating_women_3rd_labour" />
+                <!--android:layout_toEndOf="@+id/received_active_management"-->
+                <!--android:layout_toRightOf="@+id/received_active_management"-->
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
-        <!--delivery details of child of lactating women-->
+        <!--Received Oxytocin after Delivery lactating women-->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -361,13 +359,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -383,15 +382,13 @@
                     android:id="@+id/oxytocin_received" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/oxytocin_received"
-                    android:layout_toRightOf="@+id/oxytocin_received"
                     android:id="@+id/oxytocin_received_after_birth" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -404,13 +401,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -426,15 +424,13 @@
                     android:id="@+id/received_neonates" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:id="@+id/lactating_women_neonates_asphysia"
-                    android:layout_toEndOf="@+id/received_neonates"
-                    android:layout_toRightOf="@+id/received_neonates" />
+                    android:id="@+id/lactating_women_neonates_asphysia" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
         <!--PNC Visit-->
@@ -446,13 +442,14 @@
             card_view:cardElevation="1dp"
             android:id="@+id/lactating_women_pnc_visit">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -469,66 +466,13 @@
 
                 <Spinner
                     android:id="@+id/pnc_visit_spinner"
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/pnc_visit" />
+                    android:layout_alignParentTop="true" />
 
-              <!--  <Spinner
-                    android:id="@+id/spinner6"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/pnc_visit"
-                    android:layout_toRightOf="@+id/pnc_visit"/>
 
-                <Spinner
-                    android:id="@+id/spinner5"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/pnc_visit"
-                    android:layout_toRightOf="@+id/pnc_visit"/>
-
-                <Spinner
-                    android:id="@+id/spinner4"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/pnc_visit"
-                    android:layout_toRightOf="@+id/pnc_visit"/>
-
-                <Spinner
-                    android:id="@+id/spinner3"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/pnc_visit"/>
-
-                <Spinner
-                    android:id="@+id/spinner2"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/pnc_visit"
-                    android:layout_toRightOf="@+id/pnc_visit"/>
-
-                <Spinner
-                    android:id="@+id/pnc_spinner"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/ancVvisit"
-                    android:layout_toRightOf="@+id/pnc_visit"/> -->
-
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -540,13 +484,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -563,15 +508,13 @@
                     android:id="@+id/received_iron_pill" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/received_iron_pill"
-                    android:layout_toRightOf="@+id/received_iron_pill"
                     android:id="@+id/lactating_women_45days_iron" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -583,13 +526,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/vitaminA"
@@ -606,15 +550,13 @@
                     android:textColor="@color/monsoon" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/vitaminA"
-                    android:layout_toRightOf="@+id/vitaminA"
                     android:id="@+id/lactating_women_vitaminA" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -628,13 +570,14 @@
             card_view:cardElevation="1dp"
             android:id="@+id/lactating_women_pnc_visit_types">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -651,67 +594,14 @@
 
                 <Spinner
                     android:id="@+id/lactating_women_neonatal_records"
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/neonetal_records" />
+                    android:layout_alignParentTop="true" />
 
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/neonatalspinner6"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/neonetal_records"-->
-                    <!--android:layout_toRightOf="@+id/neonetal_records"/>-->
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/neonatalspinner5"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/neonetal_records"-->
-                    <!--android:layout_toRightOf="@+id/neonetal_records"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/neonatalspinner4"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/neonetal_records"-->
-                    <!--android:layout_toRightOf="@+id/neonetal_records"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/neonatalspinner3"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/neonetal_records"-->
-                    <!--android:layout_toRightOf="@+id/neonetal_records"/>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/neonatalspinner2"-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/neonetal_records"-->
-                    <!--android:layout_toRightOf="@+id/neonetal_records"/>-->
-                <!--<Spinner-->
-                    <!--android:layout_width="220dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/neonetal_records"-->
-                    <!--android:layout_toRightOf="@+id/neonetal_records"-->
-                    <!--android:id="@+id/neonatal_spinner" />-->
-
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -725,13 +615,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/breast_feed"
@@ -748,15 +639,13 @@
                     android:textColor="@color/monsoon" />
 
                 <Spinner
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/breast_feed"
-                    android:layout_toRightOf="@+id/breast_feed"
                     android:id="@+id/lactating_women_breastfeed_in1hour" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
 
@@ -773,13 +662,14 @@
             card_view:cardBackgroundColor="@color/transparent"
             card_view:cardElevation="1dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/exclusive_breast_feeding"
@@ -796,16 +686,28 @@
 
                 <Spinner
                     android:id="@+id/lactating_women_exclusive_breastfeeding"
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/exclusive_breast_feeding"
-                    android:layout_toRightOf="@+id/exclusive_breast_feeding" />
+                    android:layout_alignParentTop="true" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardBackgroundColor="@color/transparent"
+            card_view:cardElevation="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            android:padding="5dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -818,25 +720,6 @@
             android:text="DOUBLE TAP EDITTEXT TO SELECT DATE"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff" />
-
-        <!--name of SM-->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp">
-
-            <AutoCompleteTextView
-                android:id="@+id/lactating_women_sm_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
-                android:hint="Name of SM"
-                android:inputType="text"
-                android:textColor="@color/black" />
-        </android.support.design.widget.TextInputLayout>
 
         <!--date-->
         <android.support.design.widget.TextInputLayout
@@ -869,6 +752,23 @@
                 android:inputType="date"
                 android:textColor="@color/black" />
         </android.support.design.widget.TextInputLayout>
+
+            <!--name of SM-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/lactating_women_sm_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:hint="Name of SM"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
 
@@ -907,13 +807,15 @@
                     android:id="@+id/lactating_women_send"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/black"
+                    android:background="@color/primary"
                     android:text="Send"
                     android:textColor="#FFFFFF" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>
