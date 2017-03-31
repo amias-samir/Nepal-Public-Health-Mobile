@@ -55,8 +55,8 @@
         <activity android:name=".gps.MapPolyLineActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activities.LactatingWomenActivity" />
-        <activity android:name=".ChildrenUnderTwo" />
-        <activity android:name=".ChildrenUnderFive"></activity>
+        <activity android:name=".activities.ChildrenUnderTwo" />
+        <activity android:name=".activities.ChildrenUnderFive"></activity>
     </application>
 
 </manifest>

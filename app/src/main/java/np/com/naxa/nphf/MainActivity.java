@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import np.com.naxa.nphf.activities.ChildrenUnderFive;
+import np.com.naxa.nphf.activities.ChildrenUnderTwo;
 import np.com.naxa.nphf.activities.LactatingWomenActivity;
 import np.com.naxa.nphf.activities.PregnentWomenActivity;
 
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cvChildUnderFive.setOnClickListener(this);
         rlPregnentWomen.setOnClickListener(this);
         rlLocatingWomen.setOnClickListener(this);
+        rlChildUnderFive.setOnClickListener(this);
+        rlChildunderTwo.setOnClickListener(this);
 
 
         try {
@@ -93,11 +97,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent1);
 
                 break;
-            case 3:
-
+            case  (R.id.top_layout__under_2yrs):
+                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
+                Intent intent2 = new Intent(MainActivity.this, ChildrenUnderTwo.class);
+                startActivity(intent2);
                 break;
 
-            case 4:
+            case  (R.id.top_layout_under_5yrs):
+                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
+                Intent intent3 = new Intent(MainActivity.this, ChildrenUnderFive.class);
+                startActivity(intent3);
 
                 break;
 

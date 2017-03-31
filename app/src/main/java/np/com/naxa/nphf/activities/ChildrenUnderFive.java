@@ -1,7 +1,9 @@
-package np.com.naxa.nphf;
+package np.com.naxa.nphf.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import np.com.naxa.nphf.R;
 
 public class ChildrenUnderFive extends AppCompatActivity {
 

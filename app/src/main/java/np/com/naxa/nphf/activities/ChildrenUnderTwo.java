@@ -1,4 +1,4 @@
-package np.com.naxa.nphf;
+package np.com.naxa.nphf.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -79,7 +79,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import np.com.naxa.nphf.activities.PregnentWomenActivity;
+import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
