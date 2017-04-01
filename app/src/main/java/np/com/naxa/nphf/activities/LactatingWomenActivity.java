@@ -591,28 +591,85 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1)
             if (resultCode == Activity.RESULT_OK) {
-                Uri selectPic = data.getData();
+                Uri selectedImage = data.getData();
 
-                String filePath = getPath(selectPic);
-                String file_extension = filePath.substring(filePath.lastIndexOf(".") + 1);
+                String filePath = getPath(selectedImage);
+                String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+
+//                image_name_tv.setText(filePath);
                 imagePath = filePath;
                 addImage();
-
-
+//                Toast.makeText(getApplicationContext(),""+encodedImage,Toast.LENGTH_SHORT).show();
+//                if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+//                    //FINE
+//
+//                }
+//                else{
+//                    //NOT IN REQUIRED FORMAT
+//                }
             }
         if (requestCode == CAMERA_PIC_REQUEST) {
-            if (requestCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 thumbnail = (Bitmap) data.getExtras().get("data");
+                //  ImageView image =(ImageView) findViewById(R.id.Photo);
+                // image.setImageBitmap(thumbnail);
                 previewImageSite.setVisibility(View.VISIBLE);
                 previewImageSite.setImageBitmap(thumbnail);
-                saveToExternalStorage(thumbnail);
+                saveToExternalSorage(thumbnail);
                 addImage();
+//                Toast.makeText(getApplicationContext(), "" + encodedImage, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+    private void saveToExternalSorage(Bitmap thumbnail) {
+        // TODO Auto-generated method stub
+        //String merocinema="Mero Cinema";
+//        String movname=getIntent().getExtras().getString("Title");
+        Calendar calendar = Calendar.getInstance();
+        long timeInMillis = calendar.getTimeInMillis();
+
+        imageName = "Lactating_Women" + timeInMillis;
+
+        File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), imageName);
+//        if (!file1.mkdirs()) {
+//            Toast.makeText(getApplicationContext(), "Not Created", Toast.LENGTH_SHORT).show();
+//        }
+
+        if (file1.exists()) file1.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file1);
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            Toast.makeText(getApplicationContext(), "Saved " + imageName, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if (uri == null) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // this is our fallback here
+        return uri.getPath();
     }
 
     public void addImage() {
@@ -642,52 +699,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
     }
 
-    private void saveToExternalStorage(Bitmap thumbnail) {
-        // TODO Auto-generated method stub
-        //String merocinema="Mero Cinema";
-//        String movname=getIntent().getExtras().getString("Title");
-        Calendar calendar = Calendar.getInstance();
-        long timeInMillis = calendar.getTimeInMillis();
-
-        imageName = "Locating_Women" + timeInMillis;
-
-        File file1 = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), imageName);
-//        if (!file1.mkdirs()) {
-//            Toast.makeText(getApplicationContext(), "Not Created", Toast.LENGTH_SHORT).show();
-//        }
-
-        if (file1.exists()) file1.delete();
-        try {
-            FileOutputStream out = new FileOutputStream(file1);
-            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-            Toast.makeText(getApplicationContext(), "Saved " + imageName, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    // get url of images
-    public String getPath(Uri uri) {
-        // just some safety built in
-        if (uri == null) {
-            // TODO perform some logging or show user feedback
-            return null;
-        }
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
-    }
 
     public void convertDataToJson() {
         try {

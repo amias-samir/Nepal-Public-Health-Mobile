@@ -54,9 +54,29 @@
         <activity android:name=".gps.MapPointActivity" />
         <activity android:name=".gps.MapPolyLineActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".activities.LactatingWomenActivity" />
-        <activity android:name=".activities.ChildrenUnderTwo" />
-        <activity android:name=".activities.ChildrenUnderFive"></activity>
+        <activity android:name=".activities.LactatingWomenActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".activities.ChildrenUnderTwo"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".activities.ChildrenUnderFive"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

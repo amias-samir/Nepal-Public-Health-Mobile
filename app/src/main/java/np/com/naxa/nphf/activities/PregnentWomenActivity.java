@@ -625,7 +625,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
     // data convert
     public void convertDataToJson() {
-        //function in the activity that corresponds to the layout button
+        //function in the activity that corresponds to the hwc_human_casulty button
 
         try {
 

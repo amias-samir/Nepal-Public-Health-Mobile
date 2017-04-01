@@ -205,7 +205,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
                     break;
                 case SUCCESS_TYPE:
                     mSuccessFrame.setVisibility(View.VISIBLE);
-                    // initial rotate layout of success mask
+                    // initial rotate hwc_human_casulty of success mask
                     mSuccessLeftMask.startAnimation(mSuccessLayoutAnimSet.getAnimations().get(0));
                     mSuccessRightMask.startAnimation(mSuccessLayoutAnimSet.getAnimations().get(1));
                     break;

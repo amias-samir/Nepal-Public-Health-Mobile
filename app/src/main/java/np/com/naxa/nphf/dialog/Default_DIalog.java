@@ -56,7 +56,7 @@ public class Default_DIalog {
 //        int height = metrics.heightPixels;
 //
 //        final Dialog showDialog = new Dialog(context);
-//        showDialog.setContentView(R.layout.login_layout);
+//        showDialog.setContentView(R.hwc_human_casulty.login_layout);
 //        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_userName);
 //        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_password);
 //        dateToInput.setHint("Date");

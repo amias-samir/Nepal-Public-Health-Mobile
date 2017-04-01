@@ -91,7 +91,7 @@ import np.com.naxa.nphf.model.UrlClass;
 public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private static final String TAG = "chidren_under_two";
-    public static Toolbar children_under_2_toolbar;
+    public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
     Spinner spinner_growth_monitor,spinner_vaccination_verification,spinner_visit_weight;
     ArrayAdapter growth_monitor_adpt, vaccination_verification_adpt, visit_weight_adpt;
@@ -154,85 +154,15 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        int SpinnerID = parent.getId();
-        if(SpinnerID == R.id.spinner_growth_monitor_2){
-            switch (position){
-                case 0:
-                    growth_monitor = "Yes";
-                    break;
-                case 1:
-                    growth_monitor = "No";
-                    break;
-
-            }
-        }
-
-        if(SpinnerID == R.id.spinner_vaccination_details){
-            switch (position){
-                case 0 :
-                    vaccination = "BCG";
-                    break;
-
-                case 1 :
-                    vaccination = "1st Dose";
-                    break;
-                case 2 :
-                    vaccination = "2nd Dose";
-                    break;
-                case 3 :
-                    vaccination = "3rd Dose";
-                    break;
-                case 4 :
-                    vaccination = "PCV(3rd),MR(1st )";
-                    break;
-                case 5 :
-                    vaccination = "JE";
-                    break;
-                case 6 :
-                    vaccination = "MR (2nd)";
-                    break;
-
-            }
-        }
-
-        if(SpinnerID == R.id.child_2_weight){
-            switch (position){
-
-                case 0:
-                    weight = "first_0_11_months";
-                    break;
-                case 1:
-                    weight = "first_12_23_months";
-                    break;
-                case 2:
-                    weight = "second_0_11_months";
-                    break;
-                case 3:
-                    weight = "second_12_23_months";
-                    break;
-
-            }
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_under_two);
 
-        client = new GoogleApiClient.Builder(this)
-                .addApi(AppIndex.API)
-                .addApi(LocationServices.API)
-                .build();
-        askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Children Under Two Years");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         tvchild_motherName = (AutoCompleteTextView)findViewById(R.id.mother_name_2);
         tvchildren2VDCName = (AutoCompleteTextView)findViewById(R.id.child_under2_vdc_name);
@@ -244,10 +174,10 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         tvVisitDate = (AutoCompleteTextView)findViewById(R.id.children_2_visit_date);
         tvVisitTime = (AutoCompleteTextView)findViewById(R.id.children_2_visit_time);
 
-//        setCurrentDateOnView();
-//        addListenerOnButton();
-//        setCurrentTimeOnView();
-//        addListenerOnTimeButton();
+        setCurrentDateOnView();
+        addListenerOnButton();
+        setCurrentTimeOnView();
+        addListenerOnTimeButton();
 
         photo = (ImageButton)findViewById(R.id.children_2_photo_site);
         previewImageSite = (ImageView)findViewById(R.id.children_2_PhotographSiteimageViewPreview);
@@ -262,6 +192,12 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         startGps = (Button)findViewById(R.id.children_2_GpsStart);
         previewMap = (Button)findViewById(R.id.children_2_preview_map);
         previewMap.setEnabled(false);
+
+        client = new GoogleApiClient.Builder(this)
+                .addApi(AppIndex.API)
+                .addApi(LocationServices.API)
+                .build();
+        askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
 
 
         //Check internet connection
@@ -430,6 +366,78 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         });
 
 
+
+    }
+
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        int SpinnerID = parent.getId();
+        if(SpinnerID == R.id.spinner_growth_monitor_2){
+            switch (position){
+                case 0:
+                    growth_monitor = "Yes";
+                    break;
+                case 1:
+                    growth_monitor = "No";
+                    break;
+
+            }
+        }
+
+        if(SpinnerID == R.id.spinner_vaccination_details){
+            switch (position){
+                case 0 :
+                    vaccination = "BCG";
+                    break;
+
+                case 1 :
+                    vaccination = "1st Dose";
+                    break;
+                case 2 :
+                    vaccination = "2nd Dose";
+                    break;
+                case 3 :
+                    vaccination = "3rd Dose";
+                    break;
+                case 4 :
+                    vaccination = "PCV(3rd),MR(1st )";
+                    break;
+                case 5 :
+                    vaccination = "JE";
+                    break;
+                case 6 :
+                    vaccination = "MR (2nd)";
+                    break;
+
+            }
+        }
+
+        if(SpinnerID == R.id.child_2_weight){
+            switch (position){
+
+                case 0:
+                    weight = "first_0_11_months";
+                    break;
+                case 1:
+                    weight = "first_12_23_months";
+                    break;
+                case 2:
+                    weight = "second_0_11_months";
+                    break;
+                case 3:
+                    weight = "second_12_23_months";
+                    break;
+
+            }
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -762,7 +770,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         Calendar calendar = Calendar.getInstance();
         long timeInMillis = calendar.getTimeInMillis();
 
-        imageName = "Pregnent_Women" + timeInMillis;
+        imageName = "Child_Under_Two" + timeInMillis;
 
         File file1 = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), imageName);
@@ -830,7 +838,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
     // data convert
     public void convertDataToJson() {
-        //function in the activity that corresponds to the layout button
+        //function in the activity that corresponds to the hwc_human_casulty button
 
         try {
 
@@ -838,14 +846,20 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
             header.put("tablename","recording_tool_for_children_under_two");
             header.put("name_of_SM",child2_sm_name);
-            header.put("name_of_SM", child2_mother_name);
+            header.put("name_of_mother", child2_mother_name);
             header.put("name_of_VDC", child2_vdc_name);
-            header.put("date", child2_vdc_name);
+            header.put("ward_no", child2_ward_no);
+            header.put("age", child2_age);
+            header.put("sex", child2_sex);
+            header.put("registered_for_growth_monitoring", growth_monitor);
+            header.put("name_of_vaccination", vaccination);
+            header.put("weight_of_the_child", weight);
+            header.put("contact_detail_of_lactating_women", contact_no_lactating_women);
+            header.put("date", visit_date);
+            header.put("time", visit_time);
             header.put("lat", finalLat);
             header.put("lon", finalLong);
             header.put("image", encodedImage);
-
-
 
             jsonToSend = header.toString();
 
