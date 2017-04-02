@@ -41,6 +41,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -109,8 +110,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             lactating_women_breastfeed_in1hour_adpt, lactating_women_exclusive_breastfeeding_adpt;
 
     Button send, save, startGPS, previewMAP;
-    String jsToSend, picTosend;
-    String imgPath, encodedImg = null, imgName = "no_photo";
     ImageButton pic;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -126,12 +125,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     ArrayList<LatLng> lactatinglistCf = new ArrayList<LatLng>();
     List<Location> lactatinggpslocation = new ArrayList<>();
     StringBuilder lactatingstringBuilder = new StringBuilder();
-    String lactatinglatLangArray = "", lactatingjsonLatLangArray = "";
     ProgressDialog mProgressDlg;
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
-    String imagePath, encodedImage = null, imageName = "no_photo";
+    String imagePath, encodedImage = "", imageName = "no_photo";
     ImageButton photo;
     PendingIntent pendingIntent;
     BroadcastReceiver mReceiver;
@@ -142,8 +140,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     String latLangArray = "", jsonLatLangArray = "";
     ProgressDialog lwProgressDlg;
 
-    AutoCompleteTextView tvLactatingWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvsmName, tvVisitDate,
-            tvVisitTime;
+    AutoCompleteTextView tvLactatingWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvsmName;
+    EditText tvVisitDate, tvVisitTime;
 
     String lactating_women_name, vdc_name, ward_no, ethnicity, age, pnc_visit, deliver_place,
             birth_attended_by, third_labour, oxytocin_received, neonates_asphysia, img,
@@ -199,13 +197,14 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         tvEthnicity = (AutoCompleteTextView) findViewById(R.id.lactating_women_ethnicity);
         tvAge = (AutoCompleteTextView) findViewById(R.id.lactating_women_age);
         tvsmName = (AutoCompleteTextView) findViewById(R.id.lactating_women_sm_name);
-        tvVisitDate = (AutoCompleteTextView) findViewById(R.id.lactating_women_visit_date);
-        tvVisitTime = (AutoCompleteTextView) findViewById(R.id.lactating_women_visit_time);
+        tvVisitDate = (EditText) findViewById(R.id.lactating_women_visit_date);
+        tvVisitTime = (EditText) findViewById(R.id.lactating_women_visit_time);
         pic = (ImageButton) findViewById(R.id.lactating_women_photo_site);
         previewImageSite = (ImageView) findViewById(R.id.lactating_women_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
         startGPS = (Button) findViewById(R.id.lactating_women_GpsStart);
         previewMAP = (Button) findViewById(R.id.lactating_women_preview_map);
+        previewMAP.setEnabled(false);
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -328,38 +327,42 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             @Override
             public void onClick(View v) {
                 if (GPS_SETTINGS.equals(true) || GPS_TRACKER_FOR_POINT.GPS_POINT_INITILIZED) {
+
                     if (gps.canGetLocation()) {
-                        lactatinggpslocation.add(gps.getLocation());
+                        gpslocation.add(gps.getLocation());
                         finalLat = gps.getLatitude();
                         finalLong = gps.getLongitude();
                         if (finalLat != 0) {
+                            previewMAP.setEnabled(true);
                             try {
                                 JSONObject data = new JSONObject();
-                                data.put("lat", finalLat);
-                                data.put("lon", finalLong);
+                                data.put("latitude", finalLat);
+                                data.put("longitude", finalLong);
+
                                 jsonArrayGPS.put(data);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-
                             }
 
                             LatLng d = new LatLng(finalLat, finalLong);
 
-                            lactatinglistCf.add(d);
+                            listCf.add(d);
                             isGpsTaken = true;
                             Toast.makeText(
-                                    getApplicationContext(), "your location is - \nLat: " + finalLat
-                                            + "\nLOng: " + finalLong, Toast.LENGTH_SHORT).show();
+                                    getApplicationContext(),
+                                    "Your Location is - \nLat: " + finalLat
+                                            + "\nLong: " + finalLong, Toast.LENGTH_SHORT)
+                                    .show();
                             stringBuilder.append("[" + finalLat + "," + finalLong + "]" + ",");
-
-
                         }
 
                     }
                 } else {
+
                     askForGPS();
                     gps = new GPS_TRACKER_FOR_POINT(LactatingWomenActivity.this);
                     Default_DIalog.showDefaultDialog(context, R.string.app_name, "Please try again, Gps not initialized");
+//                        gps.showSettingsAlert();
                 }
             }
         });
@@ -417,11 +420,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
-                            lwProgressDlg = new ProgressDialog(context);
-                            lwProgressDlg.setMessage("Please wait .....");
-                            lwProgressDlg.setIndeterminate(false);
-                            lwProgressDlg.setCancelable(false);
-                            lwProgressDlg.show();
+                            mProgressDlg = new ProgressDialog(context);
+                            mProgressDlg.setMessage("Please wait...");
+                            mProgressDlg.setIndeterminate(false);
+                            mProgressDlg.setCancelable(false);
+                            mProgressDlg.show();
                             // data goes here
                             convertDataToJson();
 
@@ -709,11 +712,12 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("date", visit_date);
             header.put("time", visit_time);
             header.put("name_of_lactating_woman", lactating_women_name);
+            header.put("name_of_vdc", vdc_name);
             header.put("ward_no", ward_no);
             header.put("age", age);
-            header.put("ethicity", ethnicity);
+            header.put("ethnicity", ethnicity);
             header.put("delivery_at", deliver_place);
-            header.put("irth_attended_by", birth_attended_by);
+            header.put("birth_attended_by", birth_attended_by);
             header.put("recieved_active_management_of_third_stage_laour", third_labour);
             header.put("recieved_oxytocin_after_delivery", oxytocin_received);
             header.put("neonates_with_irth_asphyxia", neonates_asphysia);
@@ -729,6 +733,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
 
             jsonToSend = header.toString();
+
+            Log.e(TAG, "SAMIR: "+ jsonToSend );
 
 
         } catch (Exception e) {

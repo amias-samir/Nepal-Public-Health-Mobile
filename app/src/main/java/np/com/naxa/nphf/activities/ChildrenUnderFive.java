@@ -38,12 +38,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -83,11 +83,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.dialog.Default_DIalog;
-import np.com.naxa.nphf.dialog.Multiple_Selection_Diarrohea;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
 import np.com.naxa.nphf.model.CheckValues;
-import np.com.naxa.nphf.model.Constants;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 
@@ -97,13 +95,13 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
     Spinner spinner_diarrhoea_details, spinner_ari_details;
-    ArrayAdapter diarrhoea_details_adpt,  ari_details_adpt;
+    ArrayAdapter diarrhoea_details_adpt, ari_details_adpt;
     Button send, save, startGps, previewMap;
     ProgressDialog children_5_mProgressDlg;
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
-    String imagePath, encodedImage = null, imageName = "no_photo";
+    String imagePath, encodedImage = "", imageName = "no_photo";
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -121,16 +119,14 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvchildren_under5_name, tvchild_under5_vdc_name,tvchildren_5_ward_no,
-            tvchildren_5_age,tvchildren_5_sex,tvchildren_5_sm_name,tvVisitDate,
-            tvVisitTime;
+    AutoCompleteTextView tvchildren_under5_name, tvchild_under5_vdc_name, tvchildren_5_ward_no,
+            tvchildren_5_age, tvchildren_5_sex, tvchildren_5_sm_name,  tvDiarrohea;
+    CheckBox cbSufferedDiarrhoea, cbTreatedWithZinc, cbReferredBySM, cbSufferedARI, cbTreatedWithAntibiotic, cbRefferedBySM_ARI;
+    EditText tvVisitDate, tvVisitTime ;
 
-    RelativeLayout rlDiarrohea;
-    public static EditText tvDiarrohea;
-    public static String fromMultipleSelectionDialog = "";
 
     String child5_name, child5_vdc_name, child5_ward_no, child5_age, child5_sex, child5_sm_name,
-            visit_date, visit_time, img, diarrhoea_details, ari_details;
+            visit_date, visit_time, img, suffered_diarrhoea, treated_with_zinc, reffered_by_sm, suffered_ari, treated_with_anibiotic, referred_by_sm_ari;
 
     JSONArray jsonArrayGPS = new JSONArray();
 
@@ -168,33 +164,37 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         getSupportActionBar().setTitle("Children Under Five");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tvchildren_under5_name = (AutoCompleteTextView)findViewById(R.id.children_under5_name);
-        tvchild_under5_vdc_name = (AutoCompleteTextView)findViewById(R.id.child_under5_vdc_name);
-        tvchildren_5_ward_no = (AutoCompleteTextView)findViewById(R.id.child_under5_ward_no);
-        tvchildren_5_age = (AutoCompleteTextView)findViewById(R.id.children_5_age);
-        tvchildren_5_sex = (AutoCompleteTextView)findViewById(R.id.children_5_sex);
-        tvchildren_5_sm_name = (AutoCompleteTextView)findViewById(R.id.children_5_sm_name);
-        tvVisitDate  = (AutoCompleteTextView)findViewById(R.id.children_5_visit_date);
-        tvVisitTime = (AutoCompleteTextView)findViewById(R.id.children_5_visit_time);
+        tvchildren_under5_name = (AutoCompleteTextView) findViewById(R.id.children_under5_name);
+        tvchild_under5_vdc_name = (AutoCompleteTextView) findViewById(R.id.child_under5_vdc_name);
+        tvchildren_5_ward_no = (AutoCompleteTextView) findViewById(R.id.child_under5_ward_no);
+        tvchildren_5_age = (AutoCompleteTextView) findViewById(R.id.children_5_age);
+        tvchildren_5_sex = (AutoCompleteTextView) findViewById(R.id.children_5_sex);
+        tvchildren_5_sm_name = (AutoCompleteTextView) findViewById(R.id.children_5_sm_name);
+        tvVisitDate = (EditText) findViewById(R.id.children_5_visit_date);
+        tvVisitTime = (EditText) findViewById(R.id.children_5_visit_time);
         startGps = (Button) findViewById(R.id.children_5_GpsStart);
         previewMap = (Button) findViewById(R.id.children_5_preview_map);
+        previewMap.setEnabled(false);
         send = (Button) findViewById(R.id.children_5_send);
 
-        rlDiarrohea = (RelativeLayout) findViewById(R.id.human_casualty_facilation_support);
-        tvDiarrohea = (EditText) findViewById(R.id.human_casualty_facilation_support_used);
-
+        cbSufferedDiarrhoea = (CheckBox) findViewById(R.id.children_five_suffered_diarrhoea);
+        cbTreatedWithZinc = (CheckBox) findViewById(R.id.children_five_treated_with_zinc);
+        cbReferredBySM = (CheckBox) findViewById(R.id.children_five_diarrhoea_referred_by_sm);
+        cbSufferedARI = (CheckBox) findViewById(R.id.children_five_suffered_ari);
+        cbTreatedWithAntibiotic = (CheckBox) findViewById(R.id.children_five_treated_with_antibiotic);
+        cbRefferedBySM_ARI = (CheckBox) findViewById(R.id.children_five_ari_referred_by_sm);
 
         setCurrentDateOnView();
         addListenerOnButton();
         setCurrentTimeOnView();
         addListenerOnTimeButton();
 
-        photo = (ImageButton)findViewById(R.id.children_5_photo_site);
-        previewImageSite = (ImageView)findViewById(R.id.children_5_PhotographSiteimageViewPreview);
+        photo = (ImageButton) findViewById(R.id.children_5_photo_site);
+        previewImageSite = (ImageView) findViewById(R.id.children_5_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
 
-        spinner_diarrhoea_details =  (Spinner)findViewById(R.id.suffered_diarrhoea_spinner);
-        spinner_ari_details = (Spinner)findViewById(R.id.suffered_from_ARI);
+//        spinner_diarrhoea_details = (Spinner) findViewById(R.id.suffered_diarrhoea_spinner);
+//        spinner_ari_details = (Spinner) findViewById(R.id.suffered_from_ARI);
 
         //Check internet connection
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -211,28 +211,26 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
 
         // check wheather children suffered from diarrhoea
-        diarrhoea_details_adpt =
-                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, Constants.YES_NO);
-        diarrhoea_details_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_diarrhoea_details.setAdapter(diarrhoea_details_adpt);
-        spinner_diarrhoea_details.setOnItemSelectedListener(this);
-
+//        diarrhoea_details_adpt =
+//                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
+//        diarrhoea_details_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner_diarrhoea_details.setAdapter(diarrhoea_details_adpt);
+//        spinner_diarrhoea_details.setOnItemSelectedListener(this);
 
 
         // check wheather children suffer from ari
-        ari_details_adpt =
-                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Constants.YES_NO);
-        ari_details_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_ari_details.setAdapter(ari_details_adpt);
-        spinner_ari_details.setOnItemSelectedListener(this);
-
+//        ari_details_adpt =
+//                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
+//        ari_details_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner_ari_details.setAdapter(ari_details_adpt);
+//        spinner_ari_details.setOnItemSelectedListener(this);
 
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent,CAMERA_PIC_REQUEST);
+                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
             }
         });
 
@@ -307,14 +305,56 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
                 child5_sm_name = tvchildren_5_sm_name.getText().toString();
                 child5_name = tvchildren_under5_name.getText().toString();
-                child5_vdc_name= tvchildren_5_ward_no.getText().toString();
+                child5_vdc_name = tvchildren_5_ward_no.getText().toString();
                 child5_ward_no = tvchildren_5_ward_no.getText().toString();
                 child5_age = tvchildren_5_age.getText().toString();
                 child5_sex = tvchildren_5_sex.getText().toString();
                 img = encodedImage;
                 visit_date = tvVisitDate.getText().toString();
                 visit_time = tvVisitTime.getText().toString();
-                diarrhoea_details = tvDiarrohea.getText().toString();
+//===============================Diarrhoea details =====================================//
+                if (cbSufferedDiarrhoea.isChecked() == true) {
+                    Log.e("cbSufferedDiarrhoea", " ");
+                    suffered_diarrhoea = " yes";
+                } else {
+                    suffered_diarrhoea = " no";
+
+                }
+                if (cbTreatedWithZinc.isChecked() == true) {
+                    treated_with_zinc = " yes";
+                }
+                else {
+                    treated_with_zinc = "  no";
+
+                }
+                if (cbReferredBySM.isChecked() == true) {
+                    reffered_by_sm = " yes";
+                }
+                else {
+                    reffered_by_sm = " no";
+                }
+     //==================================ARI details ========================================== //
+                if (cbSufferedARI.isChecked() == true) {
+                    Log.e("cbSufferedARI", " ");
+                    suffered_ari = " yes";
+                } else {
+                    suffered_ari =  " no";
+
+                }
+                if (cbTreatedWithAntibiotic.isChecked() == true) {
+                    treated_with_anibiotic = " yes";
+                }
+                else {
+                    treated_with_anibiotic = " no";
+
+                }
+                if (cbRefferedBySM_ARI.isChecked() == true) {
+                    referred_by_sm_ari = " yes";
+                }
+                else {
+                    referred_by_sm_ari = " no";
+                }
+     //========================================================================================//
 
 
                 if (networkInfo != null && networkInfo.isConnected()) {
@@ -368,16 +408,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         });
 
 
-        rlDiarrohea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Multiple_Selection_Diarrohea.MultipleChoice_Diarrohea(context, R.string.select_option, "Choose and Put Number ");
-            }
-        });
-
-
     }
-
 
 
     private void askForPermission(String permission, Integer requestCode) {
@@ -461,34 +492,33 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         int SpinnerID = parent.getId();
-        if (SpinnerID == R.id.suffered_diarrhoea_spinner){
-
-            switch (position){
-                case 0:
+//        if (SpinnerID == R.id.suffered_diarrhoea_spinner) {
+//
+//            switch (position) {
+//                case 0:
 //                    diarrhoea_details = "Yes";
-                    break;
+//                    break;
+//
+//                case 1:
+////                    diarrhoea_details = "No";
+//                    break;
+//            }
+//
+//        }
 
-                case 1:
-//                    diarrhoea_details = "No";
-                    break;
-            }
 
-        }
-
-
-
-        if (SpinnerID == R.id.suffered_from_ARI){
-
-            switch (position){
-                case 0:
-                    ari_details = "Yes";
-                    break;
-
-                case 1:
-                    ari_details = "No";
-                    break;
-            }
-        }
+//        if (SpinnerID == R.id.suffered_from_ARI) {
+//
+//            switch (position) {
+//                case 0:
+//                    ari_details = "Yes";
+//                    break;
+//
+//                case 1:
+//                    ari_details = "No";
+//                    break;
+//            }
+//        }
 
     }
 
@@ -822,32 +852,37 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
             JSONObject diarroheaJson = new JSONObject();
             JSONObject ariJson = new JSONObject();
 
+            diarroheaJson.put("diarrhoea_details",suffered_diarrhoea);
+            diarroheaJson.put("diarrhoea_refered",reffered_by_sm);
+            diarroheaJson.put("diarrhoea_treated_zinc",treated_with_zinc);
 
+            ariJson.put("suffered_ari",suffered_ari);
+            ariJson.put("ari_refered",referred_by_sm_ari);
+            ariJson.put("ari_treated_antibiotic",treated_with_anibiotic);
 
-
-
-            header.put("tablename","recording_tool_for_children_under_five");
-            header.put("name_of_SM",child5_sm_name);
+            header.put("tablename", "recording_tool_for_children_under_five");
+            header.put("name_of_SM", child5_sm_name);
             header.put("name_of_VDC", child5_vdc_name);
             header.put("date", visit_date);
-            header.put("name_of_child",child5_name);
+            header.put("time", visit_time);
+            header.put("name_of_child", child5_name);
             header.put("ward_no", child5_ward_no);
             header.put("age", child5_age);
-            header.put("sex",  child5_sex);
-            header.put("diarrhoea",diarrhoea_details);
-            header.put("ari_details",ari_details);
+            header.put("sex", child5_sex);
+            header.put("diarrhoea", diarroheaJson.toString());
+            header.put("ari", ariJson.toString());
             header.put("lat", finalLat);
             header.put("lon", finalLong);
             header.put("image", encodedImage);
 
 
             jsonToSend = header.toString();
+            Log.e(TAG, "convertDataToJson: "+jsonToSend );
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.d("Nishon", jsonToSend);
 
         sendDatToserver();
     }
@@ -885,6 +920,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
             try {
                 jsonObject = new JSONObject(result);
                 dataSentStatus = jsonObject.getString("status");
+                Log.e(TAG, "SAMIR "+ dataSentStatus );
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -901,7 +937,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
                 tvchildren_5_ward_no.setText(child5_ward_no);
                 tvchildren_5_age.setText(child5_age);
                 tvchildren_5_sex.setText(child5_sex);
-                img = encodedImage;
+                previewImageSite.setImageBitmap(thumbnail);
                 tvVisitDate.setText(visit_date);
                 tvVisitTime.setText(visit_time);
                 previewImageSite.setImageBitmap(thumbnail);
@@ -957,7 +993,6 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
 
     }
-
 
 
 }

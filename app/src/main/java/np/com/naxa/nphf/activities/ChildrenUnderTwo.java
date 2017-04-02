@@ -39,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -96,11 +97,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     Spinner spinner_growth_monitor,spinner_vaccination_verification,spinner_visit_weight;
     ArrayAdapter growth_monitor_adpt, vaccination_verification_adpt, visit_weight_adpt;
     Button send, save, startGps, previewMap;
-    ProgressDialog children_2_mProgressDlg;
+    ProgressDialog mProgressDlg;
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
-    String imagePath, encodedImage = null, imageName = "no_photo";
+    String imagePath, encodedImage = "", imageName = "no_photo";
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -120,8 +121,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
 
     AutoCompleteTextView tvchild_motherName, tvchildren2VDCName,tvchildrenWardNo,tvchild2_age,
-            tvchild2_sex,tvcontact_details_lactating_women, tvsmName,tvVisitDate,
-            tvVisitTime;
+            tvchild2_sex,tvcontact_details_lactating_women, tvsmName ;
+    EditText tvVisitDate, tvVisitTime;
 
     String child2_mother_name, child2_vdc_name, child2_ward_no, child2_age, child2_sex, growth_monitor,child2_sm_name,
             vaccination,weight,contact_no_lactating_women, visit_date, visit_time, img;
@@ -171,8 +172,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         tvchild2_sex = (AutoCompleteTextView)findViewById(R.id.children_2_sex);
         tvcontact_details_lactating_women = (AutoCompleteTextView)findViewById(R.id.contact_details);
         tvsmName = (AutoCompleteTextView)findViewById(R.id.children_2_sm_name);
-        tvVisitDate = (AutoCompleteTextView)findViewById(R.id.children_2_visit_date);
-        tvVisitTime = (AutoCompleteTextView)findViewById(R.id.children_2_visit_time);
+        tvVisitDate = (EditText) findViewById(R.id.children_2_visit_date);
+        tvVisitTime = (EditText) findViewById(R.id.children_2_visit_time);
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -336,11 +337,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
-                            children_2_mProgressDlg = new ProgressDialog(context);
-                            children_2_mProgressDlg.setMessage("Please wait...");
-                            children_2_mProgressDlg.setIndeterminate(false);
-                            children_2_mProgressDlg.setCancelable(false);
-                            children_2_mProgressDlg.show();
+                            mProgressDlg = new ProgressDialog(context);
+                            mProgressDlg.setMessage("Please wait...");
+                            mProgressDlg.setIndeterminate(false);
+                            mProgressDlg.setCancelable(false);
+                            mProgressDlg.show();
                             convertDataToJson();
 //                                finish();
                         }
@@ -862,6 +863,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             header.put("image", encodedImage);
 
             jsonToSend = header.toString();
+            Log.e(TAG, "SAMIR: "+jsonToSend );
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -898,7 +900,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         @Override
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
-            children_2_mProgressDlg.dismiss();
+            mProgressDlg.dismiss();
 
             Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;

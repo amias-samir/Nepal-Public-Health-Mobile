@@ -19,7 +19,7 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkbox1"
+                    android:id="@+id/children_five_suffered_diarrhoea"
                     android:text="suffered diarrhoea"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
@@ -33,7 +33,7 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkbox2"
+                    android:id="@+id/children_five_treated_with_zinc"
                     android:text="treated with Zinc and ORS"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
@@ -48,7 +48,7 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkbox3"
+                    android:id="@+id/children_five_diarrhoea_referred_by_sm"
                     android:text="referred by SM "
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
@@ -57,42 +57,6 @@
 
 
             </RelativeLayout>
-
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-            <!--<CheckBox-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/checkbox4"-->
-            <!--android:text="@string/other"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true" />-->
-            <!--/>-->
-
-
-
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/othersLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="@dimen/layout_margin">-->
-
-                <!--<android.support.design.widget.TextInputLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-
-                    <!--<AutoCompleteTextView-->
-                        <!--android:id="@+id/human_casualty_otherItems"-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="45dp"-->
-                        <!--android:hint="Others (Specify)"-->
-                        <!--android:inputType="textMultiLine" />-->
-                <!--</android.support.design.widget.TextInputLayout>-->
-            <!--</RelativeLayout>-->
 
             <Button
                 android:layout_width="150dp"

@@ -39,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -100,7 +101,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
-    String imagePath, encodedImage = null, imageName = "pregnent_women";
+    String imagePath, encodedImage = " ", imageName = "pregnent_women";
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -118,8 +119,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvPregnentWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvLMP, tvEDD, tvVisitDate,
-            tvVisitTime, tvDeliveryDate, tvContactNo, tvSMName;
+    AutoCompleteTextView tvPregnentWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
+    EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
 
     String pregenent_women_name, vdc_name, ward_no, ethnicity, age, lmp, edd, visit_date, visit_time, delivery_date, contact_no, sm_name,
             anc_visit, td, td_plus, vit_a, received_iron, garvawati_bhet, fchv_help, img;
@@ -179,9 +180,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         tvContactNo = (AutoCompleteTextView) findViewById(R.id.pregnent_women_contact_no);
         tvSMName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_sm_name);
 
-        tvVisitDate = (AutoCompleteTextView) findViewById(R.id.pregnent_women_visit_date);
-        tvVisitTime = (AutoCompleteTextView) findViewById(R.id.pregnent_women_visit_time);
-        tvDeliveryDate = (AutoCompleteTextView) findViewById(R.id.pregnent_women_delivery_date);
+        tvVisitDate = (EditText) findViewById(R.id.pregnent_women_visit_date);
+        tvVisitTime = (EditText) findViewById(R.id.pregnent_women_visit_time);
+        tvDeliveryDate = (EditText) findViewById(R.id.pregnent_women_delivery_date);
         setCurrentDateOnView();
         addListenerOnButton();
         setCurrentTimeOnView();
@@ -356,7 +357,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 age = tvAge.getText().toString();
                 lmp = tvLMP.getText().toString();
                 edd = tvEDD.getText().toString();
-                visit_date = tvVisitTime.getText().toString();
+                visit_date = tvVisitDate.getText().toString();
                 visit_time = tvVisitTime.getText().toString();
                 img = encodedImage;
                 delivery_date = tvDeliveryDate.getText().toString();
@@ -631,7 +632,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             JSONObject header = new JSONObject();
 
-            header.put("tablename", "recording_tool_for_pregnant_women");
+            header.put("tablename", "recording_tool_for_pregnant_woman");
             header.put("name_of_VDC", vdc_name);
             header.put("name_of_SM", sm_name);
             header.put("name_of_pregnant_women", pregenent_women_name);
@@ -641,6 +642,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             header.put("LMP", lmp);
             header.put("EDD", edd);
             header.put("ANC_visit", anc_visit);
+            header.put("date", visit_date);
+            header.put("time", visit_time);
             header.put("Td", td);
             header.put("Td_+", td_plus);
             header.put("Vit_A", vit_a);

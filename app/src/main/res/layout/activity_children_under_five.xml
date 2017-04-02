@@ -236,14 +236,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -253,90 +253,73 @@
                     android:text="Diarrhoea Details"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/monsoon"
-                    android:id="@+id/diarrhoea_details" />
+                    android:id="@+id/diarrhoea_details"
+                    android:textAlignment="center"/>
 
-                <Spinner
-                    android:id="@+id/suffered_diarrhoea_spinner"
-                    android:layout_width="220dp"
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/diarrhoea_details" />
+                    android:layout_below="@id/diarrhoea_details">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/children_five_suffered_diarrhoea"
+                                android:text="suffered diarrhoea"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/children_five_treated_with_zinc"
+                                android:text="treated with Zinc and ORS"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+
+                            />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/children_five_diarrhoea_referred_by_sm"
+                                android:text="referred by SM "
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+                            />
 
 
 
+                        </RelativeLayout>
+                        </LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
 
+
+
         </android.support.v7.widget.CardView>
-
-        <!--diarrhoea details -->
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="0.12"
-            card_view:cardBackgroundColor="@color/transparent"
-            card_view:cardElevation="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <!--Checkbox items selection-->
-                <RelativeLayout
-                    android:id="@+id/human_casualty_facilation_support"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="FACILATION SUPPORT"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/textView5"
-                        android:background="@color/primary"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="CLICK TO SELECT DIARRHOEA OPTIONS"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#ffffff" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp">
-
-                    <EditText
-                        android:id="@+id/human_casualty_facilation_support_used"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Selected Diarrahoea Options"
-                        android:inputType="textMultiLine" />
-                </RelativeLayout>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
         <!--ari details of children under 5-->
 
 
@@ -350,14 +333,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/layout_margin"
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -367,35 +350,71 @@
                     android:text="ARI Details"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/monsoon"
-                    android:id="@+id/ari_details" />
+                    android:id="@+id/ari_details"
+                    android:textAlignment="center"/>
 
-                <Spinner
-                    android:id="@+id/suffered_from_ARI"
-                    android:layout_width="220dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/ari_details" />
+                    android:layout_below="@id/ari_details">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/children_five_suffered_ari"
+                                android:text="suffered ari"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/children_five_treated_with_antibiotic"
+                                android:text="treated with atleast one antibiotic"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+
+                            />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/children_five_ari_referred_by_sm"
+                                android:text="referred by SM "
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+                            />
+
+
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </RelativeLayout>
 
 
 
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/primary"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="DOUBLE TAP EDITTEXT TO SELECT DATE"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff" />
-
 
         <!--name of SM-->
         <android.support.design.widget.TextInputLayout
@@ -417,43 +436,31 @@
         </android.support.design.widget.TextInputLayout>
 
         <!--date-->
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/date_text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
-
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/children_5_visit_date"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="10dp"
                 android:hint="Date"
                 android:inputType="date"
-                android:textColor="@color/black" />
-        </android.support.design.widget.TextInputLayout>
+                android:textColor="@color/black"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:focusable="false"/>
+
 
         <!--time-->
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/time_text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
-
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/children_5_visit_time"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="10dp"
                 android:hint="Time"
                 android:inputType="date"
-                android:textColor="@color/black" />
-        </android.support.design.widget.TextInputLayout>
-
+                android:textColor="@color/black"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:focusable="false"/>
 
         <!--save / send-->
         <android.support.v7.widget.CardView
