@@ -310,6 +310,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 child2_vdc_name = tvchildren2VDCName.getText().toString();
                 child2_ward_no = tvchildrenWardNo.getText().toString();
                 child2_age = tvchild2_age.getText().toString();
+                child2_sex = tvchild2_sex.getText().toString();
                 img = encodedImage;
                 contact_no_lactating_women = tvcontact_details_lactating_women.getText().toString();
                 visit_date = tvVisitDate.getText().toString();
@@ -416,7 +417,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             }
         }
 
-        if(SpinnerID == R.id.child_2_weight){
+        if(SpinnerID == R.id.visit_for_weight2){
             switch (position){
 
                 case 0:

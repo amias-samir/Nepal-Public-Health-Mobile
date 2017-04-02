@@ -260,8 +260,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/td"
-                    android:layout_toRightOf="@+id/td"
+                    android:layout_toEndOf="@+id/growth_monitor"
+                    android:layout_toRightOf="@+id/growth_monitor"
                     android:id="@+id/spinner_growth_monitor_2" />
 
             </RelativeLayout>
@@ -377,24 +377,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="45dp"
                 android:hint="Lactating Women Contact Details"
-                android:inputType="text"
+                android:inputType="phone"
                 android:textColor="@color/black"
                 android:id="@+id/contact_details" />
         </android.support.design.widget.TextInputLayout>
          </LinearLayout>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/primary"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="DOUBLE TAP EDITTEXT TO SELECT DATE"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff" />
 
 
         <!--name of SM-->
