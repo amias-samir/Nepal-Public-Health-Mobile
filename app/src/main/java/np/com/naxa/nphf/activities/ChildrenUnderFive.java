@@ -29,6 +29,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -75,6 +76,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -82,12 +84,14 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
+import np.com.naxa.nphf.database.DataBaseConserVationTracking;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
 import np.com.naxa.nphf.model.CheckValues;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
+import np.com.naxa.nphf.sweet_alert_dailog.SweetAlertDialog;
 
 public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -129,6 +133,8 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
             visit_date, visit_time, img, suffered_diarrhoea, treated_with_zinc, reffered_by_sm, suffered_ari, treated_with_anibiotic, referred_by_sm_ari;
 
     JSONArray jsonArrayGPS = new JSONArray();
+    JSONObject diarroheaJson = new JSONObject();
+    JSONObject ariJson = new JSONObject();
 
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
@@ -176,6 +182,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         previewMap = (Button) findViewById(R.id.children_5_preview_map);
         previewMap.setEnabled(false);
         send = (Button) findViewById(R.id.children_5_send);
+        save = (Button) findViewById(R.id.children_5_save);
 
         cbSufferedDiarrhoea = (CheckBox) findViewById(R.id.children_five_suffered_diarrhoea);
         cbTreatedWithZinc = (CheckBox) findViewById(R.id.children_five_treated_with_zinc);
@@ -210,20 +217,127 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
                 .build();
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
 
-        // check wheather children suffered from diarrhoea
-//        diarrhoea_details_adpt =
-//                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
-//        diarrhoea_details_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner_diarrhoea_details.setAdapter(diarrhoea_details_adpt);
-//        spinner_diarrhoea_details.setOnItemSelectedListener(this);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
+                        child5_sm_name = tvchildren_5_sm_name.getText().toString();
+                        child5_name = tvchildren_under5_name.getText().toString();
+                        child5_vdc_name = tvchildren_5_ward_no.getText().toString();
+                        child5_ward_no = tvchildren_5_ward_no.getText().toString();
+                        child5_age = tvchildren_5_age.getText().toString();
+                        child5_sex = tvchildren_5_sex.getText().toString();
+                        img = encodedImage;
+                        visit_date = tvVisitDate.getText().toString();
+                        visit_time = tvVisitTime.getText().toString();
+                        jsonLatLangArray = jsonArrayGPS.toString();
+//===============================Diarrhoea details =====================================//
+                        if (cbSufferedDiarrhoea.isChecked() == true) {
+                            Log.e("cbSufferedDiarrhoea", " ");
+                            suffered_diarrhoea = " yes";
+                        } else {
+                            suffered_diarrhoea = " no";
+
+                        }
+                        if (cbTreatedWithZinc.isChecked() == true) {
+                            treated_with_zinc = " yes";
+                        }
+                        else {
+                            treated_with_zinc = "  no";
+
+                        }
+                        if (cbReferredBySM.isChecked() == true) {
+                            reffered_by_sm = " yes";
+                        }
+                        else {
+                            reffered_by_sm = " no";
+                        }
+                        //==================================ARI details ========================================== //
+                        if (cbSufferedARI.isChecked() == true) {
+                            Log.e("cbSufferedARI", " ");
+                            suffered_ari = " yes";
+                        } else {
+                            suffered_ari =  " no";
+
+                        }
+                        if (cbTreatedWithAntibiotic.isChecked() == true) {
+                            treated_with_anibiotic = " yes";
+                        }
+                        else {
+                            treated_with_anibiotic = " no";
+
+                        }
+                        if (cbRefferedBySM_ARI.isChecked() == true) {
+                            referred_by_sm_ari = " yes";
+                        }
+                        else {
+                            referred_by_sm_ari = " no";
+                        }
+                        //========================================================================================//
 
 
-        // check wheather children suffer from ari
-//        ari_details_adpt =
-//                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
-//        ari_details_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner_ari_details.setAdapter(ari_details_adpt);
-//        spinner_ari_details.setOnItemSelectedListener(this);
+                        convertDataToJson();
+
+                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
+
+                        final Dialog showDialog = new Dialog(context);
+                        showDialog.setContentView(R.layout.date_input_layout);
+                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                        FormNameToInput.setText("Children Under Five");
+
+                        long date = System.currentTimeMillis();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                        String dateString = sdf.format(date);
+                        dateToInput.setText(dateString);
+
+                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                        showDialog.setTitle("Save Data");
+                        showDialog.setCancelable(true);
+                        showDialog.show();
+                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        logIn.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                // TODO Auto-generated method stub
+                                String dateDataCollected = dateToInput.getText().toString();
+                                String formName = FormNameToInput.getText().toString();
+                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    String[] data = new String[]{"4", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                            "" + imageName, "Not Sent", "0"};
+
+                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                                    dataBaseConserVationTracking.open();
+                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+
+//                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                                            .setTitleText("Job done!")
+//                                            .setContentText("Data saved successfully!")
+//                                            .show();
+//                                    dataBaseConserVationTracking.close();
+                                    Toast.makeText(ChildrenUnderFive.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                    showDialog.dismiss();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
 
 
         photo.setOnClickListener(new View.OnClickListener() {
@@ -384,6 +498,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
                             children_5_mProgressDlg.setCancelable(false);
                             children_5_mProgressDlg.show();
                             convertDataToJson();
+                            sendDatToserver();
 //                                finish();
                         }
                     });
@@ -776,7 +891,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         Calendar calendar = Calendar.getInstance();
         long timeInMillis = calendar.getTimeInMillis();
 
-        imageName = "Pregnent_Women" + timeInMillis;
+        imageName = "Children_Under_Five" + timeInMillis;
 
         File file1 = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), imageName);
@@ -849,8 +964,8 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         try {
 
             JSONObject header = new JSONObject();
-            JSONObject diarroheaJson = new JSONObject();
-            JSONObject ariJson = new JSONObject();
+//            JSONObject diarroheaJson = new JSONObject();
+//            JSONObject ariJson = new JSONObject();
 
             diarroheaJson.put("diarrhoea_details",suffered_diarrhoea);
             diarroheaJson.put("diarrhoea_refered",reffered_by_sm);
@@ -879,12 +994,13 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
             jsonToSend = header.toString();
             Log.e(TAG, "convertDataToJson: "+jsonToSend );
 
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
-        sendDatToserver();
+
     }
 
     public void sendDatToserver() {
@@ -913,7 +1029,10 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         @Override
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
-            children_5_mProgressDlg.dismiss();
+
+            if(children_5_mProgressDlg != null && children_5_mProgressDlg.isShowing()){
+                children_5_mProgressDlg.dismiss();
+            }
 
             Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;

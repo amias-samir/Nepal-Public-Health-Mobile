@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <resources>
+<resources>
     <color name="primary">#3F51B5</color>
     <color name="primary_dark">#303F9F</color>
     <color name="primary_darker">#030c91</color>
@@ -27,41 +27,42 @@
     <color name="red_btn_bg_pressed_color">#cc3830</color>
 
 
-        <color name="tabIconColor">#BDBDBD</color>
-        <color name="black">#151111</color>
-        <color name="jet">#222222</color>
-        <color name="oil">#333333</color>
-        <color name="monsoon">#777777</color>
-        <color name="jumbo">#888888</color>
-        <color name="aluminum">#999999</color>
-        <color name="base">#AAAAAA</color>
-        <color name="iron">#CCCCCC</color>
-        <color name="white">#FFFFFF</color>
+    <color name="tabIconColor">#BDBDBD</color>
+    <color name="black">#151111</color>
+    <color name="jet">#222222</color>
+    <color name="oil">#333333</color>
+    <color name="monsoon">#777777</color>
+    <color name="jumbo">#888888</color>
+    <color name="aluminum">#999999</color>
+    <color name="base">#AAAAAA</color>
+    <color name="iron">#CCCCCC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="teal">#1c75bf</color>
 
-        <color name="colorFAB1">#2d9a59</color>
-        <color name="colorFAB2">#2d9a59</color>
-        <color name="colorFAB3">#2d9a59</color>
-        <color name="transparent">#00e040fb</color>
+    <color name="colorFAB1">#2d9a59</color>
+    <color name="colorFAB2">#2d9a59</color>
+    <color name="colorFAB3">#2d9a59</color>
+    <color name="transparent">#00e040fb</color>
 
 
-        <color name="tab1">#2d9a59</color>
-        <color name="tab2">#3b86c7</color>
-        <color name="tab3">#8db307</color>
-        <color name="tab4">#da553d</color>
-        <color name="tab5">#5e877f</color>
-        <color name="tab6">#9252ce</color>
+    <color name="tab1">#2d9a59</color>
+    <color name="tab2">#3b86c7</color>
+    <color name="tab3">#8db307</color>
+    <color name="tab4">#da553d</color>
+    <color name="tab5">#5e877f</color>
+    <color name="tab6">#9252ce</color>
 
-        <color name="divider_grey">#D4D4D4</color>
+    <color name="divider_grey">#D4D4D4</color>
 
-        <color name="orange">#FA0</color>
+    <color name="orange">#FA0</color>
 
-        <color name="nliveo_black">#000000</color>
-        <color name="nliveo_white">#ffffff</color>
-        <color name="textColor">#282828</color>
+    <color name="nliveo_black">#000000</color>
+    <color name="nliveo_white">#ffffff</color>
+    <color name="textColor">#282828</color>
 
-        <color name="text_title_dark_ask_for_help">#063D71</color>
+    <color name="text_title_dark_ask_for_help">#063D71</color>
 
-        <color name="ask_for_help_button_color">#ff23729a</color>
-        <!--<color name="colorPrimary">#03A9F4</color>-->
-        <color name="light_balck">#616161</color>
-    </resources>
+    <color name="ask_for_help_button_color">#ff23729a</color>
+    <!--<color name="colorPrimary">#03A9F4</color>-->
+    <color name="light_balck">#616161</color>
+</resources>

@@ -258,9 +258,9 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                                 e.printStackTrace();
                             }
 
-                            LatLng d = new LatLng(finalLat, finalLong);
+                            LatLng location = new LatLng(finalLat, finalLong);
 
-                            listCf.add(d);
+                            listCf.add(location);
                             isGpsTaken = true;
                             Toast.makeText(
                                     getApplicationContext(),
