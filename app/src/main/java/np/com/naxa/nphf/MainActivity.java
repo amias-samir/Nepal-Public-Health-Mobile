@@ -21,6 +21,7 @@ import np.com.naxa.nphf.activities.ChildrenUnderFive;
 import np.com.naxa.nphf.activities.ChildrenUnderTwo;
 import np.com.naxa.nphf.activities.LactatingWomenActivity;
 import np.com.naxa.nphf.activities.PregnentWomenActivity;
+import np.com.naxa.nphf.activities.SavedFormsActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Toolbar toolbar ;
     CardView cvPregnentWomen, cvLocatingWomen, cvChildUnderTwo, cvChildUnderFive;
-    RelativeLayout rlPregnentWomen, rlLocatingWomen, rlChildunderTwo, rlChildUnderFive;
+    RelativeLayout rlPregnentWomen, rlLocatingWomen, rlChildunderTwo, rlChildUnderFive, rlSavedForms;
 
     //Permission for higher then lollipop devices
     private int MULTIPLE_PERMISSION_CODE = 22;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rlLocatingWomen = (RelativeLayout) findViewById(R.id.top_layout_locating);
         rlChildunderTwo = (RelativeLayout) findViewById(R.id.top_layout__under_2yrs);
         rlChildUnderFive = (RelativeLayout) findViewById(R.id.top_layout_under_5yrs);
+        rlSavedForms = (RelativeLayout) findViewById(R.id.top_layout_saved_forms);
 
         cvPregnentWomen.setOnClickListener( this);
         cvPregnentWomen.setOnClickListener(this);
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rlLocatingWomen.setOnClickListener(this);
         rlChildUnderFive.setOnClickListener(this);
         rlChildunderTwo.setOnClickListener(this);
+        rlSavedForms.setOnClickListener(this);
 
 
         try {
@@ -110,6 +113,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case  (R.id.top_layout_saved_forms):
+                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
+                Intent intent4 = new Intent(MainActivity.this, SavedFormsActivity.class);
+                startActivity(intent4);
+
+                break;
         }
 
     }

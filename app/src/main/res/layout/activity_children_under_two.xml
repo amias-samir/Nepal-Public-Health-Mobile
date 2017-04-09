@@ -455,12 +455,11 @@
                     android:layout_alignParentTop="true"
                     android:background="@drawable/button_pressed_hwc_light"
                     android:text="Save"
-                    android:textColor="#ffffff"
-                    android:visibility="gone" />
+                    android:textColor="#ffffff" />
 
                 <Button
                     android:id="@+id/children_2_send"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/primary"
                     android:text="Send"

@@ -29,6 +29,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -67,6 +68,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -74,6 +77,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -81,6 +85,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
+import np.com.naxa.nphf.database.DataBaseConserVationTracking;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -131,7 +136,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
-    String dataSentStatus;
+    String dataSentStatus, dateString;
 
     private int year;
     private int month;
@@ -228,6 +233,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         spinner_visit_weight.setAdapter(visit_weight_adpt);
         spinner_visit_weight.setOnItemSelectedListener(this);
 
+        initilizeUI();
+
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +301,87 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         startActivity(new Intent(ChildrenUnderTwo.this, MapPointActivity.class));
                     } else {
                         Default_DIalog.showDefaultDialog(context, R.string.app_name, "Please try again, Gps not initialized");
+
+                    }
+                }
+            }
+        });
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
+                        child2_sm_name = tvsmName.getText().toString();
+                        child2_mother_name = tvchild_motherName.getText().toString();
+                        child2_vdc_name = tvchildren2VDCName.getText().toString();
+                        child2_ward_no = tvchildrenWardNo.getText().toString();
+                        child2_age = tvchild2_age.getText().toString();
+                        child2_sex = tvchild2_sex.getText().toString();
+                        img = encodedImage;
+                        contact_no_lactating_women = tvcontact_details_lactating_women.getText().toString();
+                        visit_date = tvVisitDate.getText().toString();
+                        visit_time = tvVisitTime.getText().toString();
+                        jsonLatLangArray = jsonArrayGPS.toString();
+
+
+                        convertDataToJson();
+
+                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
+
+                        final Dialog showDialog = new Dialog(context);
+                        showDialog.setContentView(R.layout.date_input_layout);
+                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                        FormNameToInput.setText("Children Under Two");
+
+                        long date = System.currentTimeMillis();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                        String dateString = sdf.format(date);
+                        dateToInput.setText(dateString);
+
+                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                        showDialog.setTitle("Save Data");
+                        showDialog.setCancelable(true);
+                        showDialog.show();
+                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        logIn.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                // TODO Auto-generated method stub
+                                String dateDataCollected = dateToInput.getText().toString();
+                                String formName = FormNameToInput.getText().toString();
+                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    String[] data = new String[]{"3", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                            "" + imageName, "Not Sent", "0"};
+
+                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                                    dataBaseConserVationTracking.open();
+                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+
+//                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                                            .setTitleText("Job done!")
+//                                            .setContentText("Data saved successfully!")
+//                                            .show();
+//                                    dataBaseConserVationTracking.close();
+                                    Toast.makeText(ChildrenUnderTwo.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                    showDialog.dismiss();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -838,6 +926,60 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     }
 
 
+    public void initilizeUI() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("JSON1")) {
+            CheckValues.isFromSavedFrom = true;
+            startGps.setEnabled(false);
+            isGpsTaken=true;
+            previewMap.setEnabled(true);
+            Bundle bundle = intent.getExtras();
+            String jsonToParse = (String) bundle.get("JSON1");
+            imageName = (String) bundle.get("photo");
+            String gpsLocationtoParse = (String) bundle.get("gps");
+
+            Log.e("PregnentWomen", "i-" + imageName);
+
+            if (imageName.equals("no_photo")) {
+            } else {
+                File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), imageName);
+                String path = file1.toString();
+                Toast.makeText(getApplicationContext(), path, Toast.LENGTH_SHORT).show();
+
+                loadImageFromStorage(path);
+
+                addImage();
+            }
+            try {
+                //new adjustment
+                Log.e("Pregnent_Women", "" + jsonToParse);
+//                parseArrayGPS(gpsLocationtoParse);
+                parseJson(jsonToParse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            gps = new GPS_TRACKER_FOR_POINT(ChildrenUnderTwo.this);
+            gps.canGetLocation();
+            startGps.setEnabled(true);
+
+        }
+    }
+
+    private void loadImageFromStorage(String path) {
+        try {
+            previewImageSite.setVisibility(View.VISIBLE);
+            File f = new File(path);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            previewImageSite.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "invalid path", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+
     // data convert
     public void convertDataToJson() {
         //function in the activity that corresponds to the hwc_human_casulty button
@@ -884,6 +1026,57 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         }
     }
 
+    public void parseJson(String jsonToParse) throws JSONException {
+//        JSONObject jsonOb = new JSONObject(jsonToParse);
+//        Log.e("PregnentWomenActivity", "json : " + jsonOb.toString());
+//        String data = jsonOb.getString("formdata");
+//        Log.e("PregnentWomenActivity", "formdata : " + jsonOb.toString());
+        JSONObject jsonObj = new JSONObject(jsonToParse);
+        Log.e("ChildrenUnderTwo", "json : " + jsonObj.toString());
+
+        child2_sm_name = jsonObj.getString("name_of_SM");
+        child2_mother_name = jsonObj.getString("name_of_mother");
+        child2_vdc_name = jsonObj.getString("name_of_VDC");
+        child2_ward_no = jsonObj.getString("ward_no");
+        child2_age = jsonObj.getString("age");
+        child2_sex = jsonObj.getString("sex");
+        growth_monitor = jsonObj.getString("registered_for_growth_monitoring");
+        vaccination = jsonObj.getString("name_of_vaccination");
+        weight = jsonObj.getString("weight_of_the_child");
+        visit_date = jsonObj.getString("date");
+        visit_time = jsonObj.getString("time");
+        contact_no_lactating_women = jsonObj.getString("contact_detail_of_lactating_women");
+        finalLat = Double.parseDouble(jsonObj.getString("lat"));
+        finalLong = Double.parseDouble(jsonObj.getString("lon"));
+        LatLng d = new LatLng(finalLat, finalLong);
+        listCf.add(d);
+//        encodedImage = jsonObj.getString("image");
+
+
+        Log.e("Pregnent Women", "Parsed data " + child2_mother_name + growth_monitor + contact_no_lactating_women);
+
+        tvsmName.setText(child2_sm_name);
+        tvchild_motherName.setText(child2_mother_name);
+        tvchildren2VDCName.setText(child2_vdc_name);
+        tvchildrenWardNo.setText(child2_ward_no);
+        tvchild2_age.setText(child2_age);
+        tvchild2_sex.setText(child2_sex);
+        tvVisitDate.setText(visit_date);
+        tvVisitTime.setText(visit_time);
+        tvcontact_details_lactating_women.setText(contact_no_lactating_women);
+
+
+        int setGrothMonitor = growth_monitor_adpt.getPosition(growth_monitor);
+        spinner_growth_monitor.setSelection(setGrothMonitor);
+
+        int setVaccination = vaccination_verification_adpt.getPosition(vaccination);
+        spinner_vaccination_verification.setSelection(setVaccination);
+
+        int setChildWeight = visit_weight_adpt.getPosition(weight);
+        spinner_visit_weight.setSelection(setChildWeight);
+
+
+    }
 
     private class RestApii extends AsyncTask<String, Void, String> {
 
@@ -901,7 +1094,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         @Override
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
-            mProgressDlg.dismiss();
+
+            if(mProgressDlg != null && mProgressDlg.isShowing()){
+                mProgressDlg.dismiss();
+            }
+
 
             Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;
@@ -928,6 +1125,26 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 tvVisitTime.setText(visit_time);
                 tvcontact_details_lactating_women.setText(contact_no_lactating_women);
                 previewImageSite.setImageBitmap(thumbnail);
+
+
+                long date = System.currentTimeMillis();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                dateString = sdf.format(date);
+//                new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                        .setTitleText("")
+//                        .setContentText("Data sent successfully!")
+//                        .show();
+                String[] data = new String[]{"3", "Children Under Two", dateString, jsonToSend, jsonLatLangArray,
+                        "" + imageName, "Sent", "0"};
+
+                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                dataBaseConserVationTracking.open();
+                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                Log.e("dbID", "" + id);
+                dataBaseConserVationTracking.close();
+
+
 
             }
         }

@@ -3,7 +3,7 @@
     <color name="primary">#3F51B5</color>
     <color name="primary_dark">#303F9F</color>
     <color name="primary_darker">#030c91</color>
-    <color name="primary_light">#C5CAE9</color>
+    <color name="primary_light">#949cd6</color>
     <!--<color name="accent">#9E9E9E</color>-->
     <color name="accent">#000000</color>
     <color name="primary_text">#212121</color>
@@ -25,6 +25,9 @@
     <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
     <color name="red_btn_bg_color">#b93319</color>
     <color name="red_btn_bg_pressed_color">#cc3830</color>
+
+    <color name="sent">#00cf11</color>
+    <color name="not_sent">#ed5047</color>
 
 
     <color name="tabIconColor">#BDBDBD</color>

@@ -29,6 +29,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -67,6 +68,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -74,6 +77,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -81,6 +85,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
+import np.com.naxa.nphf.database.DataBaseConserVationTracking;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -95,7 +100,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
     Spinner spinnerANCVisit, spinnerTD, spinnerTDPlus, spinnerVitA, spinnerReceivedIron, spinnerGravawatiBhet, spinnerFCHVsHelp;
-    ArrayAdapter ancVisitAdpt, tdAdpt, tdPlusAdapter, vitaAdpt, receivedIronAdapter, gravawatiBhetAdapter, fchvHelpAdapter;
+    ArrayAdapter ancVisitAdpt, tdAdpt, tdPlusAdapter, vitaAdpt, receivedIronAdapter, garvawatiBhetAdapter, fchvHelpAdapter;
     Button send, save, startGps, previewMap;
     ProgressDialog mProgressDlg;
     Context context = this;
@@ -129,7 +134,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
-    String dataSentStatus;
+    String dataSentStatus, dateString;
 
     private int year;
     private int month;
@@ -252,11 +257,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         spinnerReceivedIron.setOnItemSelectedListener(this);
 
         //td spinner
-        gravawatiBhetAdapter = new ArrayAdapter<String>(this,
+        garvawatiBhetAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Constants.YES_NO);
-        gravawatiBhetAdapter
+        garvawatiBhetAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerGravawatiBhet.setAdapter(gravawatiBhetAdapter);
+        spinnerGravawatiBhet.setAdapter(garvawatiBhetAdapter);
         spinnerGravawatiBhet.setOnItemSelectedListener(this);
 
         //td spinner
@@ -266,6 +271,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFCHVsHelp.setAdapter(fchvHelpAdapter);
         spinnerFCHVsHelp.setOnItemSelectedListener(this);
+
+        initilizeUI();
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -343,7 +350,88 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
 
+                    if (isGpsTaken) {
+                        pregenent_women_name = tvPregnentWomenName.getText().toString();
+                        vdc_name = tvVDCName.getText().toString();
+                        ward_no = tvWardNo.getText().toString();
+                        ethnicity = tvEthnicity.getText().toString();
+                        age = tvAge.getText().toString();
+                        lmp = tvLMP.getText().toString();
+                        edd = tvEDD.getText().toString();
+                        visit_date = tvVisitDate.getText().toString();
+                        visit_time = tvVisitTime.getText().toString();
+                        delivery_date = tvDeliveryDate.getText().toString();
+                        contact_no = tvContactNo.getText().toString();
+                        sm_name = tvSMName.getText().toString();
+                        img = encodedImage;
+                        jsonLatLangArray = jsonArrayGPS.toString();
+
+
+                        convertDataToJson();
+
+                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
+
+                        final Dialog showDialog = new Dialog(context);
+                        showDialog.setContentView(R.layout.date_input_layout);
+                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                        FormNameToInput.setText("Recording Tool For Pregnent Women");
+
+                        long date = System.currentTimeMillis();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                        String dateString = sdf.format(date);
+                        dateToInput.setText(dateString);
+
+                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                        showDialog.setTitle("Save Data");
+                        showDialog.setCancelable(true);
+                        showDialog.show();
+                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        logIn.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                // TODO Auto-generated method stub
+                                String dateDataCollected = dateToInput.getText().toString();
+                                String formName = FormNameToInput.getText().toString();
+                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    String[] data = new String[]{"1", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                            "" + imageName, "Not Sent", "0"};
+
+                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                                    dataBaseConserVationTracking.open();
+                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+
+//                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                                            .setTitleText("Job done!")
+//                                            .setContentText("Data saved successfully!")
+//                                            .show();
+//                                    dataBaseConserVationTracking.close();
+                                    Toast.makeText(PregnentWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                    showDialog.dismiss();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
         // add click listener to Button "POST"
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -416,6 +504,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         });
 
     }
+
+
 
 
     @Override
@@ -624,6 +714,60 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     }
 
 
+    public void initilizeUI() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("JSON1")) {
+            CheckValues.isFromSavedFrom = true;
+            startGps.setEnabled(false);
+            isGpsTaken=true;
+            previewMap.setEnabled(true);
+            Bundle bundle = intent.getExtras();
+            String jsonToParse = (String) bundle.get("JSON1");
+            imageName = (String) bundle.get("photo");
+            String gpsLocationtoParse = (String) bundle.get("gps");
+
+            Log.e("PregnentWomen", "i-" + imageName);
+
+            if (imageName.equals("no_photo")) {
+            } else {
+                File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), imageName);
+                String path = file1.toString();
+                Toast.makeText(getApplicationContext(), path, Toast.LENGTH_SHORT).show();
+
+                loadImageFromStorage(path);
+
+                addImage();
+            }
+            try {
+                //new adjustment
+                Log.e("Pregnent_Women", "" + jsonToParse);
+//                parseArrayGPS(gpsLocationtoParse);
+                parseJson(jsonToParse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            gps = new GPS_TRACKER_FOR_POINT(PregnentWomenActivity.this);
+            gps.canGetLocation();
+            startGps.setEnabled(true);
+
+        }
+    }
+
+    private void loadImageFromStorage(String path) {
+        try {
+            previewImageSite.setVisibility(View.VISIBLE);
+            File f = new File(path);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            previewImageSite.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "invalid path", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+
     // data convert
     public void convertDataToJson() {
         //function in the activity that corresponds to the hwc_human_casulty button
@@ -678,6 +822,80 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     }
 
 
+    public void parseJson(String jsonToParse) throws JSONException {
+//        JSONObject jsonOb = new JSONObject(jsonToParse);
+//        Log.e("PregnentWomenActivity", "json : " + jsonOb.toString());
+//        String data = jsonOb.getString("formdata");
+//        Log.e("PregnentWomenActivity", "formdata : " + jsonOb.toString());
+        JSONObject jsonObj = new JSONObject(jsonToParse);
+        Log.e("PregnentWomenActivity", "json : " + jsonObj.toString());
+
+        vdc_name = jsonObj.getString("name_of_VDC");
+        sm_name = jsonObj.getString("name_of_SM");
+        pregenent_women_name = jsonObj.getString("name_of_pregnant_women");
+        ward_no = jsonObj.getString("ward");
+        age = jsonObj.getString("age");
+        ethnicity = jsonObj.getString("ethinicity");
+        lmp = jsonObj.getString("LMP");
+        edd = jsonObj.getString("EDD");
+        anc_visit = jsonObj.getString("ANC_visit");
+        visit_date = jsonObj.getString("date");
+        visit_time = jsonObj.getString("time");
+        td = jsonObj.getString("Td");
+        td_plus = jsonObj.getString("Td_+");
+        vit_a = jsonObj.getString("Vit_A");
+        received_iron = jsonObj.getString("lived_180_day");
+        garvawati_bhet = jsonObj.getString("garvawati_het_recieved");
+        fchv_help = jsonObj.getString("did_FCHVs_helped_her_to_prepare_birth_preparedness_plan");
+        delivery_date = jsonObj.getString("date_of_delivery");
+        contact_no = jsonObj.getString("contact_no_of_family_member");
+        finalLat = Double.parseDouble(jsonObj.getString("lat"));
+        finalLong = Double.parseDouble(jsonObj.getString("lon"));
+        LatLng d = new LatLng(finalLat, finalLong);
+        listCf.add(d);
+        encodedImage = jsonObj.getString("image");
+
+
+        Log.e("Pregnent Women", "Parsed data " + pregenent_women_name + anc_visit + contact_no);
+
+        tvPregnentWomenName.setText(pregenent_women_name);
+        tvVDCName.setText(vdc_name);
+        tvWardNo.setText(ward_no);
+        tvEthnicity.setText(ethnicity);
+        tvAge.setText(age);
+        tvLMP.setText(lmp);
+        tvEDD.setText(edd);
+        tvContactNo.setText(contact_no);
+        tvSMName.setText(sm_name);
+        tvDeliveryDate.setText(delivery_date);
+        tvVisitDate.setText(visit_date);
+        tvVisitTime.setText(visit_time);
+
+
+        int setANCVisit = ancVisitAdpt.getPosition(anc_visit);
+        spinnerANCVisit.setSelection(setANCVisit);
+
+        int setTD = tdAdpt.getPosition(td);
+        spinnerTD.setSelection(setTD);
+
+        int setTDPlus = tdPlusAdapter.getPosition(td_plus);
+        spinnerTDPlus.setSelection(setTDPlus);
+
+        int setVitA = vitaAdpt.getPosition(vit_a);
+        spinnerVitA.setSelection(setVitA);
+
+        int setReceivedIron = receivedIronAdapter.getPosition(received_iron);
+        spinnerReceivedIron.setSelection(setReceivedIron);
+
+        int setGarvawati = garvawatiBhetAdapter.getPosition(garvawati_bhet);
+        spinnerGravawatiBhet.setSelection(setGarvawati);
+
+        int setFCVHelp = fchvHelpAdapter.getPosition(fchv_help);
+        spinnerFCHVsHelp.setSelection(setFCVHelp);
+
+
+    }
+
     private class RestApii extends AsyncTask<String, Void, String> {
 
 
@@ -694,7 +912,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         @Override
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
-            mProgressDlg.dismiss();
+
+            if(mProgressDlg != null && mProgressDlg.isShowing()){
+                mProgressDlg.dismiss();
+            }
+
 
             Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;
@@ -724,6 +946,23 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 tvVisitDate.setText(visit_date);
                 tvVisitTime.setText(visit_time);
                 previewImageSite.setImageBitmap(thumbnail);
+
+                long date = System.currentTimeMillis();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                dateString = sdf.format(date);
+//                new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                        .setTitleText("")
+//                        .setContentText("Data sent successfully!")
+//                        .show();
+                String[] data = new String[]{"1", "Recording Tool For Pregnent Women", dateString, jsonToSend, jsonLatLangArray,
+                        "" + imageName, "Sent", "0"};
+
+                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                dataBaseConserVationTracking.open();
+                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                Log.e("dbID", "" + id);
+                dataBaseConserVationTracking.close();
 
 
             }

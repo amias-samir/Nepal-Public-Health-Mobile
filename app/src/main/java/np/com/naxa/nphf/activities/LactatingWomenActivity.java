@@ -9,7 +9,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -25,12 +24,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -69,6 +68,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -76,6 +77,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -83,6 +85,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
+import np.com.naxa.nphf.database.DataBaseConserVationTracking;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -109,7 +112,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             lactating_women_vitaminA_adpt, lactating_women_neonatal_records_adpt,
             lactating_women_breastfeed_in1hour_adpt, lactating_women_exclusive_breastfeeding_adpt;
 
-    Button send, save, startGPS, previewMAP;
+    Button send, save, startGps, previewMap;
     ImageButton pic;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -166,7 +169,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
-    String dataSentStatus;
+    String dataSentStatus, dateString;
 
     GoogleApiClient client;
     LocationRequest mLocationRequest;
@@ -202,9 +205,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         pic = (ImageButton) findViewById(R.id.lactating_women_photo_site);
         previewImageSite = (ImageView) findViewById(R.id.lactating_women_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
-        startGPS = (Button) findViewById(R.id.lactating_women_GpsStart);
-        previewMAP = (Button) findViewById(R.id.lactating_women_preview_map);
-        previewMAP.setEnabled(false);
+        startGps = (Button) findViewById(R.id.lactating_women_GpsStart);
+        previewMap = (Button) findViewById(R.id.lactating_women_preview_map);
+        previewMap.setEnabled(false);
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -314,6 +317,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         lactating_women_exclusive_breastfeeding_spinner.setAdapter(lactating_women_breastfeed_in1hour_adpt);
         lactating_women_exclusive_breastfeeding_spinner.setOnItemSelectedListener(this);
 
+        initilizeUI();
+
         // for picture click
         pic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -323,7 +328,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             }
         });
 
-        startGPS.setOnClickListener(new View.OnClickListener() {
+        startGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (GPS_SETTINGS.equals(true) || GPS_TRACKER_FOR_POINT.GPS_POINT_INITILIZED) {
@@ -333,7 +338,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                         finalLat = gps.getLatitude();
                         finalLong = gps.getLongitude();
                         if (finalLat != 0) {
-                            previewMAP.setEnabled(true);
+                            previewMap.setEnabled(true);
                             try {
                                 JSONObject data = new JSONObject();
                                 data.put("latitude", finalLat);
@@ -367,15 +372,15 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             }
         });
 
-        previewMAP.setOnClickListener(new View.OnClickListener() {
+        previewMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (CheckValues.isFromSavedFrom) {
-                    StaticListOfCoordinates.setList(lactatinglistCf);
+                    StaticListOfCoordinates.setList(listCf);
                     startActivity(new Intent(LactatingWomenActivity.this, MapPointActivity.class));
                 } else {
                     if (GPS_TRACKER_FOR_POINT.GPS_POINT_INITILIZED) {
-                        StaticListOfCoordinates.setList(lactatinglistCf);
+                        StaticListOfCoordinates.setList(listCf);
                         startActivity(new Intent(LactatingWomenActivity.this, MapPointActivity.class));
                     } else {
                         Default_DIalog.showDefaultDialog(context, R.string.app_name, "Please try again, Gps not initialized");
@@ -384,6 +389,85 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
+                        lactating_women_name = tvLactatingWomenName.getText().toString();
+                        vdc_name = tvVDCName.getText().toString();
+                        ward_no = tvWardNo.getText().toString();
+                        ethnicity = tvEthnicity.getText().toString();
+                        age = tvAge.getText().toString();
+                        img = encodedImage;
+                        sm_name = tvsmName.getText().toString();
+                        visit_date = tvVisitDate.getText().toString();
+                        visit_time = tvVisitTime.getText().toString();
+                        img = encodedImage;
+                        jsonLatLangArray = jsonArrayGPS.toString();
+
+
+                        convertDataToJson();
+
+                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
+
+                        final Dialog showDialog = new Dialog(context);
+                        showDialog.setContentView(R.layout.date_input_layout);
+                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                        FormNameToInput.setText("Recording Tool For Lactating Women");
+
+                        long date = System.currentTimeMillis();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                        String dateString = sdf.format(date);
+                        dateToInput.setText(dateString);
+
+                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                        showDialog.setTitle("Save Data");
+                        showDialog.setCancelable(true);
+                        showDialog.show();
+                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        logIn.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                // TODO Auto-generated method stub
+                                String dateDataCollected = dateToInput.getText().toString();
+                                String formName = FormNameToInput.getText().toString();
+                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    String[] data = new String[]{"2", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                            "" + imageName, "Not Sent", "0"};
+
+                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                                    dataBaseConserVationTracking.open();
+                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+
+//                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                                            .setTitleText("Job done!")
+//                                            .setContentText("Data saved successfully!")
+//                                            .show();
+//                                    dataBaseConserVationTracking.close();
+                                    Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                    showDialog.dismiss();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
 
         // add click listener to Button "POST"
         send.setOnClickListener(new View.OnClickListener() {
@@ -702,6 +786,59 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
     }
 
+    public void initilizeUI() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("JSON1")) {
+            CheckValues.isFromSavedFrom = true;
+            startGps.setEnabled(false);
+            isGpsTaken=true;
+            previewMap.setEnabled(true);
+            Bundle bundle = intent.getExtras();
+            String jsonToParse = (String) bundle.get("JSON1");
+            imageName = (String) bundle.get("photo");
+            String gpsLocationtoParse = (String) bundle.get("gps");
+
+            Log.e("LactatingWomen", "i-" + imageName);
+
+            if (imageName.equals("no_photo")) {
+            } else {
+                File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), imageName);
+                String path = file1.toString();
+                Toast.makeText(getApplicationContext(), path, Toast.LENGTH_SHORT).show();
+
+                loadImageFromStorage(path);
+
+                addImage();
+            }
+            try {
+                //new adjustment
+                Log.e("Lactating_Women", "" + jsonToParse);
+//                parseArrayGPS(gpsLocationtoParse);
+                parseJson(jsonToParse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            gps = new GPS_TRACKER_FOR_POINT(LactatingWomenActivity.this);
+            gps.canGetLocation();
+            startGps.setEnabled(true);
+
+        }
+    }
+
+    private void loadImageFromStorage(String path) {
+        try {
+            previewImageSite.setVisibility(View.VISIBLE);
+            File f = new File(path);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            previewImageSite.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "invalid path", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
 
     public void convertDataToJson() {
         try {
@@ -754,6 +891,95 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         }
     }
 
+    public void parseJson(String jsonToParse) throws JSONException {
+//        JSONObject jsonOb = new JSONObject(jsonToParse);
+//        Log.e("PregnentWomenActivity", "json : " + jsonOb.toString());
+//        String data = jsonOb.getString("formdata");
+//        Log.e("PregnentWomenActivity", "formdata : " + jsonOb.toString());
+        JSONObject jsonObj = new JSONObject(jsonToParse);
+        Log.e("LactatingWomenActivity", "json : " + jsonObj.toString());
+
+
+        finalLat = Double.parseDouble(jsonObj.getString("lat"));
+        finalLong = Double.parseDouble(jsonObj.getString("lon"));
+        LatLng d = new LatLng(finalLat, finalLong);
+        listCf.add(d);
+
+        sm_name = jsonObj.getString("name_of_SM");
+        visit_date = jsonObj.getString("date");
+
+        visit_time = jsonObj.getString("time");
+        lactating_women_name = jsonObj.getString("name_of_lactating_woman");
+        vdc_name = jsonObj.getString("name_of_VDC");
+        ward_no = jsonObj.getString("ward");
+
+        Log.e("Lactating Women ", "Parsed data " + sm_name +"    " + ward_no +"--- Location ---"+ finalLat +",  "+ finalLong +" listcf"+listCf);
+
+        age = jsonObj.getString("age");
+        ethnicity = jsonObj.getString("ethinicity");
+        deliver_place = jsonObj.getString("delivery_at");
+        birth_attended_by = jsonObj.getString("birth_attended_by");
+        third_labour = jsonObj.getString("recieved_active_management_of_third_stage_laour");
+        oxytocin_received = jsonObj.getString("recieved_oxytocin_after_delivery");
+        neonates_asphysia = jsonObj.getString("neonates_with_irth_asphyxia");
+        pnc_visit = jsonObj.getString("PNC_visit");
+        fourtyfivedays_iron = jsonObj.getString("lived_180_day");
+        vitaminA = jsonObj.getString("vit_A");
+        neonatal_records = jsonObj.getString("neonatal_check_ups");
+        breastfeed_in1hour = jsonObj.getString("breast_feeding_within_one_hour_of_birth");
+        exclusive_breastfeeding = jsonObj.getString("exclusive_breast_feeding");
+
+        encodedImage = jsonObj.getString("image");
+
+
+
+
+        tvsmName.setText(sm_name);
+        tvLactatingWomenName.setText(lactating_women_name);
+        tvVDCName.setText(vdc_name);
+        tvWardNo.setText(ward_no);
+        tvEthnicity.setText(ethnicity);
+        tvAge.setText(age);
+        tvVisitDate.setText(visit_date);
+        tvVisitTime.setText(visit_time);
+
+
+        int setDeliveryPlace = delivery_at_place_adpt.getPosition(deliver_place);
+        delivery_at_place_spinner.setSelection(setDeliveryPlace);
+
+        int setBirthAttended = birth_attended_by_lcw_adpt.getPosition(birth_attended_by);
+        birth_attended_by_lcw_spinner.setSelection(setBirthAttended);
+
+        int setThirdLabour = lactaing_women_3rd_labour_adpt.getPosition(third_labour);
+        lactaing_women_3rd_labour_spinner.setSelection(setThirdLabour);
+
+        int setOxytocinReceived = oxytocin_received_after_birth_adpt.getPosition(oxytocin_received);
+        oxytocin_received_after_birth_spinner.setSelection(setOxytocinReceived);
+
+        int setReceivedNeonates = lactating_women_neonates_asphysia_adpt.getPosition(neonates_asphysia);
+        lactating_women_neonates_asphysia_spinner.setSelection(setReceivedNeonates);
+
+        int setPNCVisit = pnc_visit_adpt.getPosition(pnc_visit);
+        pnc_visit_spinner.setSelection(setPNCVisit);
+
+        int setFourtyfiveDaysIron = lactating_women_45days_iron_adtp.getPosition(fourtyfivedays_iron);
+        lactating_women_45days_iron_spinner.setSelection(setFourtyfiveDaysIron);
+
+        int setVITA = lactating_women_vitaminA_adpt.getPosition(vitaminA);
+        lactating_women_vitaminA_spinner.setSelection(setVITA);
+
+        int setNenotatalRecords = lactating_women_neonatal_records_adpt.getPosition(neonatal_records);
+        lactating_women_neonatal_records_spinner.setSelection(setNenotatalRecords);
+
+        int setBreastFeeding = lactating_women_breastfeed_in1hour_adpt.getPosition(breastfeed_in1hour);
+        lactating_women_breastfeed_in1hour_spinner.setSelection(setBreastFeeding);
+
+        int setExcluseBreastFeeding= lactating_women_exclusive_breastfeeding_adpt.getPosition(exclusive_breastfeeding);
+        lactating_women_exclusive_breastfeeding_spinner.setSelection(setExcluseBreastFeeding);
+
+
+    }
+
     private class RestApii extends AsyncTask<String, Void, String> {
 
 
@@ -770,7 +996,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         @Override
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
-            mProgressDlg.dismiss();
+
+            if(mProgressDlg != null && mProgressDlg.isShowing()){
+                mProgressDlg.dismiss();
+            }
+
 
             Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;
@@ -796,6 +1026,23 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 tvVisitDate.setText(visit_date);
                 tvVisitTime.setText(visit_time);
                 previewImageSite.setImageBitmap(thumbnail);
+
+                long date = System.currentTimeMillis();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                dateString = sdf.format(date);
+//                new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                        .setTitleText("")
+//                        .setContentText("Data sent successfully!")
+//                        .show();
+                String[] data = new String[]{"2", "Recording Tool For Lactating Women", dateString, jsonToSend, jsonLatLangArray,
+                        "" + imageName, "Sent", "0"};
+
+                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                dataBaseConserVationTracking.open();
+                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                Log.e("dbID", "" + id);
+                dataBaseConserVationTracking.close();
 
             }
         }

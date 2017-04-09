@@ -25,7 +25,7 @@ import np.com.naxa.nphf.model.StaticListOfCoordinates;
 
 
 /**
- * Created by ramaan on 3/7/2016.
+ * Created by Samir on 3/4/2017.
  */
 public class MapPointActivity extends FragmentActivity {
     static LatLng HAMBURG;

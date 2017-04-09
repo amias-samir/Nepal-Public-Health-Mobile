@@ -69,6 +69,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -93,7 +95,7 @@ import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 import np.com.naxa.nphf.sweet_alert_dailog.SweetAlertDialog;
 
-public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ChildrenUnderFive extends AppCompatActivity {
 
     private static final String TAG = "chidren_under_five";
     public static Toolbar toolbar;
@@ -138,7 +140,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
-    String dataSentStatus;
+    String dataSentStatus, dateString;
 
     private int year;
     private int month;
@@ -199,6 +201,8 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         photo = (ImageButton) findViewById(R.id.children_5_photo_site);
         previewImageSite = (ImageView) findViewById(R.id.children_5_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
+
+        initilizeUI();
 
 //        spinner_diarrhoea_details = (Spinner) findViewById(R.id.suffered_diarrhoea_spinner);
 //        spinner_ari_details = (Spinner) findViewById(R.id.suffered_from_ARI);
@@ -526,6 +530,61 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
     }
 
 
+
+    public void initilizeUI() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("JSON1")) {
+            CheckValues.isFromSavedFrom = true;
+            startGps.setEnabled(false);
+            isGpsTaken=true;
+            previewMap.setEnabled(true);
+            Bundle bundle = intent.getExtras();
+            String jsonToParse = (String) bundle.get("JSON1");
+            imageName = (String) bundle.get("photo");
+            String gpsLocationtoParse = (String) bundle.get("gps");
+
+            Log.e("ChildrenUnderFive", "i-" + imageName);
+
+            if (imageName.equals("no_photo")) {
+            } else {
+                File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), imageName);
+                String path = file1.toString();
+                Toast.makeText(getApplicationContext(), path, Toast.LENGTH_SHORT).show();
+
+                loadImageFromStorage(path);
+
+                addImage();
+            }
+            try {
+                //new adjustment
+                Log.e("ChildrenUnderFive", "" + jsonToParse);
+                parseJson(jsonToParse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            gps = new GPS_TRACKER_FOR_POINT(ChildrenUnderFive.this);
+            gps.canGetLocation();
+            startGps.setEnabled(true);
+
+        }
+    }
+
+    private void loadImageFromStorage(String path) {
+        try {
+            previewImageSite.setVisibility(View.VISIBLE);
+            File f = new File(path);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            previewImageSite.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "invalid path", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+
     private void askForPermission(String permission, Integer requestCode) {
         if (ContextCompat.checkSelfPermission(ChildrenUnderFive.this, permission) != PackageManager.PERMISSION_GRANTED) {
 
@@ -601,45 +660,6 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
     public void onStop() {
         super.onStop();
         client.disconnect();
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        int SpinnerID = parent.getId();
-//        if (SpinnerID == R.id.suffered_diarrhoea_spinner) {
-//
-//            switch (position) {
-//                case 0:
-//                    diarrhoea_details = "Yes";
-//                    break;
-//
-//                case 1:
-////                    diarrhoea_details = "No";
-//                    break;
-//            }
-//
-//        }
-
-
-//        if (SpinnerID == R.id.suffered_from_ARI) {
-//
-//            switch (position) {
-//                case 0:
-//                    ari_details = "Yes";
-//                    break;
-//
-//                case 1:
-//                    ari_details = "No";
-//                    break;
-//            }
-//        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     private static String pad(int c) {
@@ -805,11 +825,6 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
             // set current time into textview
             tvVisitTime.setText(new StringBuilder().append(pad(hour))
                     .append(":").append(pad(minute)));
-
-            // set current time into timepicker
-//            timePicker1.setCurrentHour(hour);
-//            timePicker1.setCurrentMinute(minute);
-
         }
     };
 
@@ -886,8 +901,6 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
     private void saveToExternalSorage(Bitmap thumbnail) {
         // TODO Auto-generated method stub
-        //String merocinema="Mero Cinema";
-//        String movname=getIntent().getExtras().getString("Title");
         Calendar calendar = Calendar.getInstance();
         long timeInMillis = calendar.getTimeInMillis();
 
@@ -895,9 +908,6 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
         File file1 = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), imageName);
-//        if (!file1.mkdirs()) {
-//            Toast.makeText(getApplicationContext(), "Not Created", Toast.LENGTH_SHORT).show();
-//        }
 
         if (file1.exists()) file1.delete();
         try {
@@ -1012,6 +1022,74 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         }
     }
 
+    public void parseJson(String jsonToParse) throws JSONException {
+//        JSONObject jsonOb = new JSONObject(jsonToParse);
+//        Log.e("ChildrenUnderFive", "json : " + jsonOb.toString());
+//        String data = jsonOb.getString("formdata");
+//        Log.e("ChildrenUnderFive", "formdata : " + jsonOb.toString());
+        JSONObject jsonObj = new JSONObject(jsonToParse);
+        Log.e("ChildrenUnderFive", "json parse : " + jsonObj.toString());
+
+
+        visit_date = jsonObj.getString("date");
+        visit_time = jsonObj.getString("time");
+        child5_name = jsonObj.getString("name_of_child");
+        child5_sm_name = jsonObj.getString("name_of_SM");
+        child5_age = jsonObj.getString("age");
+        child5_sex = jsonObj.getString("sex");
+        child5_vdc_name = jsonObj.getString("name_of_VDC");
+        child5_ward_no = jsonObj.getString("ward_no");
+
+        Log.e(TAG, "ChildrenUnderFive: "+" SAMIR  "+ child5_name );
+
+//        diarroheaJson = jsonObj.getJSONObject("diarrhoea");
+//        suffered_diarrhoea = diarroheaJson.getString("diarrhoea_details");
+//        reffered_by_sm = diarroheaJson.getString("diarrhoea_refered");
+//        treated_with_zinc = diarroheaJson.getString("diarrhoea_treated_zinc");
+//
+//        ariJson = jsonObj.getJSONObject("ari");
+//        suffered_ari = ariJson.getString("suffered_ari");
+//        referred_by_sm_ari = ariJson.getString("ari_refered");
+        treated_with_anibiotic = ariJson.getString("ari_treated_antibiotic");
+
+        finalLat = Double.parseDouble(jsonObj.getString("lat"));
+        finalLong = Double.parseDouble(jsonObj.getString("lon"));
+        LatLng d = new LatLng(finalLat, finalLong);
+        listCf.add(d);
+     ;
+
+
+
+        tvchildren_5_sm_name.setText(child5_sm_name);
+        tvchildren_under5_name.setText(child5_name);
+        tvchild_under5_vdc_name.setText(child5_vdc_name);
+        tvchildren_5_ward_no.setText(child5_ward_no);
+        tvchildren_5_age.setText(child5_age);
+        tvchildren_5_sex.setText(child5_sex);
+        previewImageSite.setImageBitmap(thumbnail);
+        tvVisitDate.setText(visit_date);
+        tvVisitTime.setText(visit_time);
+//        previewImageSite.setImageBitmap(thumbnail);
+
+//        if(suffered_ari.equals("yes")){
+//            cbSufferedARI.setChecked(true);
+//        } if(referred_by_sm_ari.equals("yes")){
+//            cbRefferedBySM_ARI.setChecked(true);
+//        } if(treated_with_anibiotic.equals("yes")){
+//            cbTreatedWithAntibiotic.setChecked(true);
+//        }
+//
+//        if(suffered_diarrhoea.equals("yes")){
+//            cbSufferedDiarrhoea.setChecked(true);
+//        } if(reffered_by_sm.equals("yes")){
+//            cbReferredBySM.setChecked(true);
+//        }
+//        if(treated_with_zinc.equals("yes")){
+//            cbTreatedWithZinc.setSelected(true);
+//        }
+
+    }
+
 
     private class RestApii extends AsyncTask<String, Void, String> {
 
@@ -1048,9 +1126,9 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
             if (dataSentStatus.equals("200")) {
                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
-                previewImageSite.setVisibility(View.GONE);
+                previewImageSite.setVisibility(View.VISIBLE);
 
-                tvchildren_5_sm_name.setText(child5_name);
+                tvchildren_5_sm_name.setText(child5_sm_name);
                 tvchildren_under5_name.setText(child5_name);
                 tvchild_under5_vdc_name.setText(child5_vdc_name);
                 tvchildren_5_ward_no.setText(child5_ward_no);
@@ -1060,6 +1138,23 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
                 tvVisitDate.setText(visit_date);
                 tvVisitTime.setText(visit_time);
                 previewImageSite.setImageBitmap(thumbnail);
+
+                long date = System.currentTimeMillis();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                dateString = sdf.format(date);
+//                new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                        .setTitleText("")
+//                        .setContentText("Data sent successfully!")
+//                        .show();
+                String[] data = new String[]{"4", "Children Under Five", dateString, jsonToSend, jsonLatLangArray,
+                        "" + imageName, "Sent", "0"};
+
+                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
+                dataBaseConserVationTracking.open();
+                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                Log.e("dbID", "" + id);
+                dataBaseConserVationTracking.close();
 
 
             }
