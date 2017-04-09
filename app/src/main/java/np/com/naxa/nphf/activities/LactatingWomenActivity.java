@@ -910,20 +910,20 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         visit_time = jsonObj.getString("time");
         lactating_women_name = jsonObj.getString("name_of_lactating_woman");
-        vdc_name = jsonObj.getString("name_of_VDC");
-        ward_no = jsonObj.getString("ward");
+        vdc_name = jsonObj.getString("name_of_vdc");
+        ward_no = jsonObj.getString("ward_no");
 
         Log.e("Lactating Women ", "Parsed data " + sm_name +"    " + ward_no +"--- Location ---"+ finalLat +",  "+ finalLong +" listcf"+listCf);
 
         age = jsonObj.getString("age");
-        ethnicity = jsonObj.getString("ethinicity");
+        ethnicity = jsonObj.getString("ethnicity");
         deliver_place = jsonObj.getString("delivery_at");
         birth_attended_by = jsonObj.getString("birth_attended_by");
         third_labour = jsonObj.getString("recieved_active_management_of_third_stage_laour");
         oxytocin_received = jsonObj.getString("recieved_oxytocin_after_delivery");
         neonates_asphysia = jsonObj.getString("neonates_with_irth_asphyxia");
         pnc_visit = jsonObj.getString("PNC_visit");
-        fourtyfivedays_iron = jsonObj.getString("lived_180_day");
+        fourtyfivedays_iron = jsonObj.getString("received_45_days_supply_of_iron");
         vitaminA = jsonObj.getString("vit_A");
         neonatal_records = jsonObj.getString("neonatal_check_ups");
         breastfeed_in1hour = jsonObj.getString("breast_feeding_within_one_hour_of_birth");
