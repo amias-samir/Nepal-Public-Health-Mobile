@@ -511,6 +511,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                             mProgressDlg.show();
                             // data goes here
                             convertDataToJson();
+                            sendDatToserver();
 
 
                             no.setOnClickListener(new View.OnClickListener() {
@@ -878,7 +879,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             e.printStackTrace();
         }
 
-        sendDatToserver();
+//        sendDatToserver();
 
     }
 
@@ -913,8 +914,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         vdc_name = jsonObj.getString("name_of_vdc");
         ward_no = jsonObj.getString("ward_no");
 
-        Log.e("Lactating Women ", "Parsed data " + sm_name +"    " + ward_no +"--- Location ---"+ finalLat +",  "+ finalLong +" listcf"+listCf);
-
         age = jsonObj.getString("age");
         ethnicity = jsonObj.getString("ethnicity");
         deliver_place = jsonObj.getString("delivery_at");
@@ -931,6 +930,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         encodedImage = jsonObj.getString("image");
 
+        Log.e("Lactating Women ", "Parsed data " + sm_name +"    " + ward_no +"--- Location ---"+ finalLat +",  "+ finalLong +" listcf"+listCf);
 
 
 

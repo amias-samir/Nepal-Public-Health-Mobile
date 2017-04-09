@@ -432,6 +432,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                             mProgressDlg.setCancelable(false);
                             mProgressDlg.show();
                             convertDataToJson();
+                            sendDatToserver();
 //                                finish();
                         }
                     });
@@ -484,16 +485,16 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                     break;
 
                 case 1 :
-                    vaccination = "1st Dose";
+                    vaccination = "DPT ,HepB -Hib,Polio,PCV 1st Dose";
                     break;
                 case 2 :
-                    vaccination = "2nd Dose";
+                    vaccination = "DPT ,HepB -Hib,Polio,PCV 2nd Dose";
                     break;
                 case 3 :
-                    vaccination = "3rd Dose";
+                    vaccination = "DPT,HepB-Hib,Polio,IPV 3rd Dose";
                     break;
                 case 4 :
-                    vaccination = "PCV(3rd),MR(1st )";
+                    vaccination = "PCV (3rd) and MR (1st )";
                     break;
                 case 5 :
                     vaccination = "JE";
@@ -509,16 +510,16 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             switch (position){
 
                 case 0:
-                    weight = "first_0_11_months";
+                    weight = "1st visit_0_11_months";
                     break;
                 case 1:
-                    weight = "first_12_23_months";
+                    weight = "1st visit_12_23_months";
                     break;
                 case 2:
-                    weight = "second_0_11_months";
+                    weight = "2nd visit_0_11_months";
                     break;
                 case 3:
-                    weight = "second_12_23_months";
+                    weight = "2nd visit_12_23_months";
                     break;
 
             }
@@ -1014,7 +1015,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
         Log.d("Nishon", jsonToSend);
 
-        sendDatToserver();
+//        sendDatToserver();
     }
 
     public void sendDatToserver() {
@@ -1053,7 +1054,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 //        encodedImage = jsonObj.getString("image");
 
 
-        Log.e("Pregnent Women", "Parsed data " + child2_mother_name + growth_monitor + contact_no_lactating_women);
+        Log.e("Children Under Two", "Parsed data " + child2_mother_name + vaccination + weight);
 
         tvsmName.setText(child2_sm_name);
         tvchild_motherName.setText(child2_mother_name);

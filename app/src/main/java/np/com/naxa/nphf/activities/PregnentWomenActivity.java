@@ -480,6 +480,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                             mProgressDlg.setCancelable(false);
                             mProgressDlg.show();
                             convertDataToJson();
+                            sendDatToserver();
 //                                finish();
                         }
                     });
@@ -807,9 +808,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             e.printStackTrace();
         }
 
-        Log.d("Nishon", jsonToSend);
+        Log.d("Samir", jsonToSend);
 
-        sendDatToserver();
+//        sendDatToserver();
     }
 
     public void sendDatToserver() {
