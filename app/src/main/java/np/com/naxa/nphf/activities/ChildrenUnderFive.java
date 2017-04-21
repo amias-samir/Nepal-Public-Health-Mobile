@@ -35,7 +35,6 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -86,14 +85,13 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseConserVationTracking;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
 import np.com.naxa.nphf.model.CheckValues;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
-import np.com.naxa.nphf.sweet_alert_dailog.SweetAlertDialog;
 
 public class ChildrenUnderFive extends AppCompatActivity {
 
@@ -242,44 +240,44 @@ public class ChildrenUnderFive extends AppCompatActivity {
 //===============================Diarrhoea details =====================================//
                         if (cbSufferedDiarrhoea.isChecked() == true) {
                             Log.e("cbSufferedDiarrhoea", " ");
-                            suffered_diarrhoea = " yes";
+                            suffered_diarrhoea = "yes";
                         } else {
-                            suffered_diarrhoea = " no";
+                            suffered_diarrhoea = "no";
 
                         }
                         if (cbTreatedWithZinc.isChecked() == true) {
-                            treated_with_zinc = " yes";
+                            treated_with_zinc = "yes";
                         }
                         else {
-                            treated_with_zinc = "  no";
+                            treated_with_zinc = "no";
 
                         }
                         if (cbReferredBySM.isChecked() == true) {
-                            reffered_by_sm = " yes";
+                            reffered_by_sm = "yes";
                         }
                         else {
-                            reffered_by_sm = " no";
+                            reffered_by_sm = "no";
                         }
                         //==================================ARI details ========================================== //
                         if (cbSufferedARI.isChecked() == true) {
                             Log.e("cbSufferedARI", " ");
-                            suffered_ari = " yes";
+                            suffered_ari = "yes";
                         } else {
-                            suffered_ari =  " no";
+                            suffered_ari =  "no";
 
                         }
                         if (cbTreatedWithAntibiotic.isChecked() == true) {
-                            treated_with_anibiotic = " yes";
+                            treated_with_anibiotic = "yes";
                         }
                         else {
-                            treated_with_anibiotic = " no";
+                            treated_with_anibiotic = "no";
 
                         }
                         if (cbRefferedBySM_ARI.isChecked() == true) {
-                            referred_by_sm_ari = " yes";
+                            referred_by_sm_ari = "yes";
                         }
                         else {
-                            referred_by_sm_ari = " no";
+                            referred_by_sm_ari = "no";
                         }
                         //========================================================================================//
 
@@ -321,15 +319,15 @@ public class ChildrenUnderFive extends AppCompatActivity {
                                     String[] data = new String[]{"4", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                                    dataBaseConserVationTracking.open();
-                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                                    dataBaseNepalPublicHealth.open();
+                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseConserVationTracking.close();
+//                                    dataBaseNepalPublicHealth.close();
                                     Toast.makeText(ChildrenUnderFive.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -433,44 +431,44 @@ public class ChildrenUnderFive extends AppCompatActivity {
 //===============================Diarrhoea details =====================================//
                 if (cbSufferedDiarrhoea.isChecked() == true) {
                     Log.e("cbSufferedDiarrhoea", " ");
-                    suffered_diarrhoea = " yes";
+                    suffered_diarrhoea = "yes";
                 } else {
-                    suffered_diarrhoea = " no";
+                    suffered_diarrhoea = "no";
 
                 }
                 if (cbTreatedWithZinc.isChecked() == true) {
-                    treated_with_zinc = " yes";
+                    treated_with_zinc = "yes";
                 }
                 else {
-                    treated_with_zinc = "  no";
+                    treated_with_zinc = "no";
 
                 }
                 if (cbReferredBySM.isChecked() == true) {
-                    reffered_by_sm = " yes";
+                    reffered_by_sm = "yes";
                 }
                 else {
-                    reffered_by_sm = " no";
+                    reffered_by_sm = "no";
                 }
      //==================================ARI details ========================================== //
                 if (cbSufferedARI.isChecked() == true) {
                     Log.e("cbSufferedARI", " ");
-                    suffered_ari = " yes";
+                    suffered_ari = "yes";
                 } else {
-                    suffered_ari =  " no";
+                    suffered_ari =  "no";
 
                 }
                 if (cbTreatedWithAntibiotic.isChecked() == true) {
-                    treated_with_anibiotic = " yes";
+                    treated_with_anibiotic = "yes";
                 }
                 else {
-                    treated_with_anibiotic = " no";
+                    treated_with_anibiotic = "no";
 
                 }
                 if (cbRefferedBySM_ARI.isChecked() == true) {
-                    referred_by_sm_ari = " yes";
+                    referred_by_sm_ari = "yes";
                 }
                 else {
-                    referred_by_sm_ari = " no";
+                    referred_by_sm_ari = "no";
                 }
      //========================================================================================//
 
@@ -530,59 +528,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
     }
 
 
-
-    public void initilizeUI() {
-        Intent intent = getIntent();
-        if (intent.hasExtra("JSON1")) {
-            CheckValues.isFromSavedFrom = true;
-            startGps.setEnabled(false);
-            isGpsTaken=true;
-            previewMap.setEnabled(true);
-            Bundle bundle = intent.getExtras();
-            String jsonToParse = (String) bundle.get("JSON1");
-            imageName = (String) bundle.get("photo");
-            String gpsLocationtoParse = (String) bundle.get("gps");
-
-            Log.e("ChildrenUnderFive", "i-" + imageName);
-
-            if (imageName.equals("no_photo")) {
-            } else {
-                File file1 = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES), imageName);
-                String path = file1.toString();
-                Toast.makeText(getApplicationContext(), path, Toast.LENGTH_SHORT).show();
-
-                loadImageFromStorage(path);
-
-                addImage();
-            }
-            try {
-                //new adjustment
-                Log.e("ChildrenUnderFive", "" + jsonToParse);
-                parseJson(jsonToParse);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            gps = new GPS_TRACKER_FOR_POINT(ChildrenUnderFive.this);
-            gps.canGetLocation();
-            startGps.setEnabled(true);
-
-        }
-    }
-
-    private void loadImageFromStorage(String path) {
-        try {
-            previewImageSite.setVisibility(View.VISIBLE);
-            File f = new File(path);
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            previewImageSite.setImageBitmap(b);
-        } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "invalid path", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
 
 
     private void askForPermission(String permission, Integer requestCode) {
@@ -830,39 +775,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
-
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
-        final Dialog showDialog = new Dialog(context);
-        showDialog.setContentView(R.layout.close_dialog_english);
-        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
-        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
-
-        showDialog.setTitle("WARNING !!!");
-        showDialog.setCancelable(false);
-        showDialog.show();
-        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog.dismiss();
-                finish();
-            }
-        });
-
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog.dismiss();
-            }
-        });
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1)
@@ -898,16 +810,20 @@ public class ChildrenUnderFive extends AppCompatActivity {
         }
     }
 
-
     private void saveToExternalSorage(Bitmap thumbnail) {
         // TODO Auto-generated method stub
+        //String merocinema="Mero Cinema";
+//        String movname=getIntent().getExtras().getString("Title");
         Calendar calendar = Calendar.getInstance();
         long timeInMillis = calendar.getTimeInMillis();
 
-        imageName = "Children_Under_Five" + timeInMillis;
+        imageName = "Lactating_Women" + timeInMillis;
 
         File file1 = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), imageName);
+//        if (!file1.mkdirs()) {
+//            Toast.makeText(getApplicationContext(), "Not Created", Toast.LENGTH_SHORT).show();
+//        }
 
         if (file1.exists()) file1.delete();
         try {
@@ -966,6 +882,59 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
     }
 
+    public void initilizeUI() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("JSON1")) {
+            CheckValues.isFromSavedFrom = true;
+            startGps.setEnabled(false);
+            isGpsTaken=true;
+            previewMap.setEnabled(true);
+            Bundle bundle = intent.getExtras();
+            String jsonToParse = (String) bundle.get("JSON1");
+            imageName = (String) bundle.get("photo");
+            String gpsLocationtoParse = (String) bundle.get("gps");
+
+            Log.e("ChildrenUnderFive", "i-" + imageName);
+
+            if (imageName.equals("no_photo")) {
+            } else {
+                File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), imageName);
+                String path = file1.toString();
+                Toast.makeText(getApplicationContext(), path, Toast.LENGTH_SHORT).show();
+
+                loadImageFromStorage(path);
+
+                addImage();
+            }
+            try {
+                //new adjustment
+                Log.e("ChildrenUnderFive", "" + jsonToParse);
+                parseJson(jsonToParse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            gps = new GPS_TRACKER_FOR_POINT(ChildrenUnderFive.this);
+            gps.canGetLocation();
+            startGps.setEnabled(true);
+
+        }
+    }
+
+    private void loadImageFromStorage(String path) {
+        try {
+            previewImageSite.setVisibility(View.VISIBLE);
+            File f = new File(path);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            previewImageSite.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "invalid path", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
 
     // data convert
     public void convertDataToJson() {
@@ -977,7 +946,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
 //            JSONObject diarroheaJson = new JSONObject();
 //            JSONObject ariJson = new JSONObject();
 
-            diarroheaJson.put("diarrhoea_details",suffered_diarrhoea);
+            diarroheaJson.put("suffered_diarrhoea",suffered_diarrhoea);
             diarroheaJson.put("diarrhoea_refered",reffered_by_sm);
             diarroheaJson.put("diarrhoea_treated_zinc",treated_with_zinc);
 
@@ -1030,6 +999,11 @@ public class ChildrenUnderFive extends AppCompatActivity {
         JSONObject jsonObj = new JSONObject(jsonToParse);
         Log.e("ChildrenUnderFive", "json parse : " + jsonObj.toString());
 
+        finalLat = Double.parseDouble(jsonObj.getString("lat"));
+        finalLong = Double.parseDouble(jsonObj.getString("lon"));
+        LatLng d = new LatLng(finalLat, finalLong);
+        listCf.add(d);
+
 
         visit_date = jsonObj.getString("date");
         visit_time = jsonObj.getString("time");
@@ -1040,25 +1014,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
         child5_vdc_name = jsonObj.getString("name_of_VDC");
         child5_ward_no = jsonObj.getString("ward_no");
 
-        Log.e(TAG, "ChildrenUnderFive: "+" SAMIR  "+ child5_name );
-
-//        diarroheaJson = jsonObj.getJSONObject("diarrhoea");
-//        suffered_diarrhoea = diarroheaJson.getString("diarrhoea_details");
-//        reffered_by_sm = diarroheaJson.getString("diarrhoea_refered");
-//        treated_with_zinc = diarroheaJson.getString("diarrhoea_treated_zinc");
-//
-//        ariJson = jsonObj.getJSONObject("ari");
-//        suffered_ari = ariJson.getString("suffered_ari");
-//        referred_by_sm_ari = ariJson.getString("ari_refered");
-        treated_with_anibiotic = ariJson.getString("ari_treated_antibiotic");
-
-        finalLat = Double.parseDouble(jsonObj.getString("lat"));
-        finalLong = Double.parseDouble(jsonObj.getString("lon"));
-        LatLng d = new LatLng(finalLat, finalLong);
-        listCf.add(d);
-     ;
-
-
+        Log.e(TAG, "ChildrenUnderFive: "+" SAMIR  "+ child5_ward_no +"----location----" +finalLat +" , "+ finalLong);
 
         tvchildren_5_sm_name.setText(child5_sm_name);
         tvchildren_under5_name.setText(child5_name);
@@ -1066,27 +1022,45 @@ public class ChildrenUnderFive extends AppCompatActivity {
         tvchildren_5_ward_no.setText(child5_ward_no);
         tvchildren_5_age.setText(child5_age);
         tvchildren_5_sex.setText(child5_sex);
-        previewImageSite.setImageBitmap(thumbnail);
         tvVisitDate.setText(visit_date);
         tvVisitTime.setText(visit_time);
-//        previewImageSite.setImageBitmap(thumbnail);
 
-//        if(suffered_ari.equals("yes")){
-//            cbSufferedARI.setChecked(true);
-//        } if(referred_by_sm_ari.equals("yes")){
-//            cbRefferedBySM_ARI.setChecked(true);
-//        } if(treated_with_anibiotic.equals("yes")){
-//            cbTreatedWithAntibiotic.setChecked(true);
-//        }
-//
-//        if(suffered_diarrhoea.equals("yes")){
-//            cbSufferedDiarrhoea.setChecked(true);
-//        } if(reffered_by_sm.equals("yes")){
-//            cbReferredBySM.setChecked(true);
-//        }
-//        if(treated_with_zinc.equals("yes")){
-//            cbTreatedWithZinc.setSelected(true);
-//        }
+
+        String dirrhoea = jsonObj.getString("diarrhoea");
+        String ari = jsonObj.getString("ari");
+
+        Log.e(TAG, "parseJson: diarrhoea JSON "+dirrhoea );
+        JSONObject diarrhoeaObj = new JSONObject(dirrhoea);
+        suffered_diarrhoea = diarrhoeaObj.getString("suffered_diarrhoea");
+        reffered_by_sm = diarrhoeaObj.getString("diarrhoea_refered");
+        treated_with_zinc = diarrhoeaObj.getString("diarrhoea_treated_zinc");
+
+        if(suffered_diarrhoea.equals("yes")){
+            cbSufferedDiarrhoea.setChecked(true);
+        }
+        if(reffered_by_sm.equals("yes")){
+            cbReferredBySM.setChecked(true);
+        }
+        if(treated_with_zinc.equals("yes")){
+            cbTreatedWithZinc.setChecked(true);
+        }
+
+        JSONObject ariObj = new JSONObject(ari);
+        Log.e(TAG, "parseJson: ari JSON "+ari );
+        suffered_ari = ariObj.getString("suffered_ari");
+        referred_by_sm_ari = ariObj.getString("ari_refered");
+        treated_with_anibiotic = ariObj.getString("ari_treated_antibiotic");
+
+
+        if(suffered_ari.equals("yes")){
+            cbSufferedARI.setChecked(true);
+        } if(referred_by_sm_ari.equals("yes")){
+            cbRefferedBySM_ARI.setChecked(true);
+        } if(treated_with_anibiotic.equals("yes")){
+            cbTreatedWithAntibiotic.setChecked(true);
+        }
+
+
 
     }
 
@@ -1150,11 +1124,11 @@ public class ChildrenUnderFive extends AppCompatActivity {
                 String[] data = new String[]{"4", "Children Under Five", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                dataBaseConserVationTracking.open();
-                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                dataBaseNepalPublicHealth.open();
+                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseConserVationTracking.close();
+                dataBaseNepalPublicHealth.close();
 
 
             }
@@ -1208,5 +1182,38 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        final Dialog showDialog = new Dialog(context);
+        showDialog.setContentView(R.layout.close_dialog_english);
+        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+        showDialog.setTitle("WARNING !!!");
+        showDialog.setCancelable(false);
+        showDialog.show();
+        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog.dismiss();
+                finish();
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog.dismiss();
+            }
+        });
+    }
 
 }

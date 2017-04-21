@@ -85,7 +85,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseConserVationTracking;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -366,15 +366,15 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                                     String[] data = new String[]{"3", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                                    dataBaseConserVationTracking.open();
-                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                                    dataBaseNepalPublicHealth.open();
+                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseConserVationTracking.close();
+//                                    dataBaseNepalPublicHealth.close();
                                     Toast.makeText(ChildrenUnderTwo.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -1139,11 +1139,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 String[] data = new String[]{"3", "Children Under Two", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                dataBaseConserVationTracking.open();
-                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                dataBaseNepalPublicHealth.open();
+                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseConserVationTracking.close();
+                dataBaseNepalPublicHealth.close();
 
 
 

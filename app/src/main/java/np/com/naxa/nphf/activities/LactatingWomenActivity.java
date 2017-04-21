@@ -85,7 +85,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseConserVationTracking;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -447,15 +447,15 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                                     String[] data = new String[]{"2", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                                    dataBaseConserVationTracking.open();
-                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                                    dataBaseNepalPublicHealth.open();
+                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseConserVationTracking.close();
+//                                    dataBaseNepalPublicHealth.close();
                                     Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -714,7 +714,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         }
     }
 
-
     private void saveToExternalSorage(Bitmap thumbnail) {
         // TODO Auto-generated method stub
         //String merocinema="Mero Cinema";
@@ -858,7 +857,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("birth_attended_by", birth_attended_by);
             header.put("recieved_active_management_of_third_stage_laour", third_labour);
             header.put("recieved_oxytocin_after_delivery", oxytocin_received);
-            header.put("neonates_with_irth_asphyxia", neonates_asphysia);
+            header.put("neonates_with_birth_asphyxia", neonates_asphysia);
             header.put("PNC_visit", pnc_visit);
             header.put("received_45_days_supply_of_iron", fourtyfivedays_iron);
             header.put("vit_A", vitaminA);
@@ -908,19 +907,21 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         sm_name = jsonObj.getString("name_of_SM");
         visit_date = jsonObj.getString("date");
-
         visit_time = jsonObj.getString("time");
+
         lactating_women_name = jsonObj.getString("name_of_lactating_woman");
         vdc_name = jsonObj.getString("name_of_vdc");
         ward_no = jsonObj.getString("ward_no");
-
         age = jsonObj.getString("age");
+
         ethnicity = jsonObj.getString("ethnicity");
         deliver_place = jsonObj.getString("delivery_at");
         birth_attended_by = jsonObj.getString("birth_attended_by");
+
         third_labour = jsonObj.getString("recieved_active_management_of_third_stage_laour");
         oxytocin_received = jsonObj.getString("recieved_oxytocin_after_delivery");
-        neonates_asphysia = jsonObj.getString("neonates_with_irth_asphyxia");
+        neonates_asphysia = jsonObj.getString("neonates_with_birth_asphyxia");
+
         pnc_visit = jsonObj.getString("PNC_visit");
         fourtyfivedays_iron = jsonObj.getString("received_45_days_supply_of_iron");
         vitaminA = jsonObj.getString("vit_A");
@@ -930,7 +931,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         encodedImage = jsonObj.getString("image");
 
-        Log.e("Lactating Women ", "Parsed data " + sm_name +"    " + ward_no +"--- Location ---"+ finalLat +",  "+ finalLong +" listcf"+listCf);
+        Log.e("Lactating Women ", "Parsed data " + neonates_asphysia +" finalLat "+ finalLong +" listcf"+listCf);
+
+
 
 
 
@@ -1038,11 +1041,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 String[] data = new String[]{"2", "Recording Tool For Lactating Women", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                dataBaseConserVationTracking.open();
-                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                dataBaseNepalPublicHealth.open();
+                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseConserVationTracking.close();
+                dataBaseNepalPublicHealth.close();
 
             }
         }

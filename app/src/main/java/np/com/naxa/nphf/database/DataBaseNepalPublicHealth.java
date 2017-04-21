@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Samir on 4/4/2017.
  */
-public class DataBaseConserVationTracking extends SQLiteOpenHelper {
+public class DataBaseNepalPublicHealth extends SQLiteOpenHelper {
         private final static String db_name = "_db_digitalNepal.db";
         private final static int db_version = (int) 1;
 
@@ -36,7 +36,7 @@ public class DataBaseConserVationTracking extends SQLiteOpenHelper {
         long id;
         Context con;
 
-    public DataBaseConserVationTracking(Context context) {
+    public DataBaseNepalPublicHealth(Context context) {
         super(context, db_name, null, db_version);
         this.con = context;
         // TODO Auto-generated constructor stub

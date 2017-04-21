@@ -32,7 +32,7 @@ import np.com.naxa.nphf.activities.PregnentWomenActivity;
 import np.com.naxa.nphf.adapter.GridSpacingItemDecorator;
 import np.com.naxa.nphf.adapter.RecyclerItemClickListener;
 import np.com.naxa.nphf.adapter.Sent_Forms_Adapter;
-import np.com.naxa.nphf.database.DataBaseConserVationTracking;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.model.SavedFormParameters;
 
@@ -134,11 +134,11 @@ public class Fragment_Sent_Forms extends Fragment {
                             // TODO Auto-generated method stub
 
 
-                            DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(getActivity());
-                            dataBaseConserVationTracking.open();
-                            int id = (int) dataBaseConserVationTracking.updateTable_DeleteFlag(resultCur.get(position).dbId);
+                            DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(getActivity());
+                            dataBaseNepalPublicHealth.open();
+                            int id = (int) dataBaseNepalPublicHealth.updateTable_DeleteFlag(resultCur.get(position).dbId);
 //                Toast.makeText(getActivity() ,resultCur.get(position).date+ " Long Clicked "+id , Toast.LENGTH_SHORT ).show();
-                            dataBaseConserVationTracking.close();
+                            dataBaseNepalPublicHealth.close();
                             showDialog.dismiss();
                             createList();
                         }
@@ -182,11 +182,11 @@ public class Fragment_Sent_Forms extends Fragment {
                 // TODO Auto-generated method stub
 
 
-                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(getActivity());
-                dataBaseConserVationTracking.open();
-                int id = (int) dataBaseConserVationTracking.updateTable_DeleteFlag(resultCur.get(position).dbId);
+                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(getActivity());
+                dataBaseNepalPublicHealth.open();
+                int id = (int) dataBaseNepalPublicHealth.updateTable_DeleteFlag(resultCur.get(position).dbId);
 //                Toast.makeText(getActivity() ,resultCur.get(position).date+ " Long Clicked "+id , Toast.LENGTH_SHORT ).show();
-                dataBaseConserVationTracking.close();
+                dataBaseNepalPublicHealth.close();
                 showDialog.dismiss();
                 createList();
             }
@@ -254,16 +254,16 @@ public class Fragment_Sent_Forms extends Fragment {
 //        Single_String_Title newData1 = new Single_String_Title();
 //        newData1.title = "CF Detail";
 //        resultCur.add(newData1);
-        DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(getActivity());
-        dataBaseConserVationTracking.open();
-        boolean isTableEmpty = dataBaseConserVationTracking.is_TABLE_MAIN_Empty();
+        DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(getActivity());
+        dataBaseNepalPublicHealth.open();
+        boolean isTableEmpty = dataBaseNepalPublicHealth.is_TABLE_MAIN_Empty();
         if(isTableEmpty){
             Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Saved ");
         }else{
-            int count = dataBaseConserVationTracking.returnTotalNoOf_TABLE_MAIN_NUM();
+            int count = dataBaseNepalPublicHealth.returnTotalNoOf_TABLE_MAIN_NUM();
             for(int i=count ; i>=1 ; i--) {
-//                String[] data = dataBaseConserVationTracking.return_Data_TABLE_MAIN(i);
-                String[] data = dataBaseConserVationTracking.return_Data_ID(i);
+//                String[] data = dataBaseNepalPublicHealth.return_Data_TABLE_MAIN(i);
+                String[] data = dataBaseNepalPublicHealth.return_Data_ID(i);
                 SavedFormParameters savedData = new SavedFormParameters();
                 Log.e("DATA" , "08 "+data[8] +" one: "+ data[1]+" two: "+data[2]);
 //                savedData.dbId = data[0];

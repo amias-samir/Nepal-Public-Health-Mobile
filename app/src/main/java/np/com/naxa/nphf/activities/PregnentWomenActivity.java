@@ -85,7 +85,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseConserVationTracking;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -106,7 +106,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
-    String imagePath, encodedImage = " ", imageName = "pregnent_women";
+    String imagePath, encodedImage = "", imageName = "no_photo";
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
@@ -411,15 +411,15 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                                     String[] data = new String[]{"1", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                                    dataBaseConserVationTracking.open();
-                                    long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                                    dataBaseNepalPublicHealth.open();
+                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseConserVationTracking.close();
+//                                    dataBaseNepalPublicHealth.close();
                                     Toast.makeText(PregnentWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -793,7 +793,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             header.put("Td_+", td_plus);
             header.put("Vit_A", vit_a);
             header.put("lived_180_day", received_iron);
-            header.put("garvawati_het_recieved", garvawati_bhet);
+            header.put("garvawati_bhet_recieved", garvawati_bhet);
             header.put("did_FCHVs_helped_her_to_prepare_birth_preparedness_plan", fchv_help);
             header.put("date_of_delivery", delivery_date);
             header.put("contact_no_of_family_member", contact_no);
@@ -808,7 +808,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             e.printStackTrace();
         }
 
-        Log.d("Samir", jsonToSend);
+        Log.e("Samir", jsonToSend);
 
 //        sendDatToserver();
     }
@@ -842,11 +842,12 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         anc_visit = jsonObj.getString("ANC_visit");
         visit_date = jsonObj.getString("date");
         visit_time = jsonObj.getString("time");
+
         td = jsonObj.getString("Td");
         td_plus = jsonObj.getString("Td_+");
         vit_a = jsonObj.getString("Vit_A");
         received_iron = jsonObj.getString("lived_180_day");
-        garvawati_bhet = jsonObj.getString("garvawati_het_recieved");
+        garvawati_bhet = jsonObj.getString("garvawati_bhet_recieved");
         fchv_help = jsonObj.getString("did_FCHVs_helped_her_to_prepare_birth_preparedness_plan");
         delivery_date = jsonObj.getString("date_of_delivery");
         contact_no = jsonObj.getString("contact_no_of_family_member");
@@ -856,8 +857,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         listCf.add(d);
         encodedImage = jsonObj.getString("image");
 
-
-        Log.e("Pregnent Women", "Parsed data " + pregenent_women_name + anc_visit + contact_no);
+        Log.e("Pregnent Women", "Parsed data " + pregenent_women_name + anc_visit );
 
         tvPregnentWomenName.setText(pregenent_women_name);
         tvVDCName.setText(vdc_name);
@@ -959,11 +959,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 String[] data = new String[]{"1", "Recording Tool For Pregnent Women", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseConserVationTracking dataBaseConserVationTracking = new DataBaseConserVationTracking(context);
-                dataBaseConserVationTracking.open();
-                long id = dataBaseConserVationTracking.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
+                dataBaseNepalPublicHealth.open();
+                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseConserVationTracking.close();
+                dataBaseNepalPublicHealth.close();
 
 
             }
