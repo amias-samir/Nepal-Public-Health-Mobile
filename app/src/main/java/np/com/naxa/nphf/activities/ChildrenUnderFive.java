@@ -30,6 +30,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -98,8 +99,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
     private static final String TAG = "chidren_under_five";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner spinner_diarrhoea_details, spinner_ari_details;
-    ArrayAdapter diarrhoea_details_adpt, ari_details_adpt;
     Button send, save, startGps, previewMap;
     ProgressDialog children_5_mProgressDlg;
     Context context = this;
@@ -109,24 +108,21 @@ public class ChildrenUnderFive extends AppCompatActivity {
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
-    double initLat;
     double finalLat;
-    double initLong;
     double finalLong;
     ImageView previewImageSite;
     Bitmap thumbnail;
-    PendingIntent pendingIntent;
-    BroadcastReceiver mReceiver;
-    AlarmManager alarmManager;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
     List<Location> gpslocation = new ArrayList<>();
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
     AutoCompleteTextView tvchildren_under5_name, tvchild_under5_vdc_name, tvchildren_5_ward_no,
-            tvchildren_5_age, tvchildren_5_sex, tvchildren_5_sm_name,  tvDiarrohea;
+            tvchildren_5_age, tvchildren_5_sex, tvchildren_5_sm_name, tvDiarrohea;
     CheckBox cbSufferedDiarrhoea, cbTreatedWithZinc, cbReferredBySM, cbSufferedARI, cbTreatedWithAntibiotic, cbRefferedBySM_ARI;
-    EditText tvVisitDate, tvVisitTime ;
+    EditText tvVisitDate, tvVisitTime;
+    CardView cv_Send_Save;
+
 
 
     String child5_name, child5_vdc_name, child5_ward_no, child5_age, child5_sex, child5_sm_name,
@@ -183,6 +179,8 @@ public class ChildrenUnderFive extends AppCompatActivity {
         previewMap.setEnabled(false);
         send = (Button) findViewById(R.id.children_5_send);
         save = (Button) findViewById(R.id.children_5_save);
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
 
         cbSufferedDiarrhoea = (CheckBox) findViewById(R.id.children_five_suffered_diarrhoea);
         cbTreatedWithZinc = (CheckBox) findViewById(R.id.children_five_treated_with_zinc);
@@ -247,15 +245,13 @@ public class ChildrenUnderFive extends AppCompatActivity {
                         }
                         if (cbTreatedWithZinc.isChecked() == true) {
                             treated_with_zinc = "yes";
-                        }
-                        else {
+                        } else {
                             treated_with_zinc = "no";
 
                         }
                         if (cbReferredBySM.isChecked() == true) {
                             reffered_by_sm = "yes";
-                        }
-                        else {
+                        } else {
                             reffered_by_sm = "no";
                         }
                         //==================================ARI details ========================================== //
@@ -263,20 +259,18 @@ public class ChildrenUnderFive extends AppCompatActivity {
                             Log.e("cbSufferedARI", " ");
                             suffered_ari = "yes";
                         } else {
-                            suffered_ari =  "no";
+                            suffered_ari = "no";
 
                         }
                         if (cbTreatedWithAntibiotic.isChecked() == true) {
                             treated_with_anibiotic = "yes";
-                        }
-                        else {
+                        } else {
                             treated_with_anibiotic = "no";
 
                         }
                         if (cbRefferedBySM_ARI.isChecked() == true) {
                             referred_by_sm_ari = "yes";
-                        }
-                        else {
+                        } else {
                             referred_by_sm_ari = "no";
                         }
                         //========================================================================================//
@@ -438,39 +432,35 @@ public class ChildrenUnderFive extends AppCompatActivity {
                 }
                 if (cbTreatedWithZinc.isChecked() == true) {
                     treated_with_zinc = "yes";
-                }
-                else {
+                } else {
                     treated_with_zinc = "no";
 
                 }
                 if (cbReferredBySM.isChecked() == true) {
                     reffered_by_sm = "yes";
-                }
-                else {
+                } else {
                     reffered_by_sm = "no";
                 }
-     //==================================ARI details ========================================== //
+                //==================================ARI details ========================================== //
                 if (cbSufferedARI.isChecked() == true) {
                     Log.e("cbSufferedARI", " ");
                     suffered_ari = "yes";
                 } else {
-                    suffered_ari =  "no";
+                    suffered_ari = "no";
 
                 }
                 if (cbTreatedWithAntibiotic.isChecked() == true) {
                     treated_with_anibiotic = "yes";
-                }
-                else {
+                } else {
                     treated_with_anibiotic = "no";
 
                 }
                 if (cbRefferedBySM_ARI.isChecked() == true) {
                     referred_by_sm_ari = "yes";
-                }
-                else {
+                } else {
                     referred_by_sm_ari = "no";
                 }
-     //========================================================================================//
+                //========================================================================================//
 
 
                 if (networkInfo != null && networkInfo.isConnected()) {
@@ -526,8 +516,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
 
     }
-
-
 
 
     private void askForPermission(String permission, Integer requestCode) {
@@ -885,14 +873,39 @@ public class ChildrenUnderFive extends AppCompatActivity {
     public void initilizeUI() {
         Intent intent = getIntent();
         if (intent.hasExtra("JSON1")) {
+
+
             CheckValues.isFromSavedFrom = true;
             startGps.setEnabled(false);
-            isGpsTaken=true;
+            isGpsTaken = true;
             previewMap.setEnabled(true);
             Bundle bundle = intent.getExtras();
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            String sent_Status = (String) bundle.get("sent_Status");
+            Log.d(TAG, "initilizeUI: "+sent_Status);
+
+            if (sent_Status.equals("Sent")) {
+                tvchildren_under5_name.setEnabled(false);
+                tvchild_under5_vdc_name.setEnabled(false);
+                tvchildren_5_ward_no.setEnabled(false);
+                tvchildren_5_age.setEnabled(false);
+                tvchildren_5_sex.setEnabled(false);
+                tvchildren_5_sm_name.setEnabled(false);
+                cbSufferedDiarrhoea.setEnabled(false);
+                cbTreatedWithZinc.setEnabled(false);
+                cbReferredBySM.setEnabled(false);
+                cbSufferedARI.setEnabled(false);
+                cbTreatedWithAntibiotic.setEnabled(false);
+                cbRefferedBySM_ARI.setEnabled(false);
+                tvVisitDate.setEnabled(false);
+                tvVisitTime.setEnabled(false);
+                photo.setEnabled(false);
+                startGps.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+
+            }
 
             Log.e("ChildrenUnderFive", "i-" + imageName);
 
@@ -946,13 +959,13 @@ public class ChildrenUnderFive extends AppCompatActivity {
 //            JSONObject diarroheaJson = new JSONObject();
 //            JSONObject ariJson = new JSONObject();
 
-            diarroheaJson.put("suffered_diarrhoea",suffered_diarrhoea);
-            diarroheaJson.put("diarrhoea_refered",reffered_by_sm);
-            diarroheaJson.put("diarrhoea_treated_zinc",treated_with_zinc);
+            diarroheaJson.put("suffered_diarrhoea", suffered_diarrhoea);
+            diarroheaJson.put("diarrhoea_refered", reffered_by_sm);
+            diarroheaJson.put("diarrhoea_treated_zinc", treated_with_zinc);
 
-            ariJson.put("suffered_ari",suffered_ari);
-            ariJson.put("ari_refered",referred_by_sm_ari);
-            ariJson.put("ari_treated_antibiotic",treated_with_anibiotic);
+            ariJson.put("suffered_ari", suffered_ari);
+            ariJson.put("ari_refered", referred_by_sm_ari);
+            ariJson.put("ari_treated_antibiotic", treated_with_anibiotic);
 
             header.put("tablename", "recording_tool_for_children_under_five");
             header.put("name_of_SM", child5_sm_name);
@@ -971,13 +984,12 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
 
             jsonToSend = header.toString();
-            Log.e(TAG, "convertDataToJson: "+jsonToSend );
+            Log.e(TAG, "convertDataToJson: " + jsonToSend);
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -1014,7 +1026,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
         child5_vdc_name = jsonObj.getString("name_of_VDC");
         child5_ward_no = jsonObj.getString("ward_no");
 
-        Log.e(TAG, "ChildrenUnderFive: "+" SAMIR  "+ child5_ward_no +"----location----" +finalLat +" , "+ finalLong);
+        Log.e(TAG, "ChildrenUnderFive: " + " SAMIR  " + child5_ward_no + "----location----" + finalLat + " , " + finalLong);
 
         tvchildren_5_sm_name.setText(child5_sm_name);
         tvchildren_under5_name.setText(child5_name);
@@ -1029,37 +1041,38 @@ public class ChildrenUnderFive extends AppCompatActivity {
         String dirrhoea = jsonObj.getString("diarrhoea");
         String ari = jsonObj.getString("ari");
 
-        Log.e(TAG, "parseJson: diarrhoea JSON "+dirrhoea );
+        Log.e(TAG, "parseJson: diarrhoea JSON " + dirrhoea);
         JSONObject diarrhoeaObj = new JSONObject(dirrhoea);
         suffered_diarrhoea = diarrhoeaObj.getString("suffered_diarrhoea");
         reffered_by_sm = diarrhoeaObj.getString("diarrhoea_refered");
         treated_with_zinc = diarrhoeaObj.getString("diarrhoea_treated_zinc");
 
-        if(suffered_diarrhoea.equals("yes")){
+        if (suffered_diarrhoea.equals("yes")) {
             cbSufferedDiarrhoea.setChecked(true);
         }
-        if(reffered_by_sm.equals("yes")){
+        if (reffered_by_sm.equals("yes")) {
             cbReferredBySM.setChecked(true);
         }
-        if(treated_with_zinc.equals("yes")){
+        if (treated_with_zinc.equals("yes")) {
             cbTreatedWithZinc.setChecked(true);
         }
 
         JSONObject ariObj = new JSONObject(ari);
-        Log.e(TAG, "parseJson: ari JSON "+ari );
+        Log.e(TAG, "parseJson: ari JSON " + ari);
         suffered_ari = ariObj.getString("suffered_ari");
         referred_by_sm_ari = ariObj.getString("ari_refered");
         treated_with_anibiotic = ariObj.getString("ari_treated_antibiotic");
 
 
-        if(suffered_ari.equals("yes")){
+        if (suffered_ari.equals("yes")) {
             cbSufferedARI.setChecked(true);
-        } if(referred_by_sm_ari.equals("yes")){
+        }
+        if (referred_by_sm_ari.equals("yes")) {
             cbRefferedBySM_ARI.setChecked(true);
-        } if(treated_with_anibiotic.equals("yes")){
+        }
+        if (treated_with_anibiotic.equals("yes")) {
             cbTreatedWithAntibiotic.setChecked(true);
         }
-
 
 
     }
@@ -1082,7 +1095,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
 
-            if(children_5_mProgressDlg != null && children_5_mProgressDlg.isShowing()){
+            if (children_5_mProgressDlg != null && children_5_mProgressDlg.isShowing()) {
                 children_5_mProgressDlg.dismiss();
             }
 
@@ -1091,7 +1104,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
             try {
                 jsonObject = new JSONObject(result);
                 dataSentStatus = jsonObject.getString("status");
-                Log.e(TAG, "SAMIR "+ dataSentStatus );
+                Log.e(TAG, "SAMIR " + dataSentStatus);
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#3F51B5</color>
-    <color name="primary_dark">#303F9F</color>
-    <color name="primary_darker">#030c91</color>
-    <color name="primary_light">#949cd6</color>
+    <!--<color name="primary">#3F51B5</color>-->
+    <!--<color name="primary_dark">#303F9F</color>-->
+    <!--<color name="primary_darker">#030c91</color>-->
+    <!--<color name="primary_light">#949cd6</color>-->
+
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#0288D1</color>
+    <color name="primary_darker">#0376b6</color>
+    <color name="primary_light">#fcfafa</color>
     <!--<color name="accent">#9E9E9E</color>-->
     <color name="accent">#000000</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#212121</color>
+
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
 

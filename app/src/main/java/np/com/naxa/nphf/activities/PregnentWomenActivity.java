@@ -30,6 +30,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -126,6 +127,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
     AutoCompleteTextView tvPregnentWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
     EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
+    CardView cv_Send_Save;
+
 
     String pregenent_women_name, vdc_name, ward_no, ethnicity, age, lmp, edd, visit_date, visit_time, delivery_date, contact_no, sm_name,
             anc_visit, td, td_plus, vit_a, received_iron, garvawati_bhet, fchv_help, img;
@@ -188,6 +191,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         tvVisitDate = (EditText) findViewById(R.id.pregnent_women_visit_date);
         tvVisitTime = (EditText) findViewById(R.id.pregnent_women_visit_time);
         tvDeliveryDate = (EditText) findViewById(R.id.pregnent_women_delivery_date);
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
         setCurrentDateOnView();
         addListenerOnButton();
         setCurrentTimeOnView();
@@ -507,8 +511,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     }
 
 
-
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -720,12 +722,40 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         if (intent.hasExtra("JSON1")) {
             CheckValues.isFromSavedFrom = true;
             startGps.setEnabled(false);
-            isGpsTaken=true;
+            isGpsTaken = true;
             previewMap.setEnabled(true);
             Bundle bundle = intent.getExtras();
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            String sent_Status = (String) bundle.get("sent_Status");
+            Log.d(TAG, "initilizeUI: "+sent_Status);
+
+            if (sent_Status.equals("Sent")) {
+                tvPregnentWomenName.setEnabled(false);
+                tvVDCName.setEnabled(false);
+                tvWardNo.setEnabled(false);
+                tvEthnicity.setEnabled(false);
+                tvAge.setEnabled(false);
+                tvLMP.setEnabled(false);
+                tvEDD.setEnabled(false);
+                tvContactNo.setEnabled(false);
+                tvSMName.setEnabled(false);
+                tvVisitDate.setEnabled(false);
+                tvVisitTime.setEnabled(false);
+                tvDeliveryDate.setEnabled(false);
+                spinnerANCVisit.setEnabled(false);
+                spinnerTD.setEnabled(false);
+                spinnerTDPlus.setEnabled(false);
+                spinnerVitA.setEnabled(false);
+                spinnerReceivedIron.setEnabled(false);
+                spinnerGravawatiBhet.setEnabled(false);
+                spinnerFCHVsHelp.setEnabled(false);
+                photo.setEnabled(false);
+                startGps.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+
+            }
 
             Log.e("PregnentWomen", "i-" + imageName);
 
@@ -857,7 +887,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         listCf.add(d);
         encodedImage = jsonObj.getString("image");
 
-        Log.e("Pregnent Women", "Parsed data " + pregenent_women_name + anc_visit );
+        Log.e("Pregnent Women", "Parsed data " + pregenent_women_name + anc_visit);
 
         tvPregnentWomenName.setText(pregenent_women_name);
         tvVDCName.setText(vdc_name);
@@ -914,7 +944,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
 
-            if(mProgressDlg != null && mProgressDlg.isShowing()){
+            if (mProgressDlg != null && mProgressDlg.isShowing()) {
                 mProgressDlg.dismiss();
             }
 

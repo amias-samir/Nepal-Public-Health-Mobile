@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_children_two"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="np.com.naxa.nphf.activities.ChildrenUnderTwo">
+
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp">
+
+
+        <!--Children under two details-->
+        <LinearLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/toolbar"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <!--VDC name-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/success_story_vdc_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name of VDC"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!--VDC name-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/success_story_tool_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name of Tool"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/black" />
+                    </android.support.design.widget.TextInputLayout>
+                    <!--VDC name-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/success_story_respondents_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name of Respondents"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--get Gps Location House hold-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/layout_margin"
+                        android:padding="5dp">
+
+                        <Button
+                            android:id="@+id/success_story_GpsStart"
+                            android:layout_width="212dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/button_pressed_hwc_light"
+                            android:gravity="center"
+                            android:text="Get gps location"
+                            android:textColor="#ffffff" />
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/success_story_preview_map"
+                        android:layout_width="212dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:text="Preview Map"
+                        android:textColor="#ffffff" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!--Photograph of the site, victim and wild animal-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/layout_margin"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/peer_group_PhotographSiteLable"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Photograph"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <ImageButton
+                        android:id="@+id/success_story_photo_site"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignBottom="@+id/peer_group_PhotographSiteLable"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/ic_photo"
+                        android:src="@drawable/button_pressed_transparent" />
+
+                    <ImageView
+                        android:id="@+id/success_story_PhotographSiteimageViewPreview"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_below="@+id/peer_group_PhotographSiteLable"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- cardview dscussed topic and participants-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <LinearLayout
+                    android:id="@+id/household_visit_pregnent_women_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin= "20dp">
+
+
+
+                    <!--male/female participants -->
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        card_view:cardBackgroundColor="@color/transparent"
+                        card_view:cardElevation="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center"
+                                android:textAlignment="center"
+                                android:paddingLeft="5dp"
+                                android:text="TOPICS"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/monsoon"
+                                android:id="@+id/peer_group_participants_lbl" />
+
+                            <!--ANC-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_anc"
+                                    android:text="ANC"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--PNC-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_pnc"
+                                    android:text="PNC"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--institutional delivery-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_institutional_delivery"
+                                    android:text="Institutional Delivery"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--New born care-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_new_born_care"
+                                    android:text="New Born Care"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--breast feeding-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_breast_feeding"
+                                    android:text="Breast Feeding"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--complementry feeding-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_complementry_feeding"
+                                    android:text="Complementry Feeding"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--hygiene related-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_hygiene_related"
+                                    android:text="Hygiene related"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--mother group related-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_mother_group_related"
+                                    android:text="Mother Group Related"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--refer -->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_refer"
+                                    android:text="Refer"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--sexual and reproductive-->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_sexual_and_reproductive"
+                                    android:text="Sexual And Reproductive"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+                            <!--peer group -->
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/success_story_peer_group"
+                                    android:text="Peer Group"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true" />
+
+                            </RelativeLayout>
+
+
+                            <!--Discussed Topic-->
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginTop="20dp">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/success_story_topics"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Topics"
+                                    android:inputType="textPersonName|textMultiLine"
+                                    android:textColor="@color/black" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--save / send-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_SaveSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/layout_margin"
+                    android:padding="5dp">
+
+                    <Button
+                        android:id="@+id/success_story_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:text="Save"
+                        android:textColor="#ffffff" />
+
+                    <Button
+                        android:id="@+id/success_story_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:text="Send"
+                        android:textColor="#FFFFFF" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

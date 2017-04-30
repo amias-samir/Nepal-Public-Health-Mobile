@@ -19,17 +19,22 @@ import android.widget.RelativeLayout;
 
 import np.com.naxa.nphf.activities.ChildrenUnderFive;
 import np.com.naxa.nphf.activities.ChildrenUnderTwo;
+import np.com.naxa.nphf.activities.HouseholdVisitActivity;
 import np.com.naxa.nphf.activities.LactatingWomenActivity;
+import np.com.naxa.nphf.activities.MonthlyMGMeetingActivity;
+import np.com.naxa.nphf.activities.PeerGroupActivity;
 import np.com.naxa.nphf.activities.PregnentWomenActivity;
 import np.com.naxa.nphf.activities.SavedFormsActivity;
+import np.com.naxa.nphf.activities.SuccessStoryActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String TAG = "MainActivity";
 
     Toolbar toolbar ;
-    CardView cvPregnentWomen, cvLocatingWomen, cvChildUnderTwo, cvChildUnderFive;
-    RelativeLayout rlPregnentWomen, rlLocatingWomen, rlChildunderTwo, rlChildUnderFive, rlSavedForms;
+    CardView cvPregnentWomen, cvLocatingWomen, cvChildUnderTwo, cvChildUnderFive, cvHouseholdVisit;
+    RelativeLayout rlPregnentWomen, rlLocatingWomen, rlChildunderTwo, rlChildUnderFive, rlSavedForms, rlHouseholdVisit, rlPeerGroup,
+            rlMonthlyMeeting, rlSuccessStory;
 
     //Permission for higher then lollipop devices
     private int MULTIPLE_PERMISSION_CODE = 22;
@@ -53,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rlChildunderTwo = (RelativeLayout) findViewById(R.id.top_layout__under_2yrs);
         rlChildUnderFive = (RelativeLayout) findViewById(R.id.top_layout_under_5yrs);
         rlSavedForms = (RelativeLayout) findViewById(R.id.top_layout_saved_forms);
+        rlHouseholdVisit = (RelativeLayout) findViewById(R.id.top_layout_household_visit);
+        rlPeerGroup = (RelativeLayout) findViewById(R.id.top_layout_peer_group);
+        rlMonthlyMeeting = (RelativeLayout) findViewById(R.id.top_layout_monthly_meeting);
+        rlSuccessStory = (RelativeLayout) findViewById(R.id.top_layout_success_story);
 
         cvPregnentWomen.setOnClickListener( this);
         cvPregnentWomen.setOnClickListener(this);
@@ -63,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rlChildUnderFive.setOnClickListener(this);
         rlChildunderTwo.setOnClickListener(this);
         rlSavedForms.setOnClickListener(this);
+        rlHouseholdVisit.setOnClickListener(this);
+        rlPeerGroup.setOnClickListener(this);
+        rlMonthlyMeeting.setOnClickListener(this);
+        rlSuccessStory.setOnClickListener(this);
 
 
         try {
@@ -85,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-//        int id = v.getId();
-//        Log.e(TAG, "onClick: "+ id );
         switch (v.getId()){
             case (R.id.top_layout_pregnent_women):
                 Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
@@ -95,28 +106,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case (R.id.top_layout_locating):
-                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
                 Intent intent1 = new Intent(MainActivity.this, LactatingWomenActivity.class);
                 startActivity(intent1);
 
                 break;
             case  (R.id.top_layout__under_2yrs):
-                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
                 Intent intent2 = new Intent(MainActivity.this, ChildrenUnderTwo.class);
                 startActivity(intent2);
                 break;
 
             case  (R.id.top_layout_under_5yrs):
-                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
                 Intent intent3 = new Intent(MainActivity.this, ChildrenUnderFive.class);
                 startActivity(intent3);
 
                 break;
 
-            case  (R.id.top_layout_saved_forms):
-                Log.e(TAG, "onClick: "+ "card_view_pregnent_women" );
-                Intent intent4 = new Intent(MainActivity.this, SavedFormsActivity.class);
+            case  (R.id.top_layout_household_visit):
+                Intent intent4 = new Intent(MainActivity.this, HouseholdVisitActivity.class);
                 startActivity(intent4);
+
+                break;
+
+            case  (R.id.top_layout_saved_forms):
+                Intent intent5 = new Intent(MainActivity.this, SavedFormsActivity.class);
+                startActivity(intent5);
+
+                break;
+
+            case  (R.id.top_layout_peer_group):
+                Intent intent6 = new Intent(MainActivity.this, PeerGroupActivity.class);
+                startActivity(intent6);
+
+                break;
+
+            case  (R.id.top_layout_monthly_meeting):
+                Intent intent7 = new Intent(MainActivity.this, MonthlyMGMeetingActivity.class);
+                startActivity(intent7);
+
+                break;
+
+            case  (R.id.top_layout_success_story):
+                Intent intent8 = new Intent(MainActivity.this, SuccessStoryActivity.class);
+                startActivity(intent8);
 
                 break;
         }

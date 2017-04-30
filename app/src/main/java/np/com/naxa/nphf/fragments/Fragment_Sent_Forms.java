@@ -27,8 +27,12 @@ import java.util.List;
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.activities.ChildrenUnderFive;
 import np.com.naxa.nphf.activities.ChildrenUnderTwo;
+import np.com.naxa.nphf.activities.HouseholdVisitActivity;
 import np.com.naxa.nphf.activities.LactatingWomenActivity;
+import np.com.naxa.nphf.activities.MonthlyMGMeetingActivity;
+import np.com.naxa.nphf.activities.PeerGroupActivity;
 import np.com.naxa.nphf.activities.PregnentWomenActivity;
+import np.com.naxa.nphf.activities.SuccessStoryActivity;
 import np.com.naxa.nphf.adapter.GridSpacingItemDecorator;
 import np.com.naxa.nphf.adapter.RecyclerItemClickListener;
 import np.com.naxa.nphf.adapter.Sent_Forms_Adapter;
@@ -109,7 +113,8 @@ public class Fragment_Sent_Forms extends Fragment {
                     String jSon = resultCur.get(position).jSON;
                     String photo = resultCur.get(position).photo;
                     String gps = resultCur.get(position).gps;
-                    loadForm(id, jSon, photo, gps);
+                    String sent_Status = resultCur.get(position).status;
+                    loadForm(id, jSon, photo, gps, sent_Status);
 
                 } else if (items[item] == "Delete") {
                     DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
@@ -202,13 +207,14 @@ public class Fragment_Sent_Forms extends Fragment {
 
     }
 
-    public void loadForm(String formId, String jsonData , String photo , String gps){
+    public void loadForm(String formId, String jsonData , String photo , String gps, String status){
         switch (formId){
             case "1" :
                 Intent intent1 = new Intent(getActivity(), PregnentWomenActivity.class);
                 intent1.putExtra("JSON1", jsonData);
                 intent1.putExtra("photo" , photo);
                 intent1.putExtra("gps" , gps) ;
+                intent1.putExtra("sent_Status", status);
                 startActivity(intent1);
                 break;
 
@@ -217,6 +223,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent2.putExtra("JSON1", jsonData);
                 intent2.putExtra("photo" , photo);
                 intent2.putExtra("gps" , gps) ;
+                intent2.putExtra("sent_Status", status);
                 startActivity(intent2);
                 break;
 
@@ -225,6 +232,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent3.putExtra("JSON1", jsonData);
                 intent3.putExtra("photo" , photo);
                 intent3.putExtra("gps" , gps) ;
+                intent3.putExtra("sent_Status", status);
                 startActivity(intent3);
                 break;
 
@@ -233,8 +241,46 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent4.putExtra("JSON1", jsonData);
                 intent4.putExtra("photo" , photo);
                 intent4.putExtra("gps" , gps) ;
+                intent4.putExtra("sent_Status", status);
                 startActivity(intent4);
                 break;
+
+            case "5" :
+                Intent intent5 = new Intent(getActivity(), HouseholdVisitActivity.class);
+                intent5.putExtra("JSON1", jsonData);
+                intent5.putExtra("photo" , photo);
+                intent5.putExtra("gps" , gps) ;
+                intent5.putExtra("sent_Status", status);
+                startActivity(intent5);
+                break;
+
+            case "6" :
+                Intent intent6 = new Intent(getActivity(), PeerGroupActivity.class);
+                intent6.putExtra("JSON1", jsonData);
+                intent6.putExtra("photo" , photo);
+                intent6.putExtra("gps" , gps) ;
+                intent6.putExtra("sent_Status", status);
+                startActivity(intent6);
+                break;
+
+            case "7" :
+                Intent intent7 = new Intent(getActivity(), MonthlyMGMeetingActivity.class);
+                intent7.putExtra("JSON1", jsonData);
+                intent7.putExtra("photo" , photo);
+                intent7.putExtra("gps" , gps) ;
+                intent7.putExtra("sent_Status", status);
+                startActivity(intent7);
+                break;
+
+            case "8" :
+                Intent intent8 = new Intent(getActivity(), SuccessStoryActivity.class);
+                intent8.putExtra("JSON1", jsonData);
+                intent8.putExtra("photo" , photo);
+                intent8.putExtra("gps" , gps) ;
+                intent8.putExtra("sent_Status", status);
+                startActivity(intent8);
+                break;
+
 
         }
     }

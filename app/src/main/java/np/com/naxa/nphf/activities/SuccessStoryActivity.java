@@ -2,13 +2,8 @@ package np.com.naxa.nphf.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -21,14 +16,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -36,16 +30,13 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -91,17 +82,14 @@ import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
 import np.com.naxa.nphf.model.CheckValues;
-import np.com.naxa.nphf.model.Constants;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 
-public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SuccessStoryActivity extends AppCompatActivity {
 
-    private static final String TAG = "chidren_under_two";
-    public static Toolbar toolbar;
+    private static final String TAG = "SuccessStoryActivity";
+    Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner spinner_growth_monitor, spinner_vaccination_verification, spinner_visit_weight;
-    ArrayAdapter growth_monitor_adpt, vaccination_verification_adpt, visit_weight_adpt;
     Button send, save, startGps, previewMap;
     ProgressDialog mProgressDlg;
     Context context = this;
@@ -118,122 +106,86 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
     List<Location> gpslocation = new ArrayList<>();
     StringBuilder stringBuilder = new StringBuilder();
-    String latLangArray = "", jsonLatLangArray = "";
-
-
-    AutoCompleteTextView tvchild_motherName, tvchildren2VDCName, tvchildrenWardNo, tvchild2_age,
-            tvchild2_sex, tvcontact_details_lactating_women, tvsmName;
-    EditText tvVisitDate, tvVisitTime;
-    CardView cv_Send_Save;
-
-
-    String child2_mother_name, child2_vdc_name, child2_ward_no, child2_age, child2_sex, growth_monitor, child2_sm_name,
-            vaccination, weight, contact_no_lactating_women, visit_date, visit_time, img;
-
-    JSONArray jsonArrayGPS = new JSONArray();
-
-    NetworkInfo networkInfo;
-    ConnectivityManager connectivityManager;
-    String dataSentStatus, dateString;
-
-    private int year;
-    private int month;
-    private int day;
-    static final int DATE_DIALOG_ID = 999;
-    static final int DELIVERY_DATE_DIALOG_ID = 99;
-
-
-    private TimePicker timePicker1;
-    private int hour;
-    private int minute;
-    static final int TIME_DIALOG_ID = 9999;
-
     static final Integer LOCATION = 0x1;
     static final Integer GPS_SETTINGS = 0x8;
 
     GoogleApiClient client;
     LocationRequest mLocationRequest;
     PendingResult<LocationSettingsResult> result;
+    String latLangArray = "", jsonLatLangArray = "";
+
+    NetworkInfo networkInfo;
+    ConnectivityManager connectivityManager;
+    String dataSentStatus, dateString;
+
+
+
+    AutoCompleteTextView tvVDCName, tvNameOfTool, tvNameOfRespondaents, tvTopics;
+    CheckBox cbANC, cbPNC, cbInstitunationalDelivery, cbNewBornCare, cbBreastFeeding, cbComplementryFeeding, cbHygieneRelated, cbMotherGroupRelated,
+                cbRefer, cbSexualAndRepreductive, cbPeerGroup;
+    CardView cv_Send_Save;
+    String vdc_name, name_of_tool, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
+            hygiene_relted, mother_group_related, refer, sexual_and_reproductive, peer_group, img;
+    JSONArray jsonArrayGPS = new JSONArray();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_children_under_two);
+        setContentView(R.layout.activity_success_story);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Peer Group");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Children Under Two Years");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        tvVDCName = (AutoCompleteTextView) findViewById(R.id.success_story_vdc_name);
+        tvNameOfTool = (AutoCompleteTextView) findViewById(R.id.success_story_tool_name);
+        tvNameOfRespondaents = (AutoCompleteTextView) findViewById(R.id.success_story_respondents_name);
+        tvTopics = (AutoCompleteTextView) findViewById(R.id.success_story_topics);
 
-        tvchild_motherName = (AutoCompleteTextView) findViewById(R.id.mother_name_2);
-        tvchildren2VDCName = (AutoCompleteTextView) findViewById(R.id.child_under2_vdc_name);
-        tvchildrenWardNo = (AutoCompleteTextView) findViewById(R.id.children_2_ward_no);
-        tvchild2_age = (AutoCompleteTextView) findViewById(R.id.children_2_age);
-        tvchild2_sex = (AutoCompleteTextView) findViewById(R.id.children_2_sex);
-        tvcontact_details_lactating_women = (AutoCompleteTextView) findViewById(R.id.contact_details);
-        tvsmName = (AutoCompleteTextView) findViewById(R.id.children_2_sm_name);
-        tvVisitDate = (EditText) findViewById(R.id.children_2_visit_date);
-        tvVisitTime = (EditText) findViewById(R.id.children_2_visit_time);
-        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+        startGps = (Button) findViewById(R.id.success_story_GpsStart);
+        previewMap = (Button) findViewById(R.id.success_story_preview_map);
+        previewMap.setEnabled(false);
+        send = (Button) findViewById(R.id.success_story_send);
+        save = (Button) findViewById(R.id.success_story_save);
 
-
-        setCurrentDateOnView();
-        addListenerOnButton();
-        setCurrentTimeOnView();
-        addListenerOnTimeButton();
-
-        photo = (ImageButton) findViewById(R.id.children_2_photo_site);
-        previewImageSite = (ImageView) findViewById(R.id.children_2_PhotographSiteimageViewPreview);
+        photo = (ImageButton) findViewById(R.id.success_story_photo_site);
+        previewImageSite = (ImageView) findViewById(R.id.success_story_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
 
-        spinner_growth_monitor = (Spinner) findViewById(R.id.spinner_growth_monitor_2);
-        spinner_vaccination_verification = (Spinner) findViewById(R.id.spinner_vaccination_details);
-        spinner_visit_weight = (Spinner) findViewById(R.id.visit_for_weight2);
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
 
-        send = (Button) findViewById(R.id.children_2_send);
-        save = (Button) findViewById(R.id.children_2_save);
-        startGps = (Button) findViewById(R.id.children_2_GpsStart);
-        previewMap = (Button) findViewById(R.id.children_2_preview_map);
-        previewMap.setEnabled(false);
+        cbANC = (CheckBox) findViewById(R.id.success_story_anc);
+        cbPNC = (CheckBox) findViewById(R.id.success_story_pnc);
+        cbInstitunationalDelivery = (CheckBox) findViewById(R.id.success_story_institutional_delivery);
+        cbNewBornCare = (CheckBox) findViewById(R.id.success_story_new_born_care);
+        cbBreastFeeding = (CheckBox) findViewById(R.id.success_story_breast_feeding);
+        cbComplementryFeeding = (CheckBox) findViewById(R.id.success_story_complementry_feeding);
+        cbHygieneRelated = (CheckBox) findViewById(R.id.success_story_hygiene_related);
+        cbMotherGroupRelated = (CheckBox) findViewById(R.id.success_story_mother_group_related);
+        cbRefer = (CheckBox) findViewById(R.id.success_story_refer);
+        cbSexualAndRepreductive = (CheckBox) findViewById(R.id.success_story_sexual_and_reproductive);
+        cbPeerGroup = (CheckBox) findViewById(R.id.success_story_peer_group);
 
+        initilizeUI();
+
+        //Check internet connection
+        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+
+        /**₧
+         * Author Samir
+         */
         client = new GoogleApiClient.Builder(this)
                 .addApi(AppIndex.API)
                 .addApi(LocationServices.API)
                 .build();
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
-
-
-        //Check internet connection
-        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        // child under two growth monitoring spinner
-        growth_monitor_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
-        growth_monitor_adpt
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_growth_monitor.setAdapter(growth_monitor_adpt);
-        spinner_growth_monitor.setOnItemSelectedListener(this);
-
-        // spinner vaccination details
-        vaccination_verification_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.VACCINATION);
-        vaccination_verification_adpt
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner_vaccination_verification.setAdapter(vaccination_verification_adpt);
-        spinner_vaccination_verification.setOnItemSelectedListener(this);
-
-        // spinner weight of children two in different visit
-
-        visit_weight_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.CHILDREN_TWO_WEIGHT);
-        visit_weight_adpt
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_visit_weight.setAdapter(visit_weight_adpt);
-        spinner_visit_weight.setOnItemSelectedListener(this);
-
-        initilizeUI();
-
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +194,6 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
             }
         });
-
         startGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,9 +215,9 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                                 e.printStackTrace();
                             }
 
-                            LatLng location = new LatLng(finalLat, finalLong);
+                            LatLng d = new LatLng(finalLat, finalLong);
 
-                            listCf.add(location);
+                            listCf.add(d);
                             isGpsTaken = true;
                             Toast.makeText(
                                     getApplicationContext(),
@@ -279,7 +230,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                     }
                 } else {
                     askForGPS();
-                    gps = new GPS_TRACKER_FOR_POINT(ChildrenUnderTwo.this);
+                    gps = new GPS_TRACKER_FOR_POINT(SuccessStoryActivity.this);
                     Default_DIalog.showDefaultDialog(context, R.string.app_name, "Please try again, Gps not initialized");
 //                        gps.showSettingsAlert();
                 }
@@ -292,12 +243,12 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
                 if (CheckValues.isFromSavedFrom) {
                     StaticListOfCoordinates.setList(listCf);
-                    startActivity(new Intent(ChildrenUnderTwo.this, MapPointActivity.class));
+                    startActivity(new Intent(SuccessStoryActivity.this, MapPointActivity.class));
                 } else {
 
                     if (GPS_TRACKER_FOR_POINT.GPS_POINT_INITILIZED) {
                         StaticListOfCoordinates.setList(listCf);
-                        startActivity(new Intent(ChildrenUnderTwo.this, MapPointActivity.class));
+                        startActivity(new Intent(SuccessStoryActivity.this, MapPointActivity.class));
                     } else {
                         Default_DIalog.showDefaultDialog(context, R.string.app_name, "Please try again, Gps not initialized");
 
@@ -305,7 +256,6 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 }
             }
         });
-
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,17 +265,82 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 } else {
 
                     if (isGpsTaken) {
-                        child2_sm_name = tvsmName.getText().toString();
-                        child2_mother_name = tvchild_motherName.getText().toString();
-                        child2_vdc_name = tvchildren2VDCName.getText().toString();
-                        child2_ward_no = tvchildrenWardNo.getText().toString();
-                        child2_age = tvchild2_age.getText().toString();
-                        child2_sex = tvchild2_sex.getText().toString();
+
+                        vdc_name = tvVDCName.getText().toString();
+                        name_of_tool = tvNameOfTool.getText().toString();
+                        name_of_respondents = tvNameOfRespondaents.getText().toString();
+                        topics = tvTopics.getText().toString();
                         img = encodedImage;
-                        contact_no_lactating_women = tvcontact_details_lactating_women.getText().toString();
-                        visit_date = tvVisitDate.getText().toString();
-                        visit_time = tvVisitTime.getText().toString();
                         jsonLatLangArray = jsonArrayGPS.toString();
+//===============================Diarrhoea details =====================================//
+                        if (cbANC.isChecked() == true) {
+                            Log.e("cbANC", " ");
+                            anc = "yes";
+                        } else {
+                            anc = "no";
+
+                        }
+                        if (cbPNC.isChecked() == true) {
+                            pnc = "yes";
+                        } else {
+                            pnc = "no";
+
+                        }
+                        if (cbInstitunationalDelivery.isChecked() == true) {
+                            institunationl_delivery = "yes";
+                        } else {
+                            institunationl_delivery = "no";
+                        }
+                        //==================================ARI details ========================================== //
+                        if (cbNewBornCare.isChecked() == true) {
+                            Log.e("cbSufferedARI", " ");
+                            new_born_care = "yes";
+                        } else {
+                            new_born_care = "no";
+
+                        }
+                        if (cbBreastFeeding.isChecked() == true) {
+                            breast_feeding = "yes";
+                        } else {
+                            breast_feeding = "no";
+
+                        }
+                        if (cbComplementryFeeding.isChecked() == true) {
+                            complementry_feeding = "yes";
+                        } else {
+                            complementry_feeding = "no";
+                        }
+
+                        if (cbHygieneRelated.isChecked() == true) {
+                            hygiene_relted = "yes";
+                        } else {
+                            hygiene_relted = "no";
+                        }
+
+                        if (cbMotherGroupRelated.isChecked() == true) {
+                            mother_group_related = "yes";
+                        } else {
+                            mother_group_related = "no";
+                        }
+
+                        if (cbRefer.isChecked() == true) {
+                            refer = "yes";
+                        } else {
+                            refer = "no";
+                        }
+
+                        if (cbSexualAndRepreductive.isChecked() == true) {
+                            sexual_and_reproductive = "yes";
+                        } else {
+                            sexual_and_reproductive = "no";
+                        }
+
+                        if (cbPeerGroup.isChecked() == true) {
+                            peer_group = "yes";
+                        } else {
+                            peer_group = "no";
+                        }
+                        //========================================================================================//
 
 
                         convertDataToJson();
@@ -338,7 +353,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Children Under Two");
+                        FormNameToInput.setText("Success Story");
 
                         long date = System.currentTimeMillis();
 
@@ -362,14 +377,19 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                                 if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
                                     Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    String[] data = new String[]{"3", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                    String[] data = new String[]{"8", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
                                     DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
                                     dataBaseNepalPublicHealth.open();
                                     long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
 
-                                    Toast.makeText(ChildrenUnderTwo.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+//                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+//                                            .setTitleText("Job done!")
+//                                            .setContentText("Data saved successfully!")
+//                                            .show();
+//                                    dataBaseNepalPublicHealth.close();
+                                    Toast.makeText(SuccessStoryActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
                             }
@@ -382,21 +402,87 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             }
         });
 
+
         // add click listener to Button "POST"
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                child2_sm_name = tvsmName.getText().toString();
-                child2_mother_name = tvchild_motherName.getText().toString();
-                child2_vdc_name = tvchildren2VDCName.getText().toString();
-                child2_ward_no = tvchildrenWardNo.getText().toString();
-                child2_age = tvchild2_age.getText().toString();
-                child2_sex = tvchild2_sex.getText().toString();
+                vdc_name = tvVDCName.getText().toString();
+                name_of_tool = tvNameOfTool.getText().toString();
+                name_of_respondents = tvNameOfRespondaents.getText().toString();
+                topics = tvTopics.getText().toString();
                 img = encodedImage;
-                contact_no_lactating_women = tvcontact_details_lactating_women.getText().toString();
-                visit_date = tvVisitDate.getText().toString();
-                visit_time = tvVisitTime.getText().toString();
+                jsonLatLangArray = jsonArrayGPS.toString();
+//===============================Diarrhoea details =====================================//
+                if (cbANC.isChecked() == true) {
+                    Log.e("cbANC", " ");
+                    anc = "yes";
+                } else {
+                    anc = "no";
+
+                }
+                if (cbPNC.isChecked() == true) {
+                    pnc = "yes";
+                } else {
+                    pnc = "no";
+
+                }
+                if (cbInstitunationalDelivery.isChecked() == true) {
+                    institunationl_delivery = "yes";
+                } else {
+                    institunationl_delivery = "no";
+                }
+                //==================================ARI details ========================================== //
+                if (cbNewBornCare.isChecked() == true) {
+                    Log.e("cbSufferedARI", " ");
+                    new_born_care = "yes";
+                } else {
+                    new_born_care = "no";
+
+                }
+                if (cbBreastFeeding.isChecked() == true) {
+                    breast_feeding = "yes";
+                } else {
+                    breast_feeding = "no";
+
+                }
+                if (cbComplementryFeeding.isChecked() == true) {
+                    complementry_feeding = "yes";
+                } else {
+                    complementry_feeding = "no";
+                }
+
+                if (cbHygieneRelated.isChecked() == true) {
+                    hygiene_relted = "yes";
+                } else {
+                    hygiene_relted = "no";
+                }
+
+                if (cbMotherGroupRelated.isChecked() == true) {
+                    mother_group_related = "yes";
+                } else {
+                    mother_group_related = "no";
+                }
+
+                if (cbRefer.isChecked() == true) {
+                    refer = "yes";
+                } else {
+                    refer = "no";
+                }
+
+                if (cbSexualAndRepreductive.isChecked() == true) {
+                    sexual_and_reproductive = "yes";
+                } else {
+                    sexual_and_reproductive = "no";
+                }
+
+                if (cbPeerGroup.isChecked() == true) {
+                    peer_group = "yes";
+                } else {
+                    peer_group = "no";
+                }
+                //========================================================================================//
 
 
                 if (networkInfo != null && networkInfo.isConnected()) {
@@ -450,100 +536,26 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
         });
 
-
     }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        int SpinnerID = parent.getId();
-        if (SpinnerID == R.id.spinner_growth_monitor_2) {
-            switch (position) {
-                case 0:
-                    growth_monitor = "Yes";
-                    break;
-                case 1:
-                    growth_monitor = "No";
-                    break;
-
-            }
-        }
-
-        if (SpinnerID == R.id.spinner_vaccination_details) {
-            switch (position) {
-                case 0:
-                    vaccination = "BCG";
-                    break;
-
-                case 1:
-                    vaccination = "DPT ,HepB -Hib,Polio,PCV 1st Dose";
-                    break;
-                case 2:
-                    vaccination = "DPT ,HepB -Hib,Polio,PCV 2nd Dose";
-                    break;
-                case 3:
-                    vaccination = "DPT,HepB-Hib,Polio,IPV 3rd Dose";
-                    break;
-                case 4:
-                    vaccination = "PCV (3rd) and MR (1st )";
-                    break;
-                case 5:
-                    vaccination = "JE";
-                    break;
-                case 6:
-                    vaccination = "MR (2nd)";
-                    break;
-
-            }
-        }
-
-        if (SpinnerID == R.id.visit_for_weight2) {
-            switch (position) {
-
-                case 0:
-                    weight = "1st visit_0_11_months";
-                    break;
-                case 1:
-                    weight = "1st visit_12_23_months";
-                    break;
-                case 2:
-                    weight = "2nd visit_0_11_months";
-                    break;
-                case 3:
-                    weight = "2nd visit_12_23_months";
-                    break;
-
-            }
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
 
     private void askForPermission(String permission, Integer requestCode) {
-        if (ContextCompat.checkSelfPermission(ChildrenUnderTwo.this, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(SuccessStoryActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(ChildrenUnderTwo.this, permission)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(SuccessStoryActivity.this, permission)) {
 
                 //This is called if user has denied the permission before
                 //In this case I am just asking the permission again
-                ActivityCompat.requestPermissions(ChildrenUnderTwo.this, new String[]{permission}, requestCode);
+                ActivityCompat.requestPermissions(SuccessStoryActivity.this, new String[]{permission}, requestCode);
 
             } else {
 
-                ActivityCompat.requestPermissions(ChildrenUnderTwo.this, new String[]{permission}, requestCode);
+                ActivityCompat.requestPermissions(SuccessStoryActivity.this, new String[]{permission}, requestCode);
             }
         } else {
 //            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
         }
     }
-
     private void askForGPS() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -559,7 +571,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
-                            status.startResolutionForResult(ChildrenUnderTwo.this, GPS_SETTINGS);
+                            status.startResolutionForResult(SuccessStoryActivity.this, GPS_SETTINGS);
                         } catch (IntentSender.SendIntentException e) {
 
                         }
@@ -575,11 +587,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         try {
-            if (ActivityCompat.checkSelfPermission(ChildrenUnderTwo.this, permissions[0]) == PackageManager.PERMISSION_GRANTED || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(SuccessStoryActivity.this, permissions[0]) == PackageManager.PERMISSION_GRANTED || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 askForGPS();
                 Log.v("Susan", "Permission: " + permissions[0] + "was " + grantResults[0]);
                 //resume tasks needing this permission
-                Toast.makeText(ChildrenUnderTwo.this, "Permission granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SuccessStoryActivity.this, "Permission granted", Toast.LENGTH_SHORT).show();
             } else {
 //                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
@@ -602,210 +614,6 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         client.disconnect();
     }
 
-    private static String pad(int c) {
-        if (c >= 10)
-            return String.valueOf(c);
-        else
-            return "0" + String.valueOf(c);
-    }
-
-    //Date picker
-    // display current date
-    public void setCurrentDateOnView() {
-
-        //dpResult = (DatePicker) findViewById(R.id.dpResult);
-
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
-
-        // set current date into textview
-        tvVisitDate.setText(new StringBuilder()
-                // Month is 0 based, just add 1
-                .append(year).append("/").append(month + 1).append("/")
-                .append(day).append(""));
-
-        // set current date into textview
-        tvVisitDate.setText(new StringBuilder()
-                // Month is 0 based, just add 1
-                .append(year).append("/").append(month + 1).append("/")
-                .append(day).append(""));
-    }
-
-
-    public void addListenerOnButton() {
-
-
-        tvVisitDate.setOnClickListener(new View.OnClickListener() {
-
-            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tvVisitDate.setShowSoftInputOnFocus(false);
-                }
-                showDialog(DATE_DIALOG_ID);
-            }
-
-        });
-
-        tvVisitDate.setOnClickListener(new View.OnClickListener() {
-
-            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tvVisitDate.setShowSoftInputOnFocus(false);
-                }
-                showDialog(DELIVERY_DATE_DIALOG_ID);
-            }
-
-        });
-
-
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                // set date picker as current date
-                return new DatePickerDialog(this, datePickerListener, year, month,
-                        day);
-
-            case DELIVERY_DATE_DIALOG_ID:
-                // set date picker as current date
-                return new DatePickerDialog(this, deliveryDatePickerListener, year, month,
-                        day);
-
-            case TIME_DIALOG_ID:
-                // set time picker as current time
-                return new TimePickerDialog(this, timePickerListener, hour, minute,
-                        false);
-        }
-        return null;
-    }
-
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-
-        // when dialog box is closed, below method will be called.
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-            year = selectedYear;
-            month = selectedMonth;
-            day = selectedDay;
-
-            // set selected date into textview
-            tvVisitDate.setText(new StringBuilder().append(year)
-                    .append("-").append(month + 1).append("-").append(day)
-                    .append(""));
-        }
-    };
-
-    private DatePickerDialog.OnDateSetListener deliveryDatePickerListener = new DatePickerDialog.OnDateSetListener() {
-
-        // when dialog box is closed, below method will be called.
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-            year = selectedYear;
-            month = selectedMonth;
-            day = selectedDay;
-
-            // set selected date into textview
-            tvVisitDate.setText(new StringBuilder().append(year)
-                    .append("-").append(month + 1).append("-").append(day)
-                    .append(""));
-        }
-    };
-
-    // Time picker code
-
-    // display current time
-    public void setCurrentTimeOnView() {
-
-//        timePicker1 = (TimePicker) findViewById(R.id.timePicker1);
-
-        final Calendar c = Calendar.getInstance();
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
-
-        // set current time into textview
-        tvVisitTime.setText(new StringBuilder().append(pad(hour)).append(":")
-                .append(pad(minute)));
-
-        // set current time into timepicker
-//        timePicker1.setCurrentHour(hour);
-//        timePicker1.setCurrentMinute(minute);
-
-    }
-
-    public void addListenerOnTimeButton() {
-
-
-        tvVisitTime.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                showDialog(TIME_DIALOG_ID);
-
-            }
-
-        });
-
-    }
-
-    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
-        public void onTimeSet(TimePicker view, int selectedHour,
-                              int selectedMinute) {
-            hour = selectedHour;
-            minute = selectedMinute;
-
-            // set current time into textview
-            tvVisitTime.setText(new StringBuilder().append(pad(hour))
-                    .append(":").append(pad(minute)));
-
-            // set current time into timepicker
-//            timePicker1.setCurrentHour(hour);
-//            timePicker1.setCurrentMinute(minute);
-
-        }
-    };
-
-
-    @Override
-    public void onBackPressed() {
-
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
-        final Dialog showDialog = new Dialog(context);
-        showDialog.setContentView(R.layout.close_dialog_english);
-        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
-        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
-
-        showDialog.setTitle("WARNING !!!");
-        showDialog.setCancelable(false);
-        showDialog.show();
-        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog.dismiss();
-                finish();
-            }
-        });
-
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog.dismiss();
-            }
-        });
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -843,7 +651,6 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         }
     }
 
-
     private void saveToExternalSorage(Bitmap thumbnail) {
         // TODO Auto-generated method stub
         //String merocinema="Mero Cinema";
@@ -851,7 +658,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         Calendar calendar = Calendar.getInstance();
         long timeInMillis = calendar.getTimeInMillis();
 
-        imageName = "Child_Under_Two" + timeInMillis;
+        imageName = "Success_Story" + timeInMillis;
 
         File file1 = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), imageName);
@@ -916,7 +723,6 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
     }
 
-
     public void initilizeUI() {
         Intent intent = getIntent();
         if (intent.hasExtra("JSON1")) {
@@ -933,26 +739,28 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             String sent_Status = (String) bundle.get("sent_Status");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
+//            if (sent_Status.equals("Sent")) {
+//                tvchildren_under5_name.setEnabled(false);
+//                tvchild_under5_vdc_name.setEnabled(false);
+//                tvchildren_5_ward_no.setEnabled(false);
+//                tvchildren_5_age.setEnabled(false);
+//                tvchildren_5_sex.setEnabled(false);
+//                tvchildren_5_sm_name.setEnabled(false);
+//                cbSufferedDiarrhoea.setEnabled(false);
+//                cbTreatedWithZinc.setEnabled(false);
+//                cbReferredBySM.setEnabled(false);
+//                cbSufferedARI.setEnabled(false);
+//                cbTreatedWithAntibiotic.setEnabled(false);
+//                cbRefferedBySM_ARI.setEnabled(false);
+//                tvVisitDate.setEnabled(false);
+//                tvVisitTime.setEnabled(false);
+//                photo.setEnabled(false);
+//                startGps.setEnabled(false);
+//                cv_Send_Save.setVisibility(View.GONE);
+//
+//            }
 
-            if (sent_Status.equals("Sent")) {
-                tvchild_motherName.setEnabled(false);
-                tvchildren2VDCName.setEnabled(false);
-                tvchildrenWardNo.setEnabled(false);
-                tvchild2_age.setEnabled(false);
-                tvchild2_sex.setEnabled(false);
-                tvcontact_details_lactating_women.setEnabled(false);
-                tvsmName.setEnabled(false);
-                tvVisitDate.setEnabled(false);
-                tvVisitTime.setEnabled(false);
-                photo.setEnabled(false);
-                startGps.setEnabled(false);
-                cv_Send_Save.setVisibility(View.GONE);
-
-
-            }
-
-
-            Log.e("PregnentWomen", "i-" + imageName);
+            Log.e("SuccessStory", "i-" + imageName);
 
             if (imageName.equals("no_photo")) {
             } else {
@@ -967,14 +775,14 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             }
             try {
                 //new adjustment
-                Log.e("Pregnent_Women", "" + jsonToParse);
-//                parseArrayGPS(gpsLocationtoParse);
+                Log.e("SuccessStory", "" + jsonToParse);
                 parseJson(jsonToParse);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
-            gps = new GPS_TRACKER_FOR_POINT(ChildrenUnderTwo.this);
+            gps = new GPS_TRACKER_FOR_POINT(SuccessStoryActivity.this);
             gps.canGetLocation();
             startGps.setEnabled(true);
 
@@ -1001,93 +809,119 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         try {
 
             JSONObject header = new JSONObject();
+            header.put("tablename", "recording_tool_for_success_stories");
+            header.put("name_of_tool", name_of_tool);
+            header.put("vdc_name", vdc_name);
+            header.put("name_of_respondents", name_of_respondents);
+            header.put("anc", anc);
+            header.put("pnc", pnc);
+            header.put("institunationl_delivery", institunationl_delivery);
+            header.put("new_born_care", new_born_care);
+            header.put("breast_feeding", breast_feeding);
+            header.put("complementry_feeding", complementry_feeding);
+            header.put("hygiene_relted", hygiene_relted);
+            header.put("mother_group_related", mother_group_related);
+            header.put("refer", refer);
+            header.put("sexual_and_reproductive", sexual_and_reproductive);
+            header.put("peer_group", peer_group);
+            header.put("topics", topics);
 
-            header.put("tablename", "recording_tool_for_children_under_two");
-            header.put("name_of_SM", child2_sm_name);
-            header.put("name_of_mother", child2_mother_name);
-            header.put("name_of_VDC", child2_vdc_name);
-            header.put("ward_no", child2_ward_no);
-            header.put("age", child2_age);
-            header.put("sex", child2_sex);
-            header.put("registered_for_growth_monitoring", growth_monitor);
-            header.put("name_of_vaccination", vaccination);
-            header.put("weight_of_the_child", weight);
-            header.put("contact_detail_of_lactating_women", contact_no_lactating_women);
-            header.put("date", visit_date);
-            header.put("time", visit_time);
             header.put("lat", finalLat);
             header.put("lon", finalLong);
             header.put("image", encodedImage);
 
+
             jsonToSend = header.toString();
-            Log.e(TAG, "SAMIR: " + jsonToSend);
+            Log.e(TAG, "convertDataToJson: " + jsonToSend);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.d("Nishon", jsonToSend);
 
-//        sendDatToserver();
     }
 
     public void sendDatToserver() {
 
         if (jsonToSend.length() > 0) {
 
-            ChildrenUnderTwo.RestApii restApii = new ChildrenUnderTwo.RestApii();
+            RestApii restApii = new RestApii();
             restApii.execute();
         }
     }
 
     public void parseJson(String jsonToParse) throws JSONException {
-//        JSONObject jsonOb = new JSONObject(jsonToParse);
-//        Log.e("PregnentWomenActivity", "json : " + jsonOb.toString());
-//        String data = jsonOb.getString("formdata");
-//        Log.e("PregnentWomenActivity", "formdata : " + jsonOb.toString());
-        JSONObject jsonObj = new JSONObject(jsonToParse);
-        Log.e("ChildrenUnderTwo", "json : " + jsonObj.toString());
 
-        child2_sm_name = jsonObj.getString("name_of_SM");
-        child2_mother_name = jsonObj.getString("name_of_mother");
-        child2_vdc_name = jsonObj.getString("name_of_VDC");
-        child2_ward_no = jsonObj.getString("ward_no");
-        child2_age = jsonObj.getString("age");
-        child2_sex = jsonObj.getString("sex");
-        growth_monitor = jsonObj.getString("registered_for_growth_monitoring");
-        vaccination = jsonObj.getString("name_of_vaccination");
-        weight = jsonObj.getString("weight_of_the_child");
-        visit_date = jsonObj.getString("date");
-        visit_time = jsonObj.getString("time");
-        contact_no_lactating_women = jsonObj.getString("contact_detail_of_lactating_women");
+        JSONObject jsonObj = new JSONObject(jsonToParse);
+        Log.e("SuccessStory", "json parse : " + jsonObj.toString());
+
         finalLat = Double.parseDouble(jsonObj.getString("lat"));
         finalLong = Double.parseDouble(jsonObj.getString("lon"));
         LatLng d = new LatLng(finalLat, finalLong);
         listCf.add(d);
-//        encodedImage = jsonObj.getString("image");
 
 
-        Log.e("Children Under Two", "Parsed data " + child2_mother_name + vaccination + weight);
+        vdc_name = jsonObj.getString("vdc_name");
+        name_of_tool = jsonObj.getString("name_of_tool");
+        name_of_respondents = jsonObj.getString("name_of_respondents");
+        topics = jsonObj.getString("topics");
 
-        tvsmName.setText(child2_sm_name);
-        tvchild_motherName.setText(child2_mother_name);
-        tvchildren2VDCName.setText(child2_vdc_name);
-        tvchildrenWardNo.setText(child2_ward_no);
-        tvchild2_age.setText(child2_age);
-        tvchild2_sex.setText(child2_sex);
-        tvVisitDate.setText(visit_date);
-        tvVisitTime.setText(visit_time);
-        tvcontact_details_lactating_women.setText(contact_no_lactating_women);
+        Log.e(TAG, "SuccessStory: " + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
 
 
-        int setGrothMonitor = growth_monitor_adpt.getPosition(growth_monitor);
-        spinner_growth_monitor.setSelection(setGrothMonitor);
+        anc = jsonObj.getString("anc");
+        pnc = jsonObj.getString("pnc");
+        institunationl_delivery = jsonObj.getString("institunationl_delivery");
+        new_born_care = jsonObj.getString("new_born_care");
+        breast_feeding = jsonObj.getString("breast_feeding");
+        complementry_feeding = jsonObj.getString("complementry_feeding");
+        hygiene_relted = jsonObj.getString("hygiene_relted");
+        mother_group_related = jsonObj.getString("mother_group_related");
+        refer = jsonObj.getString("refer");
+        sexual_and_reproductive = jsonObj.getString("sexual_and_reproductive");
+        peer_group = jsonObj.getString("peer_group");
 
-        int setVaccination = vaccination_verification_adpt.getPosition(vaccination);
-        spinner_vaccination_verification.setSelection(setVaccination);
 
-        int setChildWeight = visit_weight_adpt.getPosition(weight);
-        spinner_visit_weight.setSelection(setChildWeight);
+        tvVDCName.setText(vdc_name);
+        tvNameOfTool.setText(name_of_tool);
+        tvNameOfRespondaents.setText(name_of_respondents);
+        tvTopics.setText(topics);
+
+        if (anc.equals("yes")) {
+            cbANC.setChecked(true);
+        }
+        if (pnc.equals("yes")) {
+            cbPNC.setChecked(true);
+        }
+        if (institunationl_delivery.equals("yes")) {
+            cbInstitunationalDelivery.setChecked(true);
+        }
+
+        if (new_born_care.equals("yes")) {
+            cbNewBornCare.setChecked(true);
+        }
+        if (breast_feeding.equals("yes")) {
+            cbBreastFeeding.setChecked(true);
+        }
+        if (complementry_feeding.equals("yes")) {
+            cbComplementryFeeding.setChecked(true);
+        }
+        if (hygiene_relted.equals("yes")) {
+            cbHygieneRelated.setChecked(true);
+        }
+        if (mother_group_related.equals("yes")) {
+            cbMotherGroupRelated.setChecked(true);
+        }
+        if (refer.equals("yes")) {
+            cbRefer.setChecked(true);
+        }
+        if (sexual_and_reproductive.equals("yes")) {
+            cbSexualAndRepreductive.setChecked(true);
+        }
+        if (peer_group.equals("yes")) {
+            cbPeerGroup.setChecked(true);
+        }
 
 
     }
@@ -1113,12 +947,12 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 mProgressDlg.dismiss();
             }
 
-
             Log.d(TAG, "on post resposne" + result);
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(result);
                 dataSentStatus = jsonObject.getString("status");
+                Log.e(TAG, "SAMIR " + dataSentStatus);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1127,19 +961,13 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
             if (dataSentStatus.equals("200")) {
                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
-                previewImageSite.setVisibility(View.GONE);
+                previewImageSite.setVisibility(View.VISIBLE);
 
-                tvsmName.setText(child2_sm_name);
-                tvchild_motherName.setText(child2_mother_name);
-                tvchildren2VDCName.setText(child2_vdc_name);
-                tvchildrenWardNo.setText(child2_ward_no);
-                tvchild2_age.setText(child2_age);
-                tvchild2_sex.setText(child2_sex);
-                tvVisitDate.setText(visit_date);
-                tvVisitTime.setText(visit_time);
-                tvcontact_details_lactating_women.setText(contact_no_lactating_women);
+                tvVDCName.setText(vdc_name);
+                tvNameOfTool.setText(name_of_tool);
+                tvNameOfRespondaents.setText(name_of_respondents);
+                tvTopics.setText(topics);
                 previewImageSite.setImageBitmap(thumbnail);
-
 
                 long date = System.currentTimeMillis();
 
@@ -1149,7 +977,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 //                        .setTitleText("")
 //                        .setContentText("Data sent successfully!")
 //                        .show();
-                String[] data = new String[]{"3", "Children Under Two", dateString, jsonToSend, jsonLatLangArray,
+                String[] data = new String[]{"8", "Success Story", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
                 DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
@@ -1210,5 +1038,38 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        final Dialog showDialog = new Dialog(context);
+        showDialog.setContentView(R.layout.close_dialog_english);
+        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+        showDialog.setTitle("WARNING !!!");
+        showDialog.setCancelable(false);
+        showDialog.show();
+        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog.dismiss();
+                finish();
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog.dismiss();
+            }
+        });
+    }
 
 }

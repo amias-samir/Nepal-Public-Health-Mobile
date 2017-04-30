@@ -43,45 +43,4 @@ public class Default_DIalog {
         });
     }
 
-
-
-
-
-//    public static void showDateDialog(final Context context) {
-//
-//        final String[] dateOfData = new String[1];
-//        final String[] formName = new String[1];
-//        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-//        int width = metrics.widthPixels;
-//        int height = metrics.heightPixels;
-//
-//        final Dialog showDialog = new Dialog(context);
-//        showDialog.setContentView(R.hwc_human_casulty.login_layout);
-//        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_userName);
-//        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_password);
-//        dateToInput.setHint("Date");
-//        FormNameToInput.setHint("Name Of Form");
-//
-//        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
-//        showDialog.setTitle("Enter Data");
-//        showDialog.setCancelable(false);
-//        showDialog.show();
-//        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//        logIn.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                dateOfData[0] = dateToInput.getText().toString();
-//                formName[0] = FormNameToInput.getText().toString();
-//                if(dateOfData[0] ==null || dateOfData[0].equals("")|| formName[0] == null || formName[0].equals("")){
-//                    Toast.makeText(context , "Please fill the required field. ", Toast.LENGTH_SHORT).show();
-//                }else {
-//                    showDialog.dismiss();
-//                }
-//            }
-//        });
-//    }
-
 }

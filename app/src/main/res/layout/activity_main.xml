@@ -26,7 +26,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical">
-
+        <!--pregnent women-->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view_pregnent_women"
             android:layout_width="match_parent"
@@ -49,9 +49,9 @@
                         android:id="@+id/img_thumbnail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/pregenent_women"
+                        android:src="@drawable/pregnent"
                         android:clickable="true"
-                        android:scaleType="center" />
+                        android:scaleType="fitXY" />
 
                     <RelativeLayout
                         android:id="@+id/top_layout_pregnent_women"
@@ -73,7 +73,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Pregnent Woman"
+                            android:text="Pregnent Women Details"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -83,7 +83,7 @@
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-
+        <!--Lactating women-->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view_locating"
             android:layout_width="match_parent"
@@ -106,9 +106,9 @@
                         android:id="@+id/img_thumbnail_locating"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/locating_women"
+                        android:src="@drawable/lactating"
                         android:clickable="true"
-                        android:scaleType="center" />
+                        android:scaleType="fitXY" />
 
                     <RelativeLayout
                         android:id="@+id/top_layout_locating"
@@ -130,7 +130,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Locating Woman"
+                            android:text="Lactating Women Details"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -140,7 +140,7 @@
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-
+        <!--children under 2 years-->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view__under_2yrs"
             android:layout_width="match_parent"
@@ -163,9 +163,9 @@
                         android:id="@+id/img_thumbnail__under_2yrs"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/under_two_years"
+                        android:src="@drawable/under_two"
                         android:clickable="true"
-                        android:scaleType="center" />
+                        android:scaleType="fitXY" />
 
                     <RelativeLayout
                         android:id="@+id/top_layout__under_2yrs"
@@ -187,7 +187,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Children under 2 years"
+                            android:text="Children Under Two years"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -197,7 +197,7 @@
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-
+        <!--children under 5 years-->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view_under_5yrs"
             android:layout_width="match_parent"
@@ -218,9 +218,9 @@
                         android:id="@+id/img_thumbnail__under_5yrs"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/under_five_years"
+                        android:src="@drawable/under_five"
                         android:clickable="true"
-                        android:scaleType="center" />
+                        android:scaleType="fitXY" />
 
                     <RelativeLayout
                         android:id="@+id/top_layout_under_5yrs"
@@ -242,7 +242,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Children under 5 years"
+                            android:text="Children Under Five years"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -252,7 +252,223 @@
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+        <!--household visit-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_household_visit"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
 
+            android:elevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="168dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp">
+
+                    <ImageView
+                        android:id="@+id/img_thumbnail_household_visit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+
+                    <RelativeLayout
+                        android:id="@+id/top_layout_household_visit"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        android:background="@drawable/transparent_black_gradient_shape">
+
+                        <TextView
+                            android:id="@+id/tv_species_household_visit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="31dp"
+                            android:contextClickable="true"
+                            android:gravity="left"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Household Visit"
+                            android:textColor="#ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <!--peer group-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_peer_group"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+
+            android:elevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="168dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp">
+
+                    <ImageView
+                        android:id="@+id/img_thumbnail_peer_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+
+                    <RelativeLayout
+                        android:id="@+id/top_layout_peer_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        android:background="@drawable/transparent_black_gradient_shape">
+
+                        <TextView
+                            android:id="@+id/tv_species_peer_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="31dp"
+                            android:contextClickable="true"
+                            android:gravity="left"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Peer Group"
+                            android:textColor="#ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <!--monthly meeting-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_monthly_meeting"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+
+            android:elevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="168dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp">
+
+                    <ImageView
+                        android:id="@+id/img_thumbnail_monthly_meeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+
+                    <RelativeLayout
+                        android:id="@+id/top_layout_monthly_meeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        android:background="@drawable/transparent_black_gradient_shape">
+
+                        <TextView
+                            android:id="@+id/tv_species_monthly_meeting"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="31dp"
+                            android:contextClickable="true"
+                            android:gravity="left"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Monthly Mother Group Meeting"
+                            android:textColor="#ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <!--Success Story-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_success_story"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+
+            android:elevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="168dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp">
+
+                    <ImageView
+                        android:id="@+id/img_thumbnail_success_story"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+
+                    <RelativeLayout
+                        android:id="@+id/top_layout_success_story"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        android:background="@drawable/transparent_black_gradient_shape">
+
+                        <TextView
+                            android:id="@+id/tv_species_success_story"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="31dp"
+                            android:contextClickable="true"
+                            android:gravity="left"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Success Story"
+                            android:textColor="#ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <!--saved form-->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view_saved_forms"
             android:layout_width="match_parent"

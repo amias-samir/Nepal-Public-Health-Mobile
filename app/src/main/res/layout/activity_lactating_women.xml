@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -744,6 +745,7 @@
 
             <!--save / send-->
             <android.support.v7.widget.CardView
+                android:id="@+id/cv_SaveSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

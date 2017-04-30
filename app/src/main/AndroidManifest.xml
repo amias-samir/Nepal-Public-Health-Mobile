@@ -78,7 +78,41 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".activities.SavedFormsActivity"
+        <activity
+            android:name=".activities.SavedFormsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.HouseholdVisitActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.MonthlyMGMeetingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.PeerGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".activities.SuccessStoryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <meta-data

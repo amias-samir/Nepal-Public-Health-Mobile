@@ -30,6 +30,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -145,6 +146,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
     AutoCompleteTextView tvLactatingWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvsmName;
     EditText tvVisitDate, tvVisitTime;
+    CardView cv_Send_Save;
+
 
     String lactating_women_name, vdc_name, ward_no, ethnicity, age, pnc_visit, deliver_place,
             birth_attended_by, third_labour, oxytocin_received, neonates_asphysia, img,
@@ -207,6 +210,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         previewImageSite.setVisibility(View.GONE);
         startGps = (Button) findViewById(R.id.lactating_women_GpsStart);
         previewMap = (Button) findViewById(R.id.lactating_women_preview_map);
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
         previewMap.setEnabled(false);
 
         setCurrentDateOnView();
@@ -791,12 +796,41 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         if (intent.hasExtra("JSON1")) {
             CheckValues.isFromSavedFrom = true;
             startGps.setEnabled(false);
-            isGpsTaken=true;
+            isGpsTaken = true;
             previewMap.setEnabled(true);
             Bundle bundle = intent.getExtras();
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            String sent_Status = (String) bundle.get("sent_Status");
+            Log.d(TAG, "initilizeUI: "+sent_Status);
+
+
+            if (sent_Status.equals("Sent")) {
+                pnc_visit_spinner.setEnabled(false);
+                delivery_at_place_spinner.setEnabled(false);
+                birth_attended_by_lcw_spinner.setEnabled(false);
+                lactaing_women_3rd_labour_spinner.setEnabled(false);
+                oxytocin_received_after_birth_spinner.setEnabled(false);
+                lactating_women_neonates_asphysia_spinner.setEnabled(false);
+                lactating_women_45days_iron_spinner.setEnabled(false);
+                lactating_women_vitaminA_spinner.setEnabled(false);
+                lactating_women_neonatal_records_spinner.setEnabled(false);
+                lactating_women_breastfeed_in1hour_spinner.setEnabled(false);
+                lactating_women_exclusive_breastfeeding_spinner.setEnabled(false);
+                tvLactatingWomenName.setEnabled(false);
+                tvVDCName.setEnabled(false);
+                tvWardNo.setEnabled(false);
+                tvEthnicity.setEnabled(false);
+                tvAge.setEnabled(false);
+                tvsmName.setEnabled(false);
+                tvVisitDate.setEnabled(false);
+                tvVisitTime.setEnabled(false);
+                pic.setEnabled(false);
+                startGps.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+
+            }
 
             Log.e("LactatingWomen", "i-" + imageName);
 
@@ -871,7 +905,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
             jsonToSend = header.toString();
 
-            Log.e(TAG, "SAMIR: "+ jsonToSend );
+            Log.e(TAG, "SAMIR: " + jsonToSend);
 
 
         } catch (Exception e) {
@@ -931,10 +965,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         encodedImage = jsonObj.getString("image");
 
-        Log.e("Lactating Women ", "Parsed data " + neonates_asphysia +" finalLat "+ finalLong +" listcf"+listCf);
-
-
-
+        Log.e("Lactating Women ", "Parsed data " + neonates_asphysia + " finalLat " + finalLong + " listcf" + listCf);
 
 
         tvsmName.setText(sm_name);
@@ -977,7 +1008,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         int setBreastFeeding = lactating_women_breastfeed_in1hour_adpt.getPosition(breastfeed_in1hour);
         lactating_women_breastfeed_in1hour_spinner.setSelection(setBreastFeeding);
 
-        int setExcluseBreastFeeding= lactating_women_exclusive_breastfeeding_adpt.getPosition(exclusive_breastfeeding);
+        int setExcluseBreastFeeding = lactating_women_exclusive_breastfeeding_adpt.getPosition(exclusive_breastfeeding);
         lactating_women_exclusive_breastfeeding_spinner.setSelection(setExcluseBreastFeeding);
 
 
@@ -1000,7 +1031,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
 
-            if(mProgressDlg != null && mProgressDlg.isShowing()){
+            if (mProgressDlg != null && mProgressDlg.isShowing()) {
                 mProgressDlg.dismiss();
             }
 

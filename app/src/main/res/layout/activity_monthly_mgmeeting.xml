@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_children_two"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="np.com.naxa.nphf.activities.ChildrenUnderTwo">
+
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp">
+
+
+        <!--Children under two details-->
+        <LinearLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/toolbar"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+
+                    <!--month -->
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardBackgroundColor="@color/transparent"
+                        card_view:cardElevation="1dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/layout_margin"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:text="Month"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/monsoon"
+                                android:id="@+id/monthly_meeting_visit_month" />
+
+                            <Spinner
+                                android:layout_width="220dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_toEndOf="@+id/household_visit_month"
+                                android:layout_toRightOf="@+id/household_visit_month"
+                                android:id="@+id/peer_group_visit_month" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <!--date-->
+                    <EditText
+                        android:id="@+id/monthly_meeting_visit_date"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Date"
+                        android:inputType="date"
+                        android:textColor="@color/black"
+                        android:focusable="false"/>
+                    <!--time-->
+                    <EditText
+                        android:id="@+id/monthly_meeting_visit_time"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Time"
+                        android:inputType="date"
+                        android:textColor="@color/black"
+                        android:focusable="false"/>
+
+                    <!--VDC name-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/child_under2_vdc_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name of VDC"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--get Gps Location House hold-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/layout_margin"
+                        android:padding="5dp">
+
+                        <Button
+                            android:id="@+id/monthly_meeting_GpsStart"
+                            android:layout_width="212dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/button_pressed_hwc_light"
+                            android:gravity="center"
+                            android:text="Get gps location"
+                            android:textColor="#ffffff" />
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/monthly_meeting_preview_map"
+                        android:layout_width="212dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:text="Preview Map"
+                        android:textColor="#ffffff" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!--Photograph of the site, victim and wild animal-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/layout_margin"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/monthly_meeting_PhotographSiteLable"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Photograph"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <ImageButton
+                        android:id="@+id/monthly_meeting_photo_site"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignBottom="@+id/monthly_meeting_PhotographSiteLable"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/ic_photo"
+                        android:src="@drawable/button_pressed_transparent" />
+
+                    <ImageView
+                        android:id="@+id/monthly_meeting_PhotographSiteimageViewPreview"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_below="@+id/monthly_meeting_PhotographSiteLable"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- cardview dscussed topic and participants-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <LinearLayout
+                    android:id="@+id/monthly_meeting_pregnent_women_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin= "20dp">
+
+                    <!--mother group -->
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardBackgroundColor="@color/transparent"
+                        card_view:cardElevation="1dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:text="Mother Group"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/monsoon"
+                                android:id="@+id/monthly_meeting_mother_group" />
+
+                            <Spinner
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@id/monthly_meeting_mother_group"
+                                android:id="@+id/spinner_monthly_meeting_mother_group" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <!--Discussed Topic-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/monthly_meeting_discussed_topic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Discussed Topic"
+                            android:inputType="textPersonName|textMultiLine"
+                            android:textColor="@color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!--no of participnts -->
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        card_view:cardBackgroundColor="@color/transparent"
+                        card_view:cardElevation="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center"
+                                android:textAlignment="center"
+                                android:paddingLeft="5dp"
+                                android:text="NO. OF PARTICIPANTS"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/monsoon"
+                                android:id="@+id/monthly_meeting_participants_lbl" />
+
+                            <!--pregnent Old/New participants -->
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                card_view:cardBackgroundColor="@color/transparent"
+                                card_view:cardElevation="1dp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:gravity="center"
+                                        android:textAlignment="center"
+                                        android:paddingLeft="5dp"
+                                        android:text="Pregnent Women"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:textColor="@color/monsoon"
+                                        android:id="@+id/monthly_meeting_pregnent_participants_lbl" />
+
+                                    <!--OLD-->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="Old"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_pregment_old_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_pregnent_old_number" />
+                                    </RelativeLayout>
+                                    <!--New -->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginTop="@dimen/layout_margin"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="New"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_pregnent_new_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_pregnent_new_number" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <!--lactating Old/New participants -->
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                card_view:cardBackgroundColor="@color/transparent"
+                                card_view:cardElevation="1dp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:gravity="center"
+                                        android:textAlignment="center"
+                                        android:paddingLeft="5dp"
+                                        android:text="Lactating Women"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:textColor="@color/monsoon"
+                                        android:id="@+id/monthly_meeting_lctating_participants_lbl" />
+
+                                    <!--OLD-->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="Old"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_lactating_old_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_lactating_old_number" />
+                                    </RelativeLayout>
+                                    <!--New -->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginTop="@dimen/layout_margin"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="New"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_lactating_new_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_lactating_new_number" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <!--mother with u2 children Old/New participants -->
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                card_view:cardBackgroundColor="@color/transparent"
+                                card_view:cardElevation="1dp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:gravity="center"
+                                        android:textAlignment="center"
+                                        android:paddingLeft="5dp"
+                                        android:text="Mother With U2 Children"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:textColor="@color/monsoon"
+                                        android:id="@+id/monthly_meeting_mother_with_u2child_participants_lbl" />
+
+                                    <!--OLD-->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="Old"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_mother_with_u2child_old_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_mother_with_u2child_old_number" />
+                                    </RelativeLayout>
+                                    <!--New -->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginTop="@dimen/layout_margin"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="New"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_mother_with_u2child_new_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_mother_with_u2child_new_number" />
+                                    </RelativeLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <!--mother with u5 children Old/New participants -->
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                card_view:cardBackgroundColor="@color/transparent"
+                                card_view:cardElevation="1dp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:gravity="center"
+                                        android:textAlignment="center"
+                                        android:paddingLeft="5dp"
+                                        android:text="Mother With U5 Children"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:textColor="@color/monsoon"
+                                        android:id="@+id/monthly_meeting_mother_with_u5child_participants_lbl" />
+
+                                    <!--OLD-->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="Old"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_mother_with_u5child_old_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_mother_with_u5child_old_number" />
+                                    </RelativeLayout>
+                                    <!--New -->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginTop="@dimen/layout_margin"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:gravity="center_vertical"
+                                            android:paddingLeft="5dp"
+                                            android:text="New"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="@color/monsoon"
+                                            android:id="@+id/monthly_meeting_mother_with_u5child_new_lbl" />
+
+                                        <EditText
+                                            android:layout_width="80dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentTop="true"
+                                            android:inputType="number"
+                                            android:id="@+id/monthly_meeting_mother_with_u5child_new_number" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <!--Total Participnts-->
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/monthly_meeting_total_paticipants"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Total Participants"
+                                    android:inputType="number"
+                                    android:textColor="@color/black" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--name of SM-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/monthly_meeting_sm_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:hint="Name of SM"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <!--save / send-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_SaveSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardBackgroundColor="@color/transparent"
+                card_view:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/layout_margin"
+                    android:padding="5dp">
+
+                    <Button
+                        android:id="@+id/peer_group_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:text="Save"
+                        android:textColor="#ffffff" />
+
+                    <Button
+                        android:id="@+id/peer_group_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_pressed_hwc_light"
+                        android:text="Send"
+                        android:textColor="#FFFFFF" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
