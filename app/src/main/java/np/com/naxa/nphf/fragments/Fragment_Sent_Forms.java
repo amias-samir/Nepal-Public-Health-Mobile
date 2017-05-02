@@ -312,7 +312,7 @@ public class Fragment_Sent_Forms extends Fragment {
         if(isTableEmpty){
             Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Sent ");
         }else{
-            int count = dataBaseNepalPublicHealthSent.returnTotalNoOf_TABLE_MAIN_NUM();
+            int count = dataBaseNepalPublicHealthSent.returnTotalNoOf_TABLE_MAIN_NUM() + 1;
             for(int i=count ; i>=1 ; i--) {
 //                String[] data = dataBaseNepalPublicHealthNotSent.return_Data_TABLE_MAIN(i);
                 String[] data = dataBaseNepalPublicHealthSent.return_Data_ID(i);
@@ -329,7 +329,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 savedData.deletedStatus = data[7];
                 savedData.dbId = data[8];
 
-                if(savedData.formId!= null) {
+                if(savedData.dbId!= null) {
 
                     resultCur.add(savedData);
                 }
