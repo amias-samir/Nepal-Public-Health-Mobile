@@ -6,12 +6,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Samir on 4/4/2017.
  */
-public class DataBaseNepalPublicHealth extends SQLiteOpenHelper {
-        private final static String db_name = "_db_digitalNepal.db";
+public class DataBaseNepalPublicHealth_NotSent extends SQLiteOpenHelper {
+        private final static String db_name = "_db_NPHF_NotSent.db";
         private final static int db_version = (int) 1;
 
         public final static String ID_TABLE = "_id_table";
@@ -23,7 +24,7 @@ public class DataBaseNepalPublicHealth extends SQLiteOpenHelper {
         public final static String TABLE_GPS = "_table_Gps";
         public final static String TABLE_PHOTO = "_table_photo";
         public final static String DELETE_FLAG = "_delete_flag";
-        public final static String TABLE_MAIN = "_table_main";
+        public final static String TABLE_MAIN = "_table_not_sent";
 
         public final static String[] COLS_TABLE_MAIN = new String[]{ID_TABLE , TABLE_ID ,TABLE_NAME ,TABLE_DATE ,TABLE_JSON , TABLE_GPS , TABLE_PHOTO , TABLE_STATUS  , DELETE_FLAG };
         static String CREATE_TABLE_MAIN = "Create table if not exists " + TABLE_MAIN + "("
@@ -36,7 +37,7 @@ public class DataBaseNepalPublicHealth extends SQLiteOpenHelper {
         long id;
         Context con;
 
-    public DataBaseNepalPublicHealth(Context context) {
+    public DataBaseNepalPublicHealth_NotSent(Context context) {
         super(context, db_name, null, db_version);
         this.con = context;
         // TODO Auto-generated constructor stub
@@ -131,15 +132,6 @@ public class DataBaseNepalPublicHealth extends SQLiteOpenHelper {
                 name[7] = cursor.getString(8);
                 name[8] = cursor.getString(0);
 
-//                name[0] = cursor.getString(0);
-//                name[1] = cursor.getString(1);
-//                name[2] = cursor.getString(2);
-//                name[3] = cursor.getString(3);
-//                name[4] = cursor.getString(4);
-//                name[5] = cursor.getString(5);
-//                name[6] = cursor.getString(6);
-//                name[7] = cursor.getString(7);
-
             }
         } finally {
             cursor.close();
@@ -154,62 +146,15 @@ public class DataBaseNepalPublicHealth extends SQLiteOpenHelper {
         return rowsUpdated;
     }
 
-//        public void alterTableMAIN() {
-//            db.execSQL(DROP_TABLE_MAIN);
-//            db.execSQL(CREATE_TABLE_MAIN);
-//        }
-
-
-
-
-
-
-
-
-//        public long insertIntoTABLE(String tableName ,String[] COLS , String[] list) {
-//
-//            ContentValues contentValues = new ContentValues();
-//            int length = COLS.length;
-//            for(int i= 0 ; i<length ;i++ ) {
-//                contentValues.put(COLS[i], list[i]);
-//            }
-//            long id = db.insert(tableName, null, contentValues);
-//            return id;
-//        }
-//        public boolean is_TABLE_Empty(String tableName , String[] COLS){
-//            boolean b=true;
-//            Cursor cursor = db.query(tableName, COLS , null, null, null, null, null);
-//            if( cursor != null && cursor.moveToFirst() ){
-//                b=false;
-//            }else{
-//                b=true;
-//            }
-//            return b;
-//        }
-//        public String[] return_Data_TABLE(String tableName ,String[] COLS , String colsId , int id , int nosOfColumns ) {
-//            Cursor cursor = db.query( tableName , COLS , colsId + "='" + id + " ' ", null , null, null, null);
-//            String[] name = new String[nosOfColumns];
-//            try {
-//                while (cursor.moveToNext()) {
-//                    for(int i = 0 ; i <nosOfColumns ; i++){
-//                        name[i] = cursor.getString(i+1);
-//                    }
-//                }
-//            } finally {
-//                cursor.close();
-//            }
-//            return name;
-//        }
-//        public int returnTotalNoOf_CF_DATA_NUM(String tableName,String[] COLS) {
-//            Cursor cursor = db.query( tableName , COLS , null, null, null,
-//                    null, null);
-//            int count = cursor.getCount();
-//            return count;
-//        }
-//        public void alterTable(String dropTable , String createTable) {
-//            db.execSQL(dropTable);
-//            db.execSQL(createTable);
-//        }
-
+    public void dropRowNotSentForms(String DBid) {
+        //Open the database
+        SQLiteDatabase database = this.getWritableDatabase();
+        Log.e("", "dropRowNotSentFormsID: "+ DBid );
+        //Execute sql query to remove from database
+        //NOTE: When removing by String in SQL, value must be enclosed with ''
+        database.execSQL("DELETE FROM " + TABLE_MAIN + " WHERE " + ID_TABLE + "= '" + DBid + "'");
+        //Close the database
+        database.close();
+    }
 
 }

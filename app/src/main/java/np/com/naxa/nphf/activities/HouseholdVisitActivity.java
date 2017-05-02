@@ -83,7 +83,8 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -106,6 +107,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
+    String formid ;
     double finalLat;
     double finalLong;
     ImageView previewImageSite;
@@ -438,9 +440,9 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                                     String[] data = new String[]{"5", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                                    dataBaseNepalPublicHealth.open();
-                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                    dataBaseNepalPublicHealthNotSent.open();
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
                                     Toast.makeText(HouseholdVisitActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -485,7 +487,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
 
                         pregnent_total_participnts = "" + participants_preg;
                         tvPregnentParticipants.setVisibility(View.VISIBLE);
-                        tvPregnentParticipants.setText(participants_preg);
+                        tvPregnentParticipants.setText(pregnent_total_participnts);
 //                        =====================================================        //
                     }
 
@@ -510,7 +512,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
 
                         lactating_total_participants = "" + participants_lact;
                         tvLactatingParticipants.setVisibility(View.VISIBLE);
-                        tvLactatingParticipants.setText(participants_lact);
+                        tvLactatingParticipants.setText(lactating_total_participants);
                     }
                     //                        =====================================================        //
 
@@ -566,7 +568,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                                 .setAction("Retry", null).show();
                     }
                 } else {
-
+                    Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -965,6 +967,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
@@ -1075,9 +1078,9 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             JSONObject header = new JSONObject();
             header.put("tablename", "recording_tool_for_household_visit");
             header.put("visit_month", visit_month);
-            header.put("visit_date", visit_date);
-            header.put("visit_time", visit_time);
-            header.put("vdc_name", vdc_name);
+            header.put("date", visit_date);
+            header.put("time", visit_time);
+            header.put("name_of_VDC", vdc_name);
             header.put("pregnent_status", pregnent_status);
             header.put("pregnent_discussed_topic", pregnent_discussed_topic);
             header.put("pregnent_session", pregnent_session);
@@ -1090,7 +1093,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             header.put("lactating_old_no", lactating_old_no);
             header.put("lactating_new_no", lactating_new_no);
             header.put("lactating_total_participants", lactating_total_participants);
-            header.put("sm_name", sm_name);
+            header.put("name_of_SM", sm_name);
 
             header.put("lat", finalLat);
             header.put("lon", finalLong);
@@ -1127,10 +1130,10 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
         LatLng d = new LatLng(finalLat, finalLong);
         listCf.add(d);
 
-        vdc_name = jsonObj.getString("vdc_name");
+        vdc_name = jsonObj.getString("name_of_VDC");
         visit_month = jsonObj.getString("visit_month");
-        visit_date = jsonObj.getString("visit_date");
-        visit_time = jsonObj.getString("visit_time");
+        visit_date = jsonObj.getString("date");
+        visit_time = jsonObj.getString("time");
         pregnent_status = jsonObj.getString("pregnent_status");
         pregnent_discussed_topic = jsonObj.getString("pregnent_discussed_topic");
         pregnent_session = jsonObj.getString("pregnent_session");
@@ -1143,7 +1146,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
         lactating_old_no = jsonObj.getString("lactating_old_no");
         lactating_new_no = jsonObj.getString("lactating_new_no");
         lactating_total_participants = jsonObj.getString("lactating_total_participants");
-        sm_name = jsonObj.getString("sm_name");
+        sm_name = jsonObj.getString("name_of_SM");
 
 
         Log.e(TAG, "HouseholdVisit: " + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
@@ -1215,7 +1218,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             try {
                 jsonObject = new JSONObject(result);
                 dataSentStatus = jsonObject.getString("status");
-                Log.e(TAG, "SAMIR " + dataSentStatus);
+                Log.e(TAG, "SAMIR Data sent status " + dataSentStatus);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1248,11 +1251,20 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                 String[] data = new String[]{"5", "Household Visit", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                dataBaseNepalPublicHealth.open();
-                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(context);
+                dataBaseNepalPublicHealthSent.open();
+                long id = dataBaseNepalPublicHealthSent.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseNepalPublicHealth.close();
+                dataBaseNepalPublicHealthSent.close();
+
+                if(CheckValues.isFromSavedFrom) {
+                    Log.e(TAG, "onPostExecute: FormID : " + formid);
+                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                    dataBaseNepalPublicHealth_NotSent.open();
+                    dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
+//                    Log.e("dbID", "" + id);
+                    dataBaseNepalPublicHealth_NotSent.close();
+                }
 
 
             }

@@ -81,7 +81,6 @@
                                 android:layout_width="220dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:layout_alignParentTop="true"
                                 android:layout_toEndOf="@+id/peer_group_visit_month"
                                 android:layout_toRightOf="@+id/peer_group_visit_month" />
 

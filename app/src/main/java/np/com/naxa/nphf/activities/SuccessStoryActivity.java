@@ -37,7 +37,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -77,7 +76,8 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -101,6 +101,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
+    String formid ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -125,7 +126,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 cbRefer, cbSexualAndRepreductive, cbPeerGroup;
     CardView cv_Send_Save;
     String vdc_name, name_of_tool, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
-            hygiene_relted, mother_group_related, refer, sexual_and_reproductive, peer_group, img;
+            hygiene_related, mother_group_related, refer, sexual_and_reproductive, peer_group, img;
     JSONArray jsonArrayGPS = new JSONArray();
 
 
@@ -312,9 +313,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
                         }
 
                         if (cbHygieneRelated.isChecked() == true) {
-                            hygiene_relted = "yes";
+                            hygiene_related = "yes";
                         } else {
-                            hygiene_relted = "no";
+                            hygiene_related = "no";
                         }
 
                         if (cbMotherGroupRelated.isChecked() == true) {
@@ -380,15 +381,15 @@ public class SuccessStoryActivity extends AppCompatActivity {
                                     String[] data = new String[]{"8", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                                    dataBaseNepalPublicHealth.open();
-                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                    dataBaseNepalPublicHealthNotSent.open();
+                                    long id = dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseNepalPublicHealth.close();
+//                                    dataBaseNepalPublicHealthNotSent.close();
                                     Toast.makeText(SuccessStoryActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -408,128 +409,137 @@ public class SuccessStoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                vdc_name = tvVDCName.getText().toString();
-                name_of_tool = tvNameOfTool.getText().toString();
-                name_of_respondents = tvNameOfRespondaents.getText().toString();
-                topics = tvTopics.getText().toString();
-                img = encodedImage;
-                jsonLatLangArray = jsonArrayGPS.toString();
+                if(isGpsTaken) {
+
+                    vdc_name = tvVDCName.getText().toString();
+                    name_of_tool = tvNameOfTool.getText().toString();
+                    name_of_respondents = tvNameOfRespondaents.getText().toString();
+                    topics = tvTopics.getText().toString();
+                    img = encodedImage;
+                    jsonLatLangArray = jsonArrayGPS.toString();
 //===============================Diarrhoea details =====================================//
-                if (cbANC.isChecked() == true) {
-                    Log.e("cbANC", " ");
-                    anc = "yes";
-                } else {
-                    anc = "no";
+                    if (cbANC.isChecked() == true) {
+                        Log.e("cbANC", " ");
+                        anc = "yes";
+                    } else {
+                        anc = "no";
 
-                }
-                if (cbPNC.isChecked() == true) {
-                    pnc = "yes";
-                } else {
-                    pnc = "no";
+                    }
+                    if (cbPNC.isChecked() == true) {
+                        pnc = "yes";
+                    } else {
+                        pnc = "no";
 
-                }
-                if (cbInstitunationalDelivery.isChecked() == true) {
-                    institunationl_delivery = "yes";
-                } else {
-                    institunationl_delivery = "no";
-                }
-                //==================================ARI details ========================================== //
-                if (cbNewBornCare.isChecked() == true) {
-                    Log.e("cbSufferedARI", " ");
-                    new_born_care = "yes";
-                } else {
-                    new_born_care = "no";
+                    }
+                    if (cbInstitunationalDelivery.isChecked() == true) {
+                        institunationl_delivery = "yes";
+                    } else {
+                        institunationl_delivery = "no";
+                    }
+                    //==================================ARI details ========================================== //
+                    if (cbNewBornCare.isChecked() == true) {
+                        Log.e("cbSufferedARI", " ");
+                        new_born_care = "yes";
+                    } else {
+                        new_born_care = "no";
 
-                }
-                if (cbBreastFeeding.isChecked() == true) {
-                    breast_feeding = "yes";
-                } else {
-                    breast_feeding = "no";
+                    }
+                    if (cbBreastFeeding.isChecked() == true) {
+                        breast_feeding = "yes";
+                    } else {
+                        breast_feeding = "no";
 
-                }
-                if (cbComplementryFeeding.isChecked() == true) {
-                    complementry_feeding = "yes";
-                } else {
-                    complementry_feeding = "no";
-                }
+                    }
+                    if (cbComplementryFeeding.isChecked() == true) {
+                        complementry_feeding = "yes";
+                    } else {
+                        complementry_feeding = "no";
+                    }
 
-                if (cbHygieneRelated.isChecked() == true) {
-                    hygiene_relted = "yes";
-                } else {
-                    hygiene_relted = "no";
-                }
+                    if (cbHygieneRelated.isChecked() == true) {
+                        hygiene_related = "yes";
+                    } else {
+                        hygiene_related = "no";
+                    }
 
-                if (cbMotherGroupRelated.isChecked() == true) {
-                    mother_group_related = "yes";
-                } else {
-                    mother_group_related = "no";
-                }
+                    if (cbMotherGroupRelated.isChecked() == true) {
+                        mother_group_related = "yes";
+                    } else {
+                        mother_group_related = "no";
+                    }
 
-                if (cbRefer.isChecked() == true) {
-                    refer = "yes";
-                } else {
-                    refer = "no";
-                }
+                    if (cbRefer.isChecked() == true) {
+                        refer = "yes";
+                    } else {
+                        refer = "no";
+                    }
 
-                if (cbSexualAndRepreductive.isChecked() == true) {
-                    sexual_and_reproductive = "yes";
-                } else {
-                    sexual_and_reproductive = "no";
-                }
+                    if (cbSexualAndRepreductive.isChecked() == true) {
+                        sexual_and_reproductive = "yes";
+                    } else {
+                        sexual_and_reproductive = "no";
+                    }
 
-                if (cbPeerGroup.isChecked() == true) {
-                    peer_group = "yes";
-                } else {
-                    peer_group = "no";
-                }
-                //========================================================================================//
-
-
-                if (networkInfo != null && networkInfo.isConnected()) {
+                    if (cbPeerGroup.isChecked() == true) {
+                        peer_group = "yes";
+                    } else {
+                        peer_group = "no";
+                    }
+                    //========================================================================================//
 
 
-                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                    int width = metrics.widthPixels;
-                    int height = metrics.heightPixels;
+                    if (networkInfo != null && networkInfo.isConnected()) {
 
-                    final Dialog showDialog = new Dialog(context);
-                    showDialog.setContentView(R.layout.alert_dialog_before_send);
-                    final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
-                    final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
 
-                    showDialog.setTitle("WARNING !!!");
-                    showDialog.setCancelable(false);
-                    showDialog.show();
-                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
 
-                    yes.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog.dismiss();
-                            mProgressDlg = new ProgressDialog(context);
-                            mProgressDlg.setMessage("Please wait...");
-                            mProgressDlg.setIndeterminate(false);
-                            mProgressDlg.setCancelable(false);
-                            mProgressDlg.show();
-                            convertDataToJson();
-                            sendDatToserver();
+                        final Dialog showDialog = new Dialog(context);
+                        showDialog.setContentView(R.layout.alert_dialog_before_send);
+                        final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
+                        final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
+
+                        showDialog.setTitle("WARNING !!!");
+                        showDialog.setCancelable(false);
+                        showDialog.show();
+                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDialog.dismiss();
+                                mProgressDlg = new ProgressDialog(context);
+                                mProgressDlg.setMessage("Please wait...");
+                                mProgressDlg.setIndeterminate(false);
+                                mProgressDlg.setCancelable(false);
+                                mProgressDlg.show();
+                                convertDataToJson();
+                                sendDatToserver();
 //                                finish();
-                        }
-                    });
+                            }
+                        });
 
-                    no.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog.dismiss();
-                        }
-                    });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDialog.dismiss();
+                            }
+                        });
 
 
-                } else {
-                    final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
-                    Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
-                            .setAction("Retry", null).show();
+                    } else {
+                        final View coordinatorLayoutView = findViewById(R.id.activity_success_story);
+                        Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
+                                .setAction("Retry", null).show();
+                    }
                 }
+                     else{
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
+
+
 
             }
 
@@ -736,6 +746,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
@@ -811,7 +822,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
             JSONObject header = new JSONObject();
             header.put("tablename", "recording_tool_for_success_stories");
             header.put("name_of_tool", name_of_tool);
-            header.put("vdc_name", vdc_name);
+            header.put("name_of_VDC", vdc_name);
             header.put("name_of_respondents", name_of_respondents);
             header.put("anc", anc);
             header.put("pnc", pnc);
@@ -819,7 +830,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
             header.put("new_born_care", new_born_care);
             header.put("breast_feeding", breast_feeding);
             header.put("complementry_feeding", complementry_feeding);
-            header.put("hygiene_relted", hygiene_relted);
+            header.put("hygiene_related", hygiene_related);
             header.put("mother_group_related", mother_group_related);
             header.put("refer", refer);
             header.put("sexual_and_reproductive", sexual_and_reproductive);
@@ -862,7 +873,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
         listCf.add(d);
 
 
-        vdc_name = jsonObj.getString("vdc_name");
+        vdc_name = jsonObj.getString("name_of_VDC");
         name_of_tool = jsonObj.getString("name_of_tool");
         name_of_respondents = jsonObj.getString("name_of_respondents");
         topics = jsonObj.getString("topics");
@@ -876,7 +887,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
         new_born_care = jsonObj.getString("new_born_care");
         breast_feeding = jsonObj.getString("breast_feeding");
         complementry_feeding = jsonObj.getString("complementry_feeding");
-        hygiene_relted = jsonObj.getString("hygiene_relted");
+        hygiene_related = jsonObj.getString("hygiene_related");
         mother_group_related = jsonObj.getString("mother_group_related");
         refer = jsonObj.getString("refer");
         sexual_and_reproductive = jsonObj.getString("sexual_and_reproductive");
@@ -907,7 +918,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
         if (complementry_feeding.equals("yes")) {
             cbComplementryFeeding.setChecked(true);
         }
-        if (hygiene_relted.equals("yes")) {
+        if (hygiene_related.equals("yes")) {
             cbHygieneRelated.setChecked(true);
         }
         if (mother_group_related.equals("yes")) {
@@ -980,11 +991,20 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 String[] data = new String[]{"8", "Success Story", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                dataBaseNepalPublicHealth.open();
-                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(context);
+                dataBaseNepalPublicHealthSent.open();
+                long id = dataBaseNepalPublicHealthSent.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseNepalPublicHealth.close();
+                dataBaseNepalPublicHealthSent.close();
+
+                if(CheckValues.isFromSavedFrom) {
+                    Log.e(TAG, "onPostExecute: FormID : " + formid);
+                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                    dataBaseNepalPublicHealth_NotSent.open();
+                    dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
+//                    Log.e("dbID", "" + id);
+                    dataBaseNepalPublicHealth_NotSent.close();
+                }
 
 
             }

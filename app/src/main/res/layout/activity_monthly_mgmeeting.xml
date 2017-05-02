@@ -79,13 +79,11 @@
                                 android:id="@+id/monthly_meeting_visit_month" />
 
                             <Spinner
-                                android:layout_width="220dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_toEndOf="@+id/household_visit_month"
-                                android:layout_toRightOf="@+id/household_visit_month"
-                                android:id="@+id/peer_group_visit_month" />
+                                android:layout_below="@+id/monthly_meeting_visit_month"
+                                android:id="@+id/spinner_monthly_meeting_visit_month" />
 
                         </RelativeLayout>
 
@@ -119,7 +117,7 @@
                         android:layout_marginBottom="20dp">
 
                         <AutoCompleteTextView
-                            android:id="@+id/child_under2_vdc_name"
+                            android:id="@+id/monthly_meeting_vdc_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Name of VDC"
@@ -357,6 +355,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="Old"
@@ -387,6 +386,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="New"
@@ -444,6 +444,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="Old"
@@ -474,6 +475,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="New"
@@ -531,6 +533,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="Old"
@@ -561,6 +564,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="New"
@@ -617,6 +621,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="Old"
@@ -647,6 +652,7 @@
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
+                                            android:layout_marginTop="@dimen/activity_horizontal_margin"
                                             android:gravity="center_vertical"
                                             android:paddingLeft="5dp"
                                             android:text="New"
@@ -678,7 +684,8 @@
                                     android:layout_height="wrap_content"
                                     android:hint="Total Participants"
                                     android:inputType="number"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:focusable="false"/>
                             </android.support.design.widget.TextInputLayout>
 
                         </LinearLayout>
@@ -729,7 +736,7 @@
                     android:padding="5dp">
 
                     <Button
-                        android:id="@+id/peer_group_save"
+                        android:id="@+id/monthly_meeting_save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -740,7 +747,7 @@
                         android:textColor="#ffffff" />
 
                     <Button
-                        android:id="@+id/peer_group_send"
+                        android:id="@+id/monthly_meeting_send"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_pressed_hwc_light"

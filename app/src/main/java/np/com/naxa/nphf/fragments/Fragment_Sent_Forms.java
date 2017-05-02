@@ -36,7 +36,7 @@ import np.com.naxa.nphf.activities.SuccessStoryActivity;
 import np.com.naxa.nphf.adapter.GridSpacingItemDecorator;
 import np.com.naxa.nphf.adapter.RecyclerItemClickListener;
 import np.com.naxa.nphf.adapter.Sent_Forms_Adapter;
-import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.model.SavedFormParameters;
 
@@ -113,8 +113,9 @@ public class Fragment_Sent_Forms extends Fragment {
                     String jSon = resultCur.get(position).jSON;
                     String photo = resultCur.get(position).photo;
                     String gps = resultCur.get(position).gps;
+                    String DBid = resultCur.get(position).dbId;
                     String sent_Status = resultCur.get(position).status;
-                    loadForm(id, jSon, photo, gps, sent_Status);
+                    loadForm(id, jSon, photo, gps, DBid, sent_Status);
 
                 } else if (items[item] == "Delete") {
                     DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
@@ -139,11 +140,11 @@ public class Fragment_Sent_Forms extends Fragment {
                             // TODO Auto-generated method stub
 
 
-                            DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(getActivity());
-                            dataBaseNepalPublicHealth.open();
-                            int id = (int) dataBaseNepalPublicHealth.updateTable_DeleteFlag(resultCur.get(position).dbId);
+                            DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(getActivity());
+                            dataBaseNepalPublicHealthSent.open();
+                            dataBaseNepalPublicHealthSent.dropRowSentForms(resultCur.get(position).dbId);
 //                Toast.makeText(getActivity() ,resultCur.get(position).date+ " Long Clicked "+id , Toast.LENGTH_SHORT ).show();
-                            dataBaseNepalPublicHealth.close();
+                            dataBaseNepalPublicHealthSent.close();
                             showDialog.dismiss();
                             createList();
                         }
@@ -187,11 +188,11 @@ public class Fragment_Sent_Forms extends Fragment {
                 // TODO Auto-generated method stub
 
 
-                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(getActivity());
-                dataBaseNepalPublicHealth.open();
-                int id = (int) dataBaseNepalPublicHealth.updateTable_DeleteFlag(resultCur.get(position).dbId);
+                DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(getActivity());
+                dataBaseNepalPublicHealthSent.open();
+                int id = (int) dataBaseNepalPublicHealthSent.updateTable_DeleteFlag(resultCur.get(position).dbId);
 //                Toast.makeText(getActivity() ,resultCur.get(position).date+ " Long Clicked "+id , Toast.LENGTH_SHORT ).show();
-                dataBaseNepalPublicHealth.close();
+                dataBaseNepalPublicHealthSent.close();
                 showDialog.dismiss();
                 createList();
             }
@@ -207,13 +208,14 @@ public class Fragment_Sent_Forms extends Fragment {
 
     }
 
-    public void loadForm(String formId, String jsonData , String photo , String gps, String status){
+    public void loadForm(String formId, String jsonData , String photo , String gps, String DBid , String status){
         switch (formId){
             case "1" :
                 Intent intent1 = new Intent(getActivity(), PregnentWomenActivity.class);
                 intent1.putExtra("JSON1", jsonData);
                 intent1.putExtra("photo" , photo);
                 intent1.putExtra("gps" , gps) ;
+                intent1.putExtra("DBid", DBid);
                 intent1.putExtra("sent_Status", status);
                 startActivity(intent1);
                 break;
@@ -223,6 +225,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent2.putExtra("JSON1", jsonData);
                 intent2.putExtra("photo" , photo);
                 intent2.putExtra("gps" , gps) ;
+                intent2.putExtra("DBid", DBid);
                 intent2.putExtra("sent_Status", status);
                 startActivity(intent2);
                 break;
@@ -232,6 +235,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent3.putExtra("JSON1", jsonData);
                 intent3.putExtra("photo" , photo);
                 intent3.putExtra("gps" , gps) ;
+                intent3.putExtra("DBid", DBid);
                 intent3.putExtra("sent_Status", status);
                 startActivity(intent3);
                 break;
@@ -241,6 +245,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent4.putExtra("JSON1", jsonData);
                 intent4.putExtra("photo" , photo);
                 intent4.putExtra("gps" , gps) ;
+                intent4.putExtra("DBid", DBid);
                 intent4.putExtra("sent_Status", status);
                 startActivity(intent4);
                 break;
@@ -250,6 +255,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent5.putExtra("JSON1", jsonData);
                 intent5.putExtra("photo" , photo);
                 intent5.putExtra("gps" , gps) ;
+                intent5.putExtra("DBid", DBid);
                 intent5.putExtra("sent_Status", status);
                 startActivity(intent5);
                 break;
@@ -259,6 +265,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent6.putExtra("JSON1", jsonData);
                 intent6.putExtra("photo" , photo);
                 intent6.putExtra("gps" , gps) ;
+                intent6.putExtra("DBid", DBid);
                 intent6.putExtra("sent_Status", status);
                 startActivity(intent6);
                 break;
@@ -268,6 +275,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent7.putExtra("JSON1", jsonData);
                 intent7.putExtra("photo" , photo);
                 intent7.putExtra("gps" , gps) ;
+                intent7.putExtra("DBid", DBid);
                 intent7.putExtra("sent_Status", status);
                 startActivity(intent7);
                 break;
@@ -277,6 +285,7 @@ public class Fragment_Sent_Forms extends Fragment {
                 intent8.putExtra("JSON1", jsonData);
                 intent8.putExtra("photo" , photo);
                 intent8.putExtra("gps" , gps) ;
+                intent8.putExtra("DBid", DBid);
                 intent8.putExtra("sent_Status", status);
                 startActivity(intent8);
                 break;
@@ -297,19 +306,16 @@ public class Fragment_Sent_Forms extends Fragment {
 
     private void createList() {
         resultCur.clear();
-//        Single_String_Title newData1 = new Single_String_Title();
-//        newData1.title = "CF Detail";
-//        resultCur.add(newData1);
-        DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(getActivity());
-        dataBaseNepalPublicHealth.open();
-        boolean isTableEmpty = dataBaseNepalPublicHealth.is_TABLE_MAIN_Empty();
+        DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(getActivity());
+        dataBaseNepalPublicHealthSent.open();
+        boolean isTableEmpty = dataBaseNepalPublicHealthSent.is_TABLE_MAIN_Empty();
         if(isTableEmpty){
-            Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Saved ");
+            Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Sent ");
         }else{
-            int count = dataBaseNepalPublicHealth.returnTotalNoOf_TABLE_MAIN_NUM();
+            int count = dataBaseNepalPublicHealthSent.returnTotalNoOf_TABLE_MAIN_NUM();
             for(int i=count ; i>=1 ; i--) {
-//                String[] data = dataBaseNepalPublicHealth.return_Data_TABLE_MAIN(i);
-                String[] data = dataBaseNepalPublicHealth.return_Data_ID(i);
+//                String[] data = dataBaseNepalPublicHealthNotSent.return_Data_TABLE_MAIN(i);
+                String[] data = dataBaseNepalPublicHealthSent.return_Data_ID(i);
                 SavedFormParameters savedData = new SavedFormParameters();
                 Log.e("DATA" , "08 "+data[8] +" one: "+ data[1]+" two: "+data[2]);
 //                savedData.dbId = data[0];
@@ -323,10 +329,11 @@ public class Fragment_Sent_Forms extends Fragment {
                 savedData.deletedStatus = data[7];
                 savedData.dbId = data[8];
 
-                if(data[7].equals("0")) {
+                if(savedData.formId!= null) {
 
                     resultCur.add(savedData);
                 }
+
 
             }
         }

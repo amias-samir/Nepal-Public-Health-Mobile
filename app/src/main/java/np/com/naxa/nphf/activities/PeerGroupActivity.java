@@ -82,7 +82,8 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -107,6 +108,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
+    String formid ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -369,15 +371,15 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                                     String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                                    dataBaseNepalPublicHealth.open();
-                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                    dataBaseNepalPublicHealthNotSent.open();
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseNepalPublicHealth.close();
+//                                    dataBaseNepalPublicHealthNotSent.close();
                                     Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -474,6 +476,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                                 .setAction("Retry", null).show();
                     }
                 } else {
+                    Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -879,6 +882,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
@@ -987,16 +991,16 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
             JSONObject header = new JSONObject();
             header.put("tablename", "recording_tool_for_peer_group");
             header.put("visit_month", visit_month);
-            header.put("visit_date", visit_date);
-            header.put("visit_time", visit_time);
-            header.put("vdc_name", vdc_name);
+            header.put("date", visit_date);
+            header.put("time", visit_time);
+            header.put("name_of_VDC", vdc_name);
             header.put("peer_group", peer_group);
             header.put("peer_group_type", peer_group_type);
             header.put("discussed_topic", discussed_topic);
             header.put("male_no", male_no);
             header.put("female_no", female_no);
             header.put("total_prticipants", total_prticipants);
-            header.put("sm_name", sm_name);
+            header.put("name_of_SM", sm_name);
 
             header.put("lat", finalLat);
             header.put("lon", finalLong);
@@ -1033,17 +1037,17 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         LatLng d = new LatLng(finalLat, finalLong);
         listCf.add(d);
 
-        vdc_name = jsonObj.getString("vdc_name");
+        vdc_name = jsonObj.getString("name_of_VDC");
         visit_month = jsonObj.getString("visit_month");
-        visit_date = jsonObj.getString("visit_date");
-        visit_time = jsonObj.getString("visit_time");
+        visit_date = jsonObj.getString("date");
+        visit_time = jsonObj.getString("time");
         peer_group = jsonObj.getString("peer_group");
         peer_group_type = jsonObj.getString("peer_group_type");
         discussed_topic = jsonObj.getString("discussed_topic");
         male_no = jsonObj.getString("male_no");
         female_no = jsonObj.getString("female_no");
         total_prticipants = jsonObj.getString("total_prticipants");
-        sm_name = jsonObj.getString("sm_name");
+        sm_name = jsonObj.getString("name_of_SM");
 
 
         Log.e(TAG, "PeerGroup: " + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
@@ -1127,11 +1131,21 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                 String[] data = new String[]{"6", "Peer Group", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                dataBaseNepalPublicHealth.open();
-                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(context);
+                dataBaseNepalPublicHealthSent.open();
+                long id = dataBaseNepalPublicHealthSent.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseNepalPublicHealth.close();
+                dataBaseNepalPublicHealthSent.close();
+
+
+                if(CheckValues.isFromSavedFrom) {
+                    Log.e(TAG, "onPostExecute: FormID : " + formid);
+                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                    dataBaseNepalPublicHealth_NotSent.open();
+                    dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
+//                    Log.e("dbID", "" + id);
+                    dataBaseNepalPublicHealth_NotSent.close();
+                }
 
 
             }

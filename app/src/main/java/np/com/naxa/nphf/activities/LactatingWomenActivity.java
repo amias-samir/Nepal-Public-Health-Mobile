@@ -86,7 +86,8 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import np.com.naxa.nphf.R;
-import np.com.naxa.nphf.database.DataBaseNepalPublicHealth;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
+import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
 import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
@@ -121,6 +122,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     double finalLat;
     double initLong;
     double finalLong;
+    String formid ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     PendingIntent lactatingpendingIntent;
@@ -452,15 +454,15 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                                     String[] data = new String[]{"2", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                                    dataBaseNepalPublicHealth.open();
-                                    long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                    dataBaseNepalPublicHealthNotSent.open();
+                                    long id = dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
 //                                            .setContentText("Data saved successfully!")
 //                                            .show();
-//                                    dataBaseNepalPublicHealth.close();
+//                                    dataBaseNepalPublicHealthNotSent.close();
                                     Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
                                 }
@@ -802,6 +804,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             String jsonToParse = (String) bundle.get("JSON1");
             imageName = (String) bundle.get("photo");
             String gpsLocationtoParse = (String) bundle.get("gps");
+            formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
@@ -1072,11 +1075,21 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 String[] data = new String[]{"2", "Recording Tool For Lactating Women", dateString, jsonToSend, jsonLatLangArray,
                         "" + imageName, "Sent", "0"};
 
-                DataBaseNepalPublicHealth dataBaseNepalPublicHealth = new DataBaseNepalPublicHealth(context);
-                dataBaseNepalPublicHealth.open();
-                long id = dataBaseNepalPublicHealth.insertIntoTable_Main(data);
+                DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(context);
+                dataBaseNepalPublicHealthSent.open();
+                long id = dataBaseNepalPublicHealthSent.insertIntoTable_Main(data);
                 Log.e("dbID", "" + id);
-                dataBaseNepalPublicHealth.close();
+                dataBaseNepalPublicHealthSent.close();
+
+
+                if(CheckValues.isFromSavedFrom) {
+                    Log.e(TAG, "onPostExecute: FormID : " + formid);
+                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                    dataBaseNepalPublicHealth_NotSent.open();
+                    dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
+//                    Log.e("dbID", "" + id);
+                    dataBaseNepalPublicHealth_NotSent.close();
+                }
 
             }
         }
