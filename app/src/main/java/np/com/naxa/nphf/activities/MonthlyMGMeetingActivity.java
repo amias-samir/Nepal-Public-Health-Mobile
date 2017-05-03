@@ -107,7 +107,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid ;
+    String formid, formName;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -303,75 +303,63 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
 //                            pregnent women
-                        if(tvPregnentWomenOld.getText().toString().equals("")){
+                        if (tvPregnentWomenOld.getText().toString().equals("")) {
                             pregnent_women_old = "0";
-                        }
-                        else {
+                        } else {
                             pregnent_women_old = tvPregnentWomenOld.getText().toString();
                         }
 
-                        if(tvPregnentWomenNew.getText().toString().equals("")){
+                        if (tvPregnentWomenNew.getText().toString().equals("")) {
                             pregnent_women_new = "0";
-                        }
-                        else {
+                        } else {
                             pregnent_women_new = tvPregnentWomenNew.getText().toString();
                         }
 
 //                            lactating women
-                        if(tvLactatingWomenOld.getText().toString().equals("")){
+                        if (tvLactatingWomenOld.getText().toString().equals("")) {
                             lactating_women_old = "0";
-                        }
-                        else {
+                        } else {
                             lactating_women_old = tvLactatingWomenOld.getText().toString();
                         }
 
-                        if(tvLactatingWomenNew.getText().toString().equals("")){
+                        if (tvLactatingWomenNew.getText().toString().equals("")) {
                             lactating_women_new = "0";
-                        }
-                        else {
+                        } else {
                             lactating_women_new = tvLactatingWomenNew.getText().toString();
                         }
 
 //                            mother with child under two
-                        if(tvMotherU2Old.getText().toString().equals("")){
+                        if (tvMotherU2Old.getText().toString().equals("")) {
                             mother_u2_old = "0";
-                        }
-                        else {
+                        } else {
                             mother_u2_old = tvMotherU2Old.getText().toString();
                         }
 
-                        if(tvMotherU2New.getText().toString().equals("")){
+                        if (tvMotherU2New.getText().toString().equals("")) {
                             mother_u2_new = "0";
-                        }
-                        else {
+                        } else {
                             mother_u2_new = tvMotherU2New.getText().toString();
                         }
 
 //                        mother with child under five
-                        if(tvMotherU5Old.getText().toString().equals("")){
+                        if (tvMotherU5Old.getText().toString().equals("")) {
                             mother_u5_old = "0";
-                        }
-                        else {
+                        } else {
                             mother_u5_old = tvMotherU5Old.getText().toString();
                         }
 
-                        if(tvMotherU5New.getText().toString().equals("")){
+                        if (tvMotherU5New.getText().toString().equals("")) {
                             mother_u5_new = "0";
-                        }
-                        else {
+                        } else {
                             mother_u5_new = tvMotherU5New.getText().toString();
                         }
 
 
+                        int participants = Integer.parseInt(pregnent_women_old) + Integer.parseInt(pregnent_women_new) + Integer.parseInt(lactating_women_old)
+                                + Integer.parseInt(lactating_women_new) + Integer.parseInt(mother_u2_old) + Integer.parseInt(mother_u2_new) +
+                                Integer.parseInt(mother_u5_old) + Integer.parseInt(mother_u5_new);
 
-
-
-
-                        int participants = Integer.parseInt(pregnent_women_old) + Integer.parseInt(pregnent_women_new)+ Integer.parseInt(lactating_women_old)
-                                + Integer.parseInt(lactating_women_new) + Integer.parseInt(mother_u2_old) + Integer.parseInt(mother_u2_new)+
-                                    Integer.parseInt(mother_u5_old) + Integer.parseInt(mother_u5_new);
-
-                        total_prticipants = ""+participants;
+                        total_prticipants = "" + participants;
                         tvTotalParticipants.setVisibility(View.VISIBLE);
                         tvTotalParticipants.setText(total_prticipants);
 
@@ -382,6 +370,80 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
 
 
                         convertDataToJson();
+
+                        if(CheckValues.isFromSavedFrom){
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            final int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
+
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.date_input_layout);
+                            final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                            final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                            FormNameToInput.setText(formName);
+
+                            long date = System.currentTimeMillis();
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                            String dateString = sdf.format(date);
+                            dateToInput.setText(dateString);
+
+                            AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                            showDialog.setTitle("Save Data");
+                            showDialog.setCancelable(true);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            logIn.setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    // TODO Auto-generated method stub
+                                    String dateDataCollected = dateToInput.getText().toString();
+                                    String formName = FormNameToInput.getText().toString();
+                                    if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                        Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        String[] data = new String[]{"8", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                                "" + imageName, "Not Sent", "0"};
+
+                                        DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                        dataBaseNepalPublicHealthNotSent.open();
+                                        dataBaseNepalPublicHealthNotSent.updateRowNotSentForms(data , formid);
+
+                                        Toast.makeText(MonthlyMGMeetingActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                        showDialog.dismiss();
+
+                                        final Dialog showDialog = new Dialog(context);
+                                        showDialog.setContentView(R.layout.savedform_sent_popup);
+                                        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                                        showDialog.setTitle("Successfully Saved");
+                                        showDialog.setCancelable(false);
+                                        showDialog.show();
+                                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                        yes.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                                Intent intent = new Intent(MonthlyMGMeetingActivity.this, SavedFormsActivity.class);
+                                                startActivity(intent);
+//                                finish();
+                                            }
+                                        });
+
+                                        no.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }else {
 
                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                         final int width = metrics.widthPixels;
@@ -411,16 +473,16 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                             public void onClick(View v) {
                                 // TODO Auto-generated method stub
                                 String dateDataCollected = dateToInput.getText().toString();
-                                String formName = FormNameToInput.getText().toString();
-                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                String form_Name = FormNameToInput.getText().toString();
+                                if (dateDataCollected == null || dateDataCollected.equals("") || form_Name == null || form_Name.equals("")) {
                                     Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    String[] data = new String[]{"7", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                    String[] data = new String[]{"7", form_Name, dateDataCollected, jsonToSend, jsonLatLangArray,
                                             "" + imageName, "Not Sent", "0"};
 
                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                                     dataBaseNepalPublicHealthNotSent.open();
-                                  dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
@@ -459,6 +521,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                                 }
                             }
                         });
+                    }
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
@@ -990,6 +1053,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formName = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
 

@@ -438,11 +438,11 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                              public void onClick(View v) {
                                  // TODO Auto-generated method stub
                                  String dateDataCollected = dateToInput.getText().toString();
-                                 String formName = FormNameToInput.getText().toString();
-                                 if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                 String form_Name = FormNameToInput.getText().toString();
+                                 if (dateDataCollected == null || dateDataCollected.equals("") || form_Name == null || form_Name.equals("")) {
                                      Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
                                  } else {
-                                     String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                     String[] data = new String[]{"6", form_Name, dateDataCollected, jsonToSend, jsonLatLangArray,
                                              "" + imageName, "Not Sent", "0"};
 
                                      DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
