@@ -122,7 +122,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     double finalLat;
     double initLong;
     double finalLong;
-    String formid ;
+    String formid, formName ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     PendingIntent lactatingpendingIntent;
@@ -419,6 +419,80 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
                         convertDataToJson();
 
+                        if(CheckValues.isFromSavedFrom){
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            final int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
+
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.date_input_layout);
+                            final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                            final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                            FormNameToInput.setText(formName);
+
+                            long date = System.currentTimeMillis();
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                            String dateString = sdf.format(date);
+                            dateToInput.setText(dateString);
+
+                            AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                            showDialog.setTitle("Save Data");
+                            showDialog.setCancelable(true);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            logIn.setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    // TODO Auto-generated method stub
+                                    String dateDataCollected = dateToInput.getText().toString();
+                                    String formName = FormNameToInput.getText().toString();
+                                    if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                        Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        String[] data = new String[]{"2", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                                "" + imageName, "Not Sent", "0"};
+
+                                        DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                        dataBaseNepalPublicHealthNotSent.open();
+                                        dataBaseNepalPublicHealthNotSent.updateRowNotSentForms(data , formid);
+
+                                        Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                        showDialog.dismiss();
+
+                                        final Dialog showDialog = new Dialog(context);
+                                        showDialog.setContentView(R.layout.savedform_sent_popup);
+                                        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                                        showDialog.setTitle("Successfully Saved");
+                                        showDialog.setCancelable(false);
+                                        showDialog.show();
+                                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                        yes.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                                Intent intent = new Intent(LactatingWomenActivity.this, SavedFormsActivity.class);
+                                                startActivity(intent);
+//                                finish();
+                                            }
+                                        });
+
+                                        no.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }else {
+
                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                         final int width = metrics.widthPixels;
                         int height = metrics.heightPixels;
@@ -490,6 +564,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                                 }
                             }
                         });
+                    }
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
@@ -828,6 +903,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formName = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
 

@@ -107,7 +107,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
-    String formid ;
+    String formid, formName;
     double finalLat;
     double finalLong;
     ImageView previewImageSite;
@@ -346,8 +346,8 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                         sm_name = tvNameOfSM.getText().toString();
 
                         // pregnent block
-                        if(cbPregnent.isChecked()) {
-                            pregnent_status = "yes" ;
+                        if (cbPregnent.isChecked()) {
+                            pregnent_status = "yes";
                             pregnent_discussed_topic = tvPregnentDiscussedTopic.getText().toString();
                             // pregnent old/new participants
                             if (tvPregnentOldNo.getText().toString().equals("")) {
@@ -370,10 +370,10 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
 //                        =====================================================        //
                         }
 
-                // lacating block
-                        if(cbLactating.isChecked()) {
+                        // lacating block
+                        if (cbLactating.isChecked()) {
                             // Lactating old/new participants
-                            lactating_status = "yes" ;
+                            lactating_status = "yes";
                             lactating_discussed_topic = tvLactatingDiscussedTopic.getText().toString();
                             if (tvLactatingOldNo.getText().toString().equals("")) {
                                 lactating_old_no = "0";
@@ -396,7 +396,6 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                         //                        =====================================================        //
 
 
-
                         img = encodedImage;
                         visit_date = tvVisitDate.getText().toString();
                         visit_time = tvVisitTime.getText().toString();
@@ -404,6 +403,80 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
 
 
                         convertDataToJson();
+
+                        if(CheckValues.isFromSavedFrom){
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            final int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
+
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.date_input_layout);
+                            final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                            final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                            FormNameToInput.setText(formName);
+
+                            long date = System.currentTimeMillis();
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                            String dateString = sdf.format(date);
+                            dateToInput.setText(dateString);
+
+                            AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                            showDialog.setTitle("Save Data");
+                            showDialog.setCancelable(true);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            logIn.setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    // TODO Auto-generated method stub
+                                    String dateDataCollected = dateToInput.getText().toString();
+                                    String formName = FormNameToInput.getText().toString();
+                                    if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                        Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        String[] data = new String[]{"5", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                                "" + imageName, "Not Sent", "0"};
+
+                                        DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                        dataBaseNepalPublicHealthNotSent.open();
+                                        dataBaseNepalPublicHealthNotSent.updateRowNotSentForms(data , formid);
+
+                                        Toast.makeText(HouseholdVisitActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                        showDialog.dismiss();
+
+                                        final Dialog showDialog = new Dialog(context);
+                                        showDialog.setContentView(R.layout.savedform_sent_popup);
+                                        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                                        showDialog.setTitle("Successfully Saved");
+                                        showDialog.setCancelable(false);
+                                        showDialog.show();
+                                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                        yes.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                                Intent intent = new Intent(HouseholdVisitActivity.this, SavedFormsActivity.class);
+                                                startActivity(intent);
+//                                finish();
+                                            }
+                                        });
+
+                                        no.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }else {
 
                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                         final int width = metrics.widthPixels;
@@ -475,6 +548,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                                 }
                             }
                         });
+                    }
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
@@ -996,6 +1070,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formName = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
 
