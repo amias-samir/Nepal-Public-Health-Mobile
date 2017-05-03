@@ -274,6 +274,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
+                        android:background="@drawable/household_visit"
                         android:scaleType="fitXY" />
 
                     <RelativeLayout
@@ -328,6 +329,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
+                        android:background="@drawable/peer_group"
                         android:scaleType="fitXY" />
 
                     <RelativeLayout
@@ -382,6 +384,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
+                        android:background="@drawable/mother_group_meeting"
                         android:scaleType="fitXY" />
 
                     <RelativeLayout
@@ -436,6 +439,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
+                        android:background="@drawable/success"
                         android:scaleType="fitXY" />
 
                     <RelativeLayout

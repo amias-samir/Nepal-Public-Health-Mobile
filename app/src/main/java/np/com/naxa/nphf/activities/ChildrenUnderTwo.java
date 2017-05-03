@@ -330,7 +330,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         convertDataToJson();
 
                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                        int width = metrics.widthPixels;
+                        final int width = metrics.widthPixels;
                         int height = metrics.heightPixels;
 
                         final Dialog showDialog = new Dialog(context);
@@ -370,6 +370,33 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
                                     Toast.makeText(ChildrenUnderTwo.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
+
+                                    final Dialog showDialog = new Dialog(context);
+                                    showDialog.setContentView(R.layout.savedform_sent_popup);
+                                    final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                    final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                                    showDialog.setTitle("Successfully Saved");
+                                    showDialog.setCancelable(false);
+                                    showDialog.show();
+                                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showDialog.dismiss();
+                                            Intent intent = new Intent(ChildrenUnderTwo.this, SavedFormsActivity.class);
+                                            startActivity(intent);
+//                                finish();
+                                        }
+                                    });
+
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showDialog.dismiss();
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -1165,6 +1192,74 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                     dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
 //                    Log.e("dbID", "" + id);
                     dataBaseNepalPublicHealth_NotSent.close();
+
+                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
+
+//                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
+
+                    final Dialog showDialog = new Dialog(context);
+                    showDialog.setContentView(R.layout.thank_you_popup);
+                    final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                    final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                    showDialog.setTitle("Successfully Sent");
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                            Intent intent = new Intent(ChildrenUnderTwo.this, ChildrenUnderTwo.class);
+                            startActivity(intent);
+//                                finish();
+                        }
+                    });
+
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                        }
+                    });
+                }
+
+                if(!CheckValues.isFromSavedFrom){
+                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
+
+//                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
+
+                    final Dialog showDialog = new Dialog(context);
+                    showDialog.setContentView(R.layout.thank_you_popup);
+                    final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                    final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                    showDialog.setTitle("Successfully Sent");
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                            Intent intent = new Intent(ChildrenUnderTwo.this, ChildrenUnderTwo.class);
+                            startActivity(intent);
+//                                finish();
+                        }
+                    });
+
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                        }
+                    });
                 }
 
 

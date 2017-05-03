@@ -1170,12 +1170,10 @@ public class ChildrenUnderFive extends AppCompatActivity {
                     dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
 //                    Log.e("dbID", "" + id);
                     dataBaseNepalPublicHealth_NotSent.close();
+
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
-
-                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
-
                     final Dialog showDialog = new Dialog(context);
                     showDialog.setContentView(R.layout.thank_you_popup);
                     final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
@@ -1211,7 +1209,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
 
-                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
 
                     final Dialog showDialog = new Dialog(context);
                     showDialog.setContentView(R.layout.thank_you_popup);

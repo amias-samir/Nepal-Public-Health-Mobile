@@ -157,4 +157,20 @@ public class DataBaseNepalPublicHealth_NotSent extends SQLiteOpenHelper {
         database.close();
     }
 
+    public void updateRowNotSentForms(String [] list , String formID){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TABLE_ID , list[0]);
+        contentValues.put(TABLE_NAME, list[1] );
+        contentValues.put(TABLE_DATE, list[2]);
+        contentValues.put(TABLE_JSON, list[3]);
+        contentValues.put(TABLE_GPS, list[4]);
+        contentValues.put(TABLE_PHOTO, list[5]);
+        contentValues.put(TABLE_STATUS , list[6]);
+        contentValues.put(DELETE_FLAG, list[7]);
+
+        db.update(TABLE_MAIN, contentValues, ID_TABLE + "= '" + formID + "'", null);
+
+    }
+
 }

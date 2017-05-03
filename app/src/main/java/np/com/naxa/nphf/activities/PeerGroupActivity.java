@@ -108,7 +108,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid ;
+    String formid, formName ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -336,55 +336,152 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
 
                         convertDataToJson();
 
-                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                        int width = metrics.widthPixels;
-                        int height = metrics.heightPixels;
+                     if(CheckValues.isFromSavedFrom){
+                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                         final int width = metrics.widthPixels;
+                         int height = metrics.heightPixels;
 
-                        final Dialog showDialog = new Dialog(context);
-                        showDialog.setContentView(R.layout.date_input_layout);
-                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
-                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Peer Group");
+                         final Dialog showDialog = new Dialog(context);
+                         showDialog.setContentView(R.layout.date_input_layout);
+                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                         FormNameToInput.setText(formName);
 
-                        long date = System.currentTimeMillis();
+                         long date = System.currentTimeMillis();
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-                        String dateString = sdf.format(date);
-                        dateToInput.setText(dateString);
+                         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                         String dateString = sdf.format(date);
+                         dateToInput.setText(dateString);
 
-                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
-                        showDialog.setTitle("Save Data");
-                        showDialog.setCancelable(true);
-                        showDialog.show();
-                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                         AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                         showDialog.setTitle("Save Data");
+                         showDialog.setCancelable(true);
+                         showDialog.show();
+                         showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                        logIn.setOnClickListener(new View.OnClickListener() {
+                         logIn.setOnClickListener(new View.OnClickListener() {
 
-                            @Override
-                            public void onClick(View v) {
-                                // TODO Auto-generated method stub
-                                String dateDataCollected = dateToInput.getText().toString();
-                                String formName = FormNameToInput.getText().toString();
-                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
-                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
-                                            "" + imageName, "Not Sent", "0"};
+                             @Override
+                             public void onClick(View v) {
+                                 // TODO Auto-generated method stub
+                                 String dateDataCollected = dateToInput.getText().toString();
+                                 String formName = FormNameToInput.getText().toString();
+                                 if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                     Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                 } else {
+                                     String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                             "" + imageName, "Not Sent", "0"};
 
-                                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
-                                    dataBaseNepalPublicHealthNotSent.open();
-                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                     dataBaseNepalPublicHealthNotSent.open();
+                                     dataBaseNepalPublicHealthNotSent.updateRowNotSentForms(data , formid);
 
-//                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
-//                                            .setTitleText("Job done!")
-//                                            .setContentText("Data saved successfully!")
-//                                            .show();
-//                                    dataBaseNepalPublicHealthNotSent.close();
-                                    Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
-                                    showDialog.dismiss();
-                                }
-                            }
-                        });
+                                     Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                     showDialog.dismiss();
+
+                                     final Dialog showDialog = new Dialog(context);
+                                     showDialog.setContentView(R.layout.savedform_sent_popup);
+                                     final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                     final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                                     showDialog.setTitle("Successfully Saved");
+                                     showDialog.setCancelable(false);
+                                     showDialog.show();
+                                     showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                     yes.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             showDialog.dismiss();
+                                             Intent intent = new Intent(PeerGroupActivity.this, SavedFormsActivity.class);
+                                             startActivity(intent);
+//                                finish();
+                                         }
+                                     });
+
+                                     no.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             showDialog.dismiss();
+                                         }
+                                     });
+                                 }
+                             }
+                         });
+                     }else {
+
+                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                         final int width = metrics.widthPixels;
+                         int height = metrics.heightPixels;
+
+                         final Dialog showDialog = new Dialog(context);
+                         showDialog.setContentView(R.layout.date_input_layout);
+                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                         FormNameToInput.setText("Peer Group");
+
+                         long date = System.currentTimeMillis();
+
+                         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                         String dateString = sdf.format(date);
+                         dateToInput.setText(dateString);
+
+                         AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                         showDialog.setTitle("Save Data");
+                         showDialog.setCancelable(true);
+                         showDialog.show();
+                         showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                         logIn.setOnClickListener(new View.OnClickListener() {
+
+                             @Override
+                             public void onClick(View v) {
+                                 // TODO Auto-generated method stub
+                                 String dateDataCollected = dateToInput.getText().toString();
+                                 String formName = FormNameToInput.getText().toString();
+                                 if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                     Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                 } else {
+                                     String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                             "" + imageName, "Not Sent", "0"};
+
+                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                     dataBaseNepalPublicHealthNotSent.open();
+                                     dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+
+                                     Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                     showDialog.dismiss();
+
+                                     final Dialog showDialog = new Dialog(context);
+                                     showDialog.setContentView(R.layout.savedform_sent_popup);
+                                     final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                     final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                                     showDialog.setTitle("Successfully Saved");
+                                     showDialog.setCancelable(false);
+                                     showDialog.show();
+                                     showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                     yes.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             showDialog.dismiss();
+                                             Intent intent = new Intent(PeerGroupActivity.this, SavedFormsActivity.class);
+                                             startActivity(intent);
+//                                finish();
+                                         }
+                                     });
+
+                                     no.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             showDialog.dismiss();
+                                         }
+                                     });
+                                 }
+                             }
+                         });
+                     }
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
@@ -884,6 +981,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formName = (String) bundle.get("form_name");
+
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
 
@@ -1145,6 +1244,74 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                     dataBaseNepalPublicHealth_NotSent.dropRowNotSentForms(formid);
 //                    Log.e("dbID", "" + id);
                     dataBaseNepalPublicHealth_NotSent.close();
+
+                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
+
+//                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
+
+                    final Dialog showDialog = new Dialog(context);
+                    showDialog.setContentView(R.layout.thank_you_popup);
+                    final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                    final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                    showDialog.setTitle("Successfully Sent");
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                            Intent intent = new Intent(PeerGroupActivity.this, PeerGroupActivity.class);
+                            startActivity(intent);
+//                                finish();
+                        }
+                    });
+
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                        }
+                    });
+                }
+
+                if(!CheckValues.isFromSavedFrom){
+                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
+
+//                    Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
+
+                    final Dialog showDialog = new Dialog(context);
+                    showDialog.setContentView(R.layout.thank_you_popup);
+                    final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                    final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+
+                    showDialog.setTitle("Successfully Sent");
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                            Intent intent = new Intent(PeerGroupActivity.this, PeerGroupActivity.class);
+                            startActivity(intent);
+//                                finish();
+                        }
+                    });
+
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
+                        }
+                    });
                 }
 
 
