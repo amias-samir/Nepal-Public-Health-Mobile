@@ -27,6 +27,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -108,8 +109,9 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid, formName ;
+    String formid, formName;
     ImageView previewImageSite;
+    CardView cv_Send_Save;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
     List<Location> gpslocation = new ArrayList<>();
@@ -139,16 +141,14 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
     private int minute;
     static final int TIME_DIALOG_ID = 9999;
 
-    Spinner spinnerVisitMonth, spinnerPeerGroup, spinnerPeerGroupType ;
-    ArrayAdapter peer_group_adpt , peer_group_type_adpt , visit_month_adpt;
+    Spinner spinnerVisitMonth, spinnerPeerGroup, spinnerPeerGroupType;
+    ArrayAdapter peer_group_adpt, peer_group_type_adpt, visit_month_adpt;
 
     AutoCompleteTextView tvVDCName, tvDiscussedTopic, tvTotalParticipants, tvNameOfSM;
-    EditText tvVisitDate, tvVisitTime, tvMaleNo, tvFemaleNo ;
+    EditText tvVisitDate, tvVisitTime, tvMaleNo, tvFemaleNo;
 
     String visit_month, peer_group, peer_group_type, vdc_name, discussed_topic, total_prticipants, sm_name,
             visit_date, visit_time, male_no, female_no, img;
-
-
 
 
     @Override
@@ -174,6 +174,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         spinnerVisitMonth = (Spinner) findViewById(R.id.spinner_peer_group_visit_month);
         spinnerPeerGroup = (Spinner) findViewById(R.id.spinner_peer_group_peer_group);
         spinnerPeerGroupType = (Spinner) findViewById(R.id.spinner_peer_group_peer_group_type);
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -304,27 +306,25 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                 } else {
 
                     if (isGpsTaken) {
-                       vdc_name = tvVDCName.getText().toString();
+                        vdc_name = tvVDCName.getText().toString();
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
 
-                        if(tvMaleNo.getText().toString().equals("")){
+                        if (tvMaleNo.getText().toString().equals("")) {
                             male_no = "0";
-                        }
-                        else {
+                        } else {
                             male_no = tvMaleNo.getText().toString();
                         }
 
-                        if(tvFemaleNo.getText().toString().equals("")){
+                        if (tvFemaleNo.getText().toString().equals("")) {
                             female_no = "0";
-                        }
-                        else {
+                        } else {
                             female_no = tvFemaleNo.getText().toString();
                         }
 
                         int participants = Integer.parseInt(male_no) + Integer.parseInt(female_no);
 
-                        total_prticipants = ""+participants;
+                        total_prticipants = "" + participants;
                         tvTotalParticipants.setVisibility(View.VISIBLE);
                         tvTotalParticipants.setText(total_prticipants);
 
@@ -336,152 +336,152 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
 
                         convertDataToJson();
 
-                     if(CheckValues.isFromSavedFrom){
-                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                         final int width = metrics.widthPixels;
-                         int height = metrics.heightPixels;
+                        if (CheckValues.isFromSavedFrom) {
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            final int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
 
-                         final Dialog showDialog = new Dialog(context);
-                         showDialog.setContentView(R.layout.date_input_layout);
-                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
-                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                         FormNameToInput.setText(formName);
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.date_input_layout);
+                            final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                            final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                            FormNameToInput.setText(formName);
 
-                         long date = System.currentTimeMillis();
+                            long date = System.currentTimeMillis();
 
-                         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-                         String dateString = sdf.format(date);
-                         dateToInput.setText(dateString);
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                            String dateString = sdf.format(date);
+                            dateToInput.setText(dateString);
 
-                         AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
-                         showDialog.setTitle("Save Data");
-                         showDialog.setCancelable(true);
-                         showDialog.show();
-                         showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                            showDialog.setTitle("Save Data");
+                            showDialog.setCancelable(true);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                         logIn.setOnClickListener(new View.OnClickListener() {
+                            logIn.setOnClickListener(new View.OnClickListener() {
 
-                             @Override
-                             public void onClick(View v) {
-                                 // TODO Auto-generated method stub
-                                 String dateDataCollected = dateToInput.getText().toString();
-                                 String formName = FormNameToInput.getText().toString();
-                                 if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
-                                     Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
-                                 } else {
-                                     String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
-                                             "" + imageName, "Not Sent", "0"};
+                                @Override
+                                public void onClick(View v) {
+                                    // TODO Auto-generated method stub
+                                    String dateDataCollected = dateToInput.getText().toString();
+                                    String formName = FormNameToInput.getText().toString();
+                                    if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                        Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                                "" + imageName, "Not Sent", "0"};
 
-                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
-                                     dataBaseNepalPublicHealthNotSent.open();
-                                     dataBaseNepalPublicHealthNotSent.updateRowNotSentForms(data , formid);
+                                        DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                        dataBaseNepalPublicHealthNotSent.open();
+                                        dataBaseNepalPublicHealthNotSent.updateRowNotSentForms(data, formid);
 
-                                     Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
-                                     showDialog.dismiss();
+                                        Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                        showDialog.dismiss();
 
-                                     final Dialog showDialog = new Dialog(context);
-                                     showDialog.setContentView(R.layout.savedform_sent_popup);
-                                     final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
-                                     final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+                                        final Dialog showDialog = new Dialog(context);
+                                        showDialog.setContentView(R.layout.savedform_sent_popup);
+                                        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
 
-                                     showDialog.setTitle("Successfully Saved");
-                                     showDialog.setCancelable(false);
-                                     showDialog.show();
-                                     showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                        showDialog.setTitle("Successfully Saved");
+                                        showDialog.setCancelable(false);
+                                        showDialog.show();
+                                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                                     yes.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             showDialog.dismiss();
-                                             Intent intent = new Intent(PeerGroupActivity.this, SavedFormsActivity.class);
-                                             startActivity(intent);
+                                        yes.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                                Intent intent = new Intent(PeerGroupActivity.this, SavedFormsActivity.class);
+                                                startActivity(intent);
 //                                finish();
-                                         }
-                                     });
+                                            }
+                                        });
 
-                                     no.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             showDialog.dismiss();
-                                         }
-                                     });
-                                 }
-                             }
-                         });
-                     }else {
+                                        no.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
 
-                         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                         final int width = metrics.widthPixels;
-                         int height = metrics.heightPixels;
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            final int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
 
-                         final Dialog showDialog = new Dialog(context);
-                         showDialog.setContentView(R.layout.date_input_layout);
-                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
-                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                         FormNameToInput.setText("Peer Group");
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.date_input_layout);
+                            final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                            final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                            FormNameToInput.setText("Peer Group");
 
-                         long date = System.currentTimeMillis();
+                            long date = System.currentTimeMillis();
 
-                         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-                         String dateString = sdf.format(date);
-                         dateToInput.setText(dateString);
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                            String dateString = sdf.format(date);
+                            dateToInput.setText(dateString);
 
-                         AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
-                         showDialog.setTitle("Save Data");
-                         showDialog.setCancelable(true);
-                         showDialog.show();
-                         showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                            showDialog.setTitle("Save Data");
+                            showDialog.setCancelable(true);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                         logIn.setOnClickListener(new View.OnClickListener() {
+                            logIn.setOnClickListener(new View.OnClickListener() {
 
-                             @Override
-                             public void onClick(View v) {
-                                 // TODO Auto-generated method stub
-                                 String dateDataCollected = dateToInput.getText().toString();
-                                 String formName = FormNameToInput.getText().toString();
-                                 if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
-                                     Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
-                                 } else {
-                                     String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
-                                             "" + imageName, "Not Sent", "0"};
+                                @Override
+                                public void onClick(View v) {
+                                    // TODO Auto-generated method stub
+                                    String dateDataCollected = dateToInput.getText().toString();
+                                    String formName = FormNameToInput.getText().toString();
+                                    if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                                        Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        String[] data = new String[]{"6", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                                "" + imageName, "Not Sent", "0"};
 
-                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
-                                     dataBaseNepalPublicHealthNotSent.open();
-                                     dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                        DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                                        dataBaseNepalPublicHealthNotSent.open();
+                                        dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
-                                     Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
-                                     showDialog.dismiss();
+                                        Toast.makeText(PeerGroupActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                        showDialog.dismiss();
 
-                                     final Dialog showDialog = new Dialog(context);
-                                     showDialog.setContentView(R.layout.savedform_sent_popup);
-                                     final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
-                                     final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
+                                        final Dialog showDialog = new Dialog(context);
+                                        showDialog.setContentView(R.layout.savedform_sent_popup);
+                                        final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                                        final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
 
-                                     showDialog.setTitle("Successfully Saved");
-                                     showDialog.setCancelable(false);
-                                     showDialog.show();
-                                     showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                        showDialog.setTitle("Successfully Saved");
+                                        showDialog.setCancelable(false);
+                                        showDialog.show();
+                                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                                     yes.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             showDialog.dismiss();
-                                             Intent intent = new Intent(PeerGroupActivity.this, SavedFormsActivity.class);
-                                             startActivity(intent);
+                                        yes.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                                Intent intent = new Intent(PeerGroupActivity.this, SavedFormsActivity.class);
+                                                startActivity(intent);
 //                                finish();
-                                         }
-                                     });
+                                            }
+                                        });
 
-                                     no.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             showDialog.dismiss();
-                                         }
-                                     });
-                                 }
-                             }
-                         });
-                     }
+                                        no.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
@@ -501,23 +501,21 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                     sm_name = tvNameOfSM.getText().toString();
                     discussed_topic = tvDiscussedTopic.getText().toString();
 
-                    if(tvMaleNo.getText().toString().equals("")){
+                    if (tvMaleNo.getText().toString().equals("")) {
                         male_no = "0";
-                    }
-                    else {
+                    } else {
                         male_no = tvMaleNo.getText().toString();
                     }
 
-                    if(tvFemaleNo.getText().toString().equals("")){
+                    if (tvFemaleNo.getText().toString().equals("")) {
                         female_no = "0";
-                    }
-                    else {
+                    } else {
                         female_no = tvFemaleNo.getText().toString();
                     }
 
                     int participants = Integer.parseInt(male_no) + Integer.parseInt(female_no);
 
-                    total_prticipants = ""+participants;
+                    total_prticipants = "" + participants;
                     tvTotalParticipants.setVisibility(View.VISIBLE);
                     tvTotalParticipants.setText(total_prticipants);
 
@@ -568,7 +566,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
 
 
                     } else {
-                        final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
+                        final View coordinatorLayoutView = findViewById(R.id.activity_peer_group);
                         Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                                 .setAction("Retry", null).show();
                     }
@@ -580,7 +578,6 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
 
 
         });
-
 
 
     }
@@ -983,25 +980,25 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
             String sent_Status = (String) bundle.get("sent_Status");
             formName = (String) bundle.get("form_name");
 
-            Log.d(TAG, "initilizeUI: "+sent_Status);
+            Log.d(TAG, "initilizeUI: " + sent_Status);
 
 
-//            if (sent_Status.equals("Sent")) {
-//                tvchild_motherName.setEnabled(false);
-//                tvchildren2VDCName.setEnabled(false);
-//                tvchildrenWardNo.setEnabled(false);
-//                tvchild2_age.setEnabled(false);
-//                tvchild2_sex.setEnabled(false);
-//                tvcontact_details_lactating_women.setEnabled(false);
-//                tvsmName.setEnabled(false);
-//                tvVisitDate.setEnabled(false);
-//                tvVisitTime.setEnabled(false);
-//                photo.setEnabled(false);
-//                startGps.setEnabled(false);
-//                cv_Send_Save.setVisibility(View.GONE);
-//
-//
-//            }
+            if (sent_Status.equals("Sent")) {
+                spinnerVisitMonth.setEnabled(false);
+                spinnerPeerGroup.setEnabled(false);
+                spinnerPeerGroupType.setEnabled(false);
+                tvVDCName.setEnabled(false);
+                tvDiscussedTopic.setEnabled(false);
+                tvTotalParticipants.setEnabled(false);
+                tvNameOfSM.setEnabled(false);
+                tvVisitDate.setEnabled(false);
+                tvVisitTime.setEnabled(false);
+                tvMaleNo.setEnabled(false);
+                tvFemaleNo.setEnabled(false);
+                startGps.setEnabled(false);
+                photo.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+            }
 
 
             Log.e("PeerGroup", "i-" + imageName);
@@ -1237,7 +1234,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                 dataBaseNepalPublicHealthSent.close();
 
 
-                if(CheckValues.isFromSavedFrom) {
+                if (CheckValues.isFromSavedFrom) {
                     Log.e(TAG, "onPostExecute: FormID : " + formid);
                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
                     dataBaseNepalPublicHealth_NotSent.open();
@@ -1279,7 +1276,7 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                     });
                 }
 
-                if(!CheckValues.isFromSavedFrom){
+                if (!CheckValues.isFromSavedFrom) {
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;

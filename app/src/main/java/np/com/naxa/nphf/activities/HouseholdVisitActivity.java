@@ -27,6 +27,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -107,10 +108,11 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
-    String formid ;
+    String formid;
     double finalLat;
     double finalLong;
     ImageView previewImageSite;
+    CardView cv_Send_Save ;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
     List<Location> gpslocation = new ArrayList<>();
@@ -143,15 +145,15 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
     CheckBox cbPregnent, cbLactating;
     LinearLayout rlPregnent, rlLactating;
 
-    Spinner spinnerVisitMonth, spinnerPregnentSession, spinnerLctatingSession ;
-    ArrayAdapter visit_month_adpt, pregnent_session_adpt , lactating_session_adpt ;
+    Spinner spinnerVisitMonth, spinnerPregnentSession, spinnerLctatingSession;
+    ArrayAdapter visit_month_adpt, pregnent_session_adpt, lactating_session_adpt;
 
     EditText tvVisitDate, tvVisitTime, tvPregnentOldNo, tvPregnentNewNo, tvLactatingOldNo, tvLactatingNewNo;
-    AutoCompleteTextView tvVDCName, tvPregnentDiscussedTopic, tvPregnentParticipants, tvLactatingDiscussedTopic, tvLactatingParticipants, tvNameOfSM ;
+    AutoCompleteTextView tvVDCName, tvPregnentDiscussedTopic, tvPregnentParticipants, tvLactatingDiscussedTopic, tvLactatingParticipants, tvNameOfSM;
 
-    String pregnent_status = "no", lactating_status = "no", visit_month, visit_date, visit_time, vdc_name, img, pregnent_discussed_topic = "" , pregnent_session = "", pregnent_old_no = "0" ,
-            pregnent_new_no = "0" , pregnent_total_participnts = "0" , lactating_discussed_topic = "", lactating_session = "", lactating_old_no = "0" , lactating_new_no = "0" , lactating_total_participants = "0",
-            sm_name ;
+    String pregnent_status = "no", lactating_status = "no", visit_month, visit_date, visit_time, vdc_name, img, pregnent_discussed_topic = "", pregnent_session = "", pregnent_old_no = "0",
+            pregnent_new_no = "0", pregnent_total_participnts = "0", lactating_discussed_topic = "", lactating_session = "", lactating_old_no = "0", lactating_new_no = "0", lactating_total_participants = "0",
+            sm_name;
 
 
     @Override
@@ -187,6 +189,9 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
         spinnerVisitMonth = (Spinner) findViewById(R.id.spinner_household_visit_month);
         spinnerPregnentSession = (Spinner) findViewById(R.id.spinner_household_visit_pregnent_no_of_session);
         spinnerLctatingSession = (Spinner) findViewById(R.id.spinner_household_visit_lactating_no_of_session);
+
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -241,10 +246,9 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
         cbPregnent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cbPregnent.isChecked()) {
+                if (cbPregnent.isChecked()) {
                     rlPregnent.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     rlPregnent.setVisibility(View.GONE);
                 }
             }
@@ -253,9 +257,9 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
         cbLactating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cbLactating.isChecked()) {
+                if (cbLactating.isChecked()) {
                     rlLactating.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     rlLactating.setVisibility(View.GONE);
                 }
             }
@@ -346,8 +350,8 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                         sm_name = tvNameOfSM.getText().toString();
 
                         // pregnent block
-                        if(cbPregnent.isChecked()) {
-                            pregnent_status = "yes" ;
+                        if (cbPregnent.isChecked()) {
+                            pregnent_status = "yes";
                             pregnent_discussed_topic = tvPregnentDiscussedTopic.getText().toString();
                             // pregnent old/new participants
                             if (tvPregnentOldNo.getText().toString().equals("")) {
@@ -370,10 +374,10 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
 //                        =====================================================        //
                         }
 
-                // lacating block
-                        if(cbLactating.isChecked()) {
+                        // lacating block
+                        if (cbLactating.isChecked()) {
                             // Lactating old/new participants
-                            lactating_status = "yes" ;
+                            lactating_status = "yes";
                             lactating_discussed_topic = tvLactatingDiscussedTopic.getText().toString();
                             if (tvLactatingOldNo.getText().toString().equals("")) {
                                 lactating_old_no = "0";
@@ -394,7 +398,6 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                             tvLactatingParticipants.setText(lactating_total_participants);
                         }
                         //                        =====================================================        //
-
 
 
                         img = encodedImage;
@@ -494,8 +497,8 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                     sm_name = tvNameOfSM.getText().toString();
 
                     // pregnent block
-                    if(cbPregnent.isChecked()) {
-                        pregnent_status = "yes" ;
+                    if (cbPregnent.isChecked()) {
+                        pregnent_status = "yes";
                         pregnent_discussed_topic = tvPregnentDiscussedTopic.getText().toString();
                         // pregnent old/new participants
                         if (tvPregnentOldNo.getText().toString().equals("")) {
@@ -519,9 +522,9 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                     }
 
                     // lacating block
-                    if(cbLactating.isChecked()) {
+                    if (cbLactating.isChecked()) {
                         // Lactating old/new participants
-                        lactating_status = "yes" ;
+                        lactating_status = "yes";
                         lactating_discussed_topic = tvLactatingDiscussedTopic.getText().toString();
                         if (tvLactatingOldNo.getText().toString().equals("")) {
                             lactating_old_no = "0";
@@ -996,25 +999,31 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
-            Log.d(TAG, "initilizeUI: "+sent_Status);
+            Log.d(TAG, "initilizeUI: " + sent_Status);
 
 
-//            if (sent_Status.equals("Sent")) {
-//                tvchild_motherName.setEnabled(false);
-//                tvchildren2VDCName.setEnabled(false);
-//                tvchildrenWardNo.setEnabled(false);
-//                tvchild2_age.setEnabled(false);
-//                tvchild2_sex.setEnabled(false);
-//                tvcontact_details_lactating_women.setEnabled(false);
-//                tvsmName.setEnabled(false);
-//                tvVisitDate.setEnabled(false);
-//                tvVisitTime.setEnabled(false);
-//                photo.setEnabled(false);
-//                startGps.setEnabled(false);
-//                cv_Send_Save.setVisibility(View.GONE);
-//
-//
-//            }
+            if (sent_Status.equals("Sent")) {
+                spinnerVisitMonth.setEnabled(false);
+                spinnerPregnentSession.setEnabled(false);
+                spinnerLctatingSession.setEnabled(false);
+                tvVisitDate.setEnabled(false);
+                tvVisitTime.setEnabled(false);
+                tvPregnentOldNo.setEnabled(false);
+                tvPregnentNewNo.setEnabled(false);
+                tvLactatingOldNo.setEnabled(false);
+                tvLactatingNewNo.setEnabled(false);
+                tvVDCName.setEnabled(false);
+                tvPregnentDiscussedTopic.setEnabled(false);
+                tvPregnentParticipants.setEnabled(false);
+                tvLactatingDiscussedTopic.setEnabled(false);
+                tvLactatingParticipants.setEnabled(false);
+                tvNameOfSM.setEnabled(false);
+                cbPregnent.setEnabled(false);
+                cbLactating.setEnabled(false);
+                startGps.setEnabled(false);
+                photo.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+            }
 
 
             Log.e("HouseholdVisit", "i-" + imageName);
@@ -1182,7 +1191,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
         tvVisitDate.setText(visit_date);
         tvVisitTime.setText(visit_time);
 
-        if(pregnent_status.equals("yes")) {
+        if (pregnent_status.equals("yes")) {
             rlPregnent.setVisibility(View.VISIBLE);
             cbPregnent.setChecked(true);
             tvPregnentDiscussedTopic.setText(pregnent_discussed_topic);
@@ -1195,7 +1204,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             spinnerPregnentSession.setSelection(setPregSession);
         }
 
-        if(lactating_status.equals("yes")) {
+        if (lactating_status.equals("yes")) {
             rlLactating.setVisibility(View.VISIBLE);
             cbLactating.setChecked(true);
             tvLactatingDiscussedTopic.setText(lactating_discussed_topic);
@@ -1284,7 +1293,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                 Log.e("dbID", "" + id);
                 dataBaseNepalPublicHealthSent.close();
 
-                if(CheckValues.isFromSavedFrom) {
+                if (CheckValues.isFromSavedFrom) {
                     Log.e(TAG, "onPostExecute: FormID : " + formid);
                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
                     dataBaseNepalPublicHealth_NotSent.open();
@@ -1326,7 +1335,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                     });
                 }
 
-                if(!CheckValues.isFromSavedFrom){
+                if (!CheckValues.isFromSavedFrom) {
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
@@ -1412,8 +1421,6 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
 
 
     }
-
-
 
 
 }

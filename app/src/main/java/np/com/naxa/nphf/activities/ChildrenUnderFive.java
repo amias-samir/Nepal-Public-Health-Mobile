@@ -524,7 +524,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
 
                 } else {
-                    final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
+                    final View coordinatorLayoutView = findViewById(R.id.activity_children_five);
                     Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                             .setAction("Retry", null).show();
                 }

@@ -170,6 +170,8 @@ public class SuccessStoryActivity extends AppCompatActivity {
         cbSexualAndRepreductive = (CheckBox) findViewById(R.id.success_story_sexual_and_reproductive);
         cbPeerGroup = (CheckBox) findViewById(R.id.success_story_peer_group);
 
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
         initilizeUI();
 
         //Check internet connection
@@ -773,26 +775,26 @@ public class SuccessStoryActivity extends AppCompatActivity {
             String sent_Status = (String) bundle.get("sent_Status");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
-//            if (sent_Status.equals("Sent")) {
-//                tvchildren_under5_name.setEnabled(false);
-//                tvchild_under5_vdc_name.setEnabled(false);
-//                tvchildren_5_ward_no.setEnabled(false);
-//                tvchildren_5_age.setEnabled(false);
-//                tvchildren_5_sex.setEnabled(false);
-//                tvchildren_5_sm_name.setEnabled(false);
-//                cbSufferedDiarrhoea.setEnabled(false);
-//                cbTreatedWithZinc.setEnabled(false);
-//                cbReferredBySM.setEnabled(false);
-//                cbSufferedARI.setEnabled(false);
-//                cbTreatedWithAntibiotic.setEnabled(false);
-//                cbRefferedBySM_ARI.setEnabled(false);
-//                tvVisitDate.setEnabled(false);
-//                tvVisitTime.setEnabled(false);
-//                photo.setEnabled(false);
-//                startGps.setEnabled(false);
-//                cv_Send_Save.setVisibility(View.GONE);
-//
-//            }
+            if (sent_Status.equals("Sent")) {
+            tvVDCName.setEnabled(false);
+                    tvNameOfTool.setEnabled(false);
+                tvNameOfRespondaents.setEnabled(false);
+                        tvTopics.setEnabled(false);
+            cbANC.setEnabled(false);
+                    cbPNC.setEnabled(false);
+                cbInstitunationalDelivery.setEnabled(false);
+                        cbNewBornCare.setEnabled(false);
+                cbBreastFeeding.setEnabled(false);
+                        cbComplementryFeeding.setEnabled(false);
+                cbHygieneRelated.setEnabled(false);
+                        cbMotherGroupRelated.setEnabled(false);
+                    cbRefer.setEnabled(false);
+                            cbSexualAndRepreductive.setEnabled(false);
+                cbPeerGroup.setEnabled(false);
+                photo.setEnabled(false);
+                startGps.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+            }
 
             Log.e("SuccessStory", "i-" + imageName);
 

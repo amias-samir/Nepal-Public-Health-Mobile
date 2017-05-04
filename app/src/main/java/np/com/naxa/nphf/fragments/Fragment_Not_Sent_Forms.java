@@ -143,7 +143,7 @@ public class Fragment_Not_Sent_Forms extends Fragment {
 
                             DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(getActivity());
                             dataBaseNepalPublicHealthNotSent.open();
-                            int id = (int) dataBaseNepalPublicHealthNotSent.updateTable_DeleteFlag(resultCur.get(position).dbId);
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(resultCur.get(position).dbId);
 //                Toast.makeText(getActivity() ,resultCur.get(position).date+ " Long Clicked "+id , Toast.LENGTH_SHORT ).show();
                             dataBaseNepalPublicHealthNotSent.close();
                             showDialog.dismiss();

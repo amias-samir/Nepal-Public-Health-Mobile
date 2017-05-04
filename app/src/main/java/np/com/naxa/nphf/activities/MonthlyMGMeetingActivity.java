@@ -22,10 +22,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -107,8 +109,9 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid ;
+    String formid;
     ImageView previewImageSite;
+    CardView cv_Send_Save;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
     List<Location> gpslocation = new ArrayList<>();
@@ -141,11 +144,11 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
     ArrayAdapter visit_month_adpt, mother_group_adpt;
 
     EditText tvVisitDate, tvVisitTime, tvPregnentWomenOld, tvPregnentWomenNew, tvLactatingWomenOld, tvLactatingWomenNew, tvMotherU2Old,
-            tvMotherU2New, tvMotherU5Old, tvMotherU5New ;
+            tvMotherU2New, tvMotherU5Old, tvMotherU5New;
     AutoCompleteTextView tvVDCName, tvDiscussedTopic, tvTotalParticipants, tvNameOfSM;
 
     String visit_date, visit_time, visit_month, mother_group, pregnent_women_old, pregnent_women_new, lactating_women_old, lactating_women_new, mother_u2_old,
-            mother_u2_new, mother_u5_old, mother_u5_new, vdc_name, discussed_topic, total_prticipants, sm_name, img ;
+            mother_u2_new, mother_u5_old, mother_u5_new, vdc_name, discussed_topic, total_prticipants, sm_name, img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,8 +171,10 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         tvLactatingWomenNew = (EditText) findViewById(R.id.monthly_meeting_lactating_new_number);
         tvMotherU2Old = (EditText) findViewById(R.id.monthly_meeting_mother_with_u2child_old_number);
         tvMotherU2New = (EditText) findViewById(R.id.monthly_meeting_mother_with_u2child_new_number);
-        tvMotherU5Old= (EditText) findViewById(R.id.monthly_meeting_mother_with_u5child_old_number);
+        tvMotherU5Old = (EditText) findViewById(R.id.monthly_meeting_mother_with_u5child_old_number);
         tvMotherU5New = (EditText) findViewById(R.id.monthly_meeting_mother_with_u5child_new_number);
+        cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -303,75 +308,63 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
 //                            pregnent women
-                        if(tvPregnentWomenOld.getText().toString().equals("")){
+                        if (tvPregnentWomenOld.getText().toString().equals("")) {
                             pregnent_women_old = "0";
-                        }
-                        else {
+                        } else {
                             pregnent_women_old = tvPregnentWomenOld.getText().toString();
                         }
 
-                        if(tvPregnentWomenNew.getText().toString().equals("")){
+                        if (tvPregnentWomenNew.getText().toString().equals("")) {
                             pregnent_women_new = "0";
-                        }
-                        else {
+                        } else {
                             pregnent_women_new = tvPregnentWomenNew.getText().toString();
                         }
 
 //                            lactating women
-                        if(tvLactatingWomenOld.getText().toString().equals("")){
+                        if (tvLactatingWomenOld.getText().toString().equals("")) {
                             lactating_women_old = "0";
-                        }
-                        else {
+                        } else {
                             lactating_women_old = tvLactatingWomenOld.getText().toString();
                         }
 
-                        if(tvLactatingWomenNew.getText().toString().equals("")){
+                        if (tvLactatingWomenNew.getText().toString().equals("")) {
                             lactating_women_new = "0";
-                        }
-                        else {
+                        } else {
                             lactating_women_new = tvLactatingWomenNew.getText().toString();
                         }
 
 //                            mother with child under two
-                        if(tvMotherU2Old.getText().toString().equals("")){
+                        if (tvMotherU2Old.getText().toString().equals("")) {
                             mother_u2_old = "0";
-                        }
-                        else {
+                        } else {
                             mother_u2_old = tvMotherU2Old.getText().toString();
                         }
 
-                        if(tvMotherU2New.getText().toString().equals("")){
+                        if (tvMotherU2New.getText().toString().equals("")) {
                             mother_u2_new = "0";
-                        }
-                        else {
+                        } else {
                             mother_u2_new = tvMotherU2New.getText().toString();
                         }
 
 //                        mother with child under five
-                        if(tvMotherU5Old.getText().toString().equals("")){
+                        if (tvMotherU5Old.getText().toString().equals("")) {
                             mother_u5_old = "0";
-                        }
-                        else {
+                        } else {
                             mother_u5_old = tvMotherU5Old.getText().toString();
                         }
 
-                        if(tvMotherU5New.getText().toString().equals("")){
+                        if (tvMotherU5New.getText().toString().equals("")) {
                             mother_u5_new = "0";
-                        }
-                        else {
+                        } else {
                             mother_u5_new = tvMotherU5New.getText().toString();
                         }
 
 
+                        int participants = Integer.parseInt(pregnent_women_old) + Integer.parseInt(pregnent_women_new) + Integer.parseInt(lactating_women_old)
+                                + Integer.parseInt(lactating_women_new) + Integer.parseInt(mother_u2_old) + Integer.parseInt(mother_u2_new) +
+                                Integer.parseInt(mother_u5_old) + Integer.parseInt(mother_u5_new);
 
-
-
-
-                        int participants = Integer.parseInt(pregnent_women_old) + Integer.parseInt(pregnent_women_new)+ Integer.parseInt(lactating_women_old)
-                                + Integer.parseInt(lactating_women_new) + Integer.parseInt(mother_u2_old) + Integer.parseInt(mother_u2_new)+
-                                    Integer.parseInt(mother_u5_old) + Integer.parseInt(mother_u5_new);
-
-                        total_prticipants = ""+participants;
+                        total_prticipants = "" + participants;
                         tvTotalParticipants.setVisibility(View.VISIBLE);
                         tvTotalParticipants.setText(total_prticipants);
 
@@ -420,7 +413,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
 
                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                                     dataBaseNepalPublicHealthNotSent.open();
-                                  dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 //                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
 //                                            .setTitleText("Job done!")
@@ -480,75 +473,63 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
 //                            pregnent women
-                        if(tvPregnentWomenOld.getText().toString().equals("")){
+                        if (tvPregnentWomenOld.getText().toString().equals("")) {
                             pregnent_women_old = "0";
-                        }
-                        else {
+                        } else {
                             pregnent_women_old = tvPregnentWomenOld.getText().toString();
                         }
 
-                        if(tvPregnentWomenNew.getText().toString().equals("")){
+                        if (tvPregnentWomenNew.getText().toString().equals("")) {
                             pregnent_women_new = "0";
-                        }
-                        else {
+                        } else {
                             pregnent_women_new = tvPregnentWomenNew.getText().toString();
                         }
 
 //                            lactating women
-                        if(tvLactatingWomenOld.getText().toString().equals("")){
+                        if (tvLactatingWomenOld.getText().toString().equals("")) {
                             lactating_women_old = "0";
-                        }
-                        else {
+                        } else {
                             lactating_women_old = tvLactatingWomenOld.getText().toString();
                         }
 
-                        if(tvLactatingWomenNew.getText().toString().equals("")){
+                        if (tvLactatingWomenNew.getText().toString().equals("")) {
                             lactating_women_new = "0";
-                        }
-                        else {
+                        } else {
                             lactating_women_new = tvLactatingWomenNew.getText().toString();
                         }
 
 //                            mother with child under two
-                        if(tvMotherU2Old.getText().toString().equals("")){
+                        if (tvMotherU2Old.getText().toString().equals("")) {
                             mother_u2_old = "0";
-                        }
-                        else {
+                        } else {
                             mother_u2_old = tvMotherU2Old.getText().toString();
                         }
 
-                        if(tvMotherU2New.getText().toString().equals("")){
+                        if (tvMotherU2New.getText().toString().equals("")) {
                             mother_u2_new = "0";
-                        }
-                        else {
+                        } else {
                             mother_u2_new = tvMotherU2New.getText().toString();
                         }
 
 //                        mother with child under five
-                        if(tvMotherU5Old.getText().toString().equals("")){
+                        if (tvMotherU5Old.getText().toString().equals("")) {
                             mother_u5_old = "0";
-                        }
-                        else {
+                        } else {
                             mother_u5_old = tvMotherU5Old.getText().toString();
                         }
 
-                        if(tvMotherU5New.getText().toString().equals("")){
+                        if (tvMotherU5New.getText().toString().equals("")) {
                             mother_u5_new = "0";
-                        }
-                        else {
+                        } else {
                             mother_u5_new = tvMotherU5New.getText().toString();
                         }
 
 
-
-
-
-
-                        int participants = Integer.parseInt(pregnent_women_old) + Integer.parseInt(pregnent_women_new)+ Integer.parseInt(lactating_women_old)
-                                + Integer.parseInt(lactating_women_new) + Integer.parseInt(mother_u2_old) + Integer.parseInt(mother_u2_new)+
+                        int participants = Integer.parseInt(pregnent_women_old) + Integer.parseInt(pregnent_women_new) + Integer.parseInt(lactating_women_old)
+                                + Integer.parseInt(lactating_women_new) + Integer.parseInt(mother_u2_old) + Integer.parseInt(mother_u2_new) +
                                 Integer.parseInt(mother_u5_old) + Integer.parseInt(mother_u5_new);
 
-                        total_prticipants = ""+participants;
+                        total_prticipants = "" + participants;
                         tvTotalParticipants.setVisibility(View.VISIBLE);
                         tvTotalParticipants.setText(total_prticipants);
 
@@ -557,53 +538,51 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                         visit_time = tvVisitTime.getText().toString();
                         jsonLatLangArray = jsonArrayGPS.toString();
 
+                        if (networkInfo != null && networkInfo.isConnected()) {
 
-                        convertDataToJson();
-                        sendDatToserver();
 
-                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                        int width = metrics.widthPixels;
-                        int height = metrics.heightPixels;
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
 
-                        final Dialog showDialog = new Dialog(context);
-                        showDialog.setContentView(R.layout.date_input_layout);
-                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
-                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Monthly Mother Group Meeting");
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.alert_dialog_before_send);
+                            final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
+                            final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
 
-                        long date = System.currentTimeMillis();
+                            showDialog.setTitle("WARNING !!!");
+                            showDialog.setCancelable(false);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-                        String dateString = sdf.format(date);
-                        dateToInput.setText(dateString);
+                            yes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog.dismiss();
+                                    mProgressDlg = new ProgressDialog(context);
+                                    mProgressDlg.setMessage("Please wait...");
+                                    mProgressDlg.setIndeterminate(false);
+                                    mProgressDlg.setCancelable(false);
+                                    mProgressDlg.show();
+                                    convertDataToJson();
+                                    sendDatToserver();
+//                                finish();
+                                }
+                            });
 
-                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
-                        showDialog.setTitle("Save Data");
-                        showDialog.setCancelable(true);
-                        showDialog.show();
-                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                        logIn.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                // TODO Auto-generated method stub
-                                String dateDataCollected = dateToInput.getText().toString();
-                                String formName = FormNameToInput.getText().toString();
-                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
-                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    String[] data = new String[]{"7", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
-                                            "" + imageName, "Sent", "0"};
-
-                                    DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(context);
-                                    dataBaseNepalPublicHealthSent.open();
-                                    dataBaseNepalPublicHealthSent.insertIntoTable_Main(data);
-
+                            no.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     showDialog.dismiss();
                                 }
-                            }
-                        });
+                            });
+
+
+                        } else {
+                            final View coordinatorLayoutView = findViewById(R.id.activity_mg_meeting);
+                            Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
+                                    .setAction("Retry", null).show();
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 
@@ -613,8 +592,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         });
 
 
-
     }
+
     private void askForPermission(String permission, Integer requestCode) {
         if (ContextCompat.checkSelfPermission(MonthlyMGMeetingActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
 
@@ -990,25 +969,31 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
-            Log.d(TAG, "initilizeUI: "+sent_Status);
+            Log.d(TAG, "initilizeUI: " + sent_Status);
 
 
-//            if (sent_Status.equals("Sent")) {
-//                tvchild_motherName.setEnabled(false);
-//                tvchildren2VDCName.setEnabled(false);
-//                tvchildrenWardNo.setEnabled(false);
-//                tvchild2_age.setEnabled(false);
-//                tvchild2_sex.setEnabled(false);
-//                tvcontact_details_lactating_women.setEnabled(false);
-//                tvsmName.setEnabled(false);
-//                tvVisitDate.setEnabled(false);
-//                tvVisitTime.setEnabled(false);
-//                photo.setEnabled(false);
-//                startGps.setEnabled(false);
-//                cv_Send_Save.setVisibility(View.GONE);
-//
-//
-//            }
+            if (sent_Status.equals("Sent")) {
+                spinner_month.setEnabled(false);
+                spinner_mother_group.setEnabled(false);
+                tvVisitDate.setEnabled(false);
+                tvVisitTime.setEnabled(false);
+                tvPregnentWomenOld.setEnabled(false);
+                tvPregnentWomenNew.setEnabled(false);
+                tvLactatingWomenOld.setEnabled(false);
+                tvLactatingWomenNew.setEnabled(false);
+                tvMotherU2Old.setEnabled(false);
+                tvMotherU2New.setEnabled(false);
+                tvMotherU5Old.setEnabled(false);
+                tvMotherU5New.setEnabled(false);
+                tvVDCName.setEnabled(false);
+                tvDiscussedTopic.setEnabled(false);
+                tvTotalParticipants.setEnabled(false);
+                tvNameOfSM.setEnabled(false);
+                startGps.setEnabled(false);
+                photo.setEnabled(false);
+                cv_Send_Save.setVisibility(View.GONE);
+
+            }
 
 
             Log.e("MonthlyMGMeeting", "i-" + imageName);
@@ -1190,7 +1175,6 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
     }
 
 
-
     private class RestApii extends AsyncTask<String, Void, String> {
 
 
@@ -1260,7 +1244,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                 Log.e("dbID", "" + id);
                 dataBaseNepalPublicHealthSent.close();
 
-                if(CheckValues.isFromSavedFrom) {
+                if (CheckValues.isFromSavedFrom) {
                     Log.e(TAG, "onPostExecute: FormID : " + formid);
                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
                     dataBaseNepalPublicHealth_NotSent.open();
@@ -1302,7 +1286,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                     });
                 }
 
-                if(!CheckValues.isFromSavedFrom){
+                if (!CheckValues.isFromSavedFrom) {
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
