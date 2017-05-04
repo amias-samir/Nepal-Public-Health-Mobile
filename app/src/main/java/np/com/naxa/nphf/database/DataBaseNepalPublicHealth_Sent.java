@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import np.com.naxa.nphf.model.SavedFormParameters;
+
 /**
  * Created by Samir on 4/4/2017.
  */
@@ -160,6 +165,40 @@ public class DataBaseNepalPublicHealth_Sent extends SQLiteOpenHelper {
 
 
 
+    public List<SavedFormParameters> getAllSentForms() {
+        ArrayList<SavedFormParameters> sentFormsDetailsAll = new ArrayList<SavedFormParameters>();
+
+        String sql = "SELECT  * FROM " + TABLE_MAIN;
+
+        //  Log.e("YUWAPUSTA_DATABASE_ACTIVITY", sql);
+
+        Cursor c = getReadableDatabase().rawQuery(sql, null);
+
+        while (c.moveToNext()) {
+            SavedFormParameters savedFormParameters = new SavedFormParameters();
+            savedFormParameters.setDbId(c.getString(c.getColumnIndex(ID_TABLE)));
+            savedFormParameters.setFormId(c.getString(c.getColumnIndex(TABLE_ID)));
+            savedFormParameters.setFormName(c.getString(c.getColumnIndex(TABLE_NAME)));
+            savedFormParameters.setDate(c.getString(c.getColumnIndex(TABLE_DATE)));
+            savedFormParameters.setStatus(c.getString(c.getColumnIndex(TABLE_STATUS)));
+            savedFormParameters.setjSON(c.getString(c.getColumnIndex(TABLE_JSON)));
+            savedFormParameters.setPhoto(c.getString(c.getColumnIndex(TABLE_PHOTO)));
+            savedFormParameters.setGps(c.getString(c.getColumnIndex(TABLE_GPS)));
+            savedFormParameters.setDeletedStatus(c.getString(c.getColumnIndex(DELETE_FLAG)));
+
+//              new Vardump(TAG,iAmAmazingStoryModel);
+
+            sentFormsDetailsAll.add(savedFormParameters);
+
+            Log.e("", "getNOT_SENT_FORMS: " + sentFormsDetailsAll.size() );
+
+
+        }
+        c.close();
+
+        //    Log.e(TAG, "getYuwaPustaQueriesDetailsfrom sqlite: "+ queriesDetailsAll.size() );
+        return sentFormsDetailsAll;
+    }
 
 
 }

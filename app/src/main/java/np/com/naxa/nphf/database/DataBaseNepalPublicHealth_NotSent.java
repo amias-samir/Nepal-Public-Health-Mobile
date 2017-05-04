@@ -8,10 +8,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import np.com.naxa.nphf.model.SavedFormParameters;
+
 /**
  * Created by Samir on 4/4/2017.
  */
 public class DataBaseNepalPublicHealth_NotSent extends SQLiteOpenHelper {
+
         private final static String db_name = "_db_NPHF_NotSent.db";
         private final static int db_version = (int) 1;
 
@@ -171,6 +177,40 @@ public class DataBaseNepalPublicHealth_NotSent extends SQLiteOpenHelper {
 
         db.update(TABLE_MAIN, contentValues, ID_TABLE + "= '" + formID + "'", null);
 
+    }
+
+    public List<SavedFormParameters> getAllNotSentForms() {
+        ArrayList<SavedFormParameters> notSentFormsDetailsAll = new ArrayList<SavedFormParameters>();
+
+        String sql = "SELECT  * FROM " + TABLE_MAIN ;
+//        +"ORDER BY" + ID_TABLE +"DESC"
+
+        Cursor c = getReadableDatabase().rawQuery(sql, null);
+
+        while (c.moveToNext()) {
+            SavedFormParameters savedFormParameters = new SavedFormParameters();
+            savedFormParameters.setDbId(c.getString(c.getColumnIndex(ID_TABLE)));
+            savedFormParameters.setFormId(c.getString(c.getColumnIndex(TABLE_ID)));
+            savedFormParameters.setFormName(c.getString(c.getColumnIndex(TABLE_NAME)));
+            savedFormParameters.setDate(c.getString(c.getColumnIndex(TABLE_DATE)));
+            savedFormParameters.setStatus(c.getString(c.getColumnIndex(TABLE_STATUS)));
+            savedFormParameters.setjSON(c.getString(c.getColumnIndex(TABLE_JSON)));
+            savedFormParameters.setPhoto(c.getString(c.getColumnIndex(TABLE_PHOTO)));
+            savedFormParameters.setGps(c.getString(c.getColumnIndex(TABLE_GPS)));
+            savedFormParameters.setDeletedStatus(c.getString(c.getColumnIndex(DELETE_FLAG)));
+
+//              new Vardump(TAG,iAmAmazingStoryModel);
+
+            notSentFormsDetailsAll.add(savedFormParameters);
+
+            Log.e("", "getNOT_SENT_FORMS: " + notSentFormsDetailsAll.size() );
+
+
+        }
+        c.close();
+
+        //    Log.e(TAG, "getYuwaPustaQueriesDetailsfrom sqlite: "+ queriesDetailsAll.size() );
+        return notSentFormsDetailsAll;
     }
 
 }

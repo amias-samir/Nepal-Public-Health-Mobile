@@ -308,35 +308,37 @@ public class Fragment_Sent_Forms extends Fragment {
         resultCur.clear();
         DataBaseNepalPublicHealth_Sent dataBaseNepalPublicHealthSent = new DataBaseNepalPublicHealth_Sent(getActivity());
         dataBaseNepalPublicHealthSent.open();
-        boolean isTableEmpty = dataBaseNepalPublicHealthSent.is_TABLE_MAIN_Empty();
-        if(isTableEmpty){
-            Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Sent ");
-        }else{
-            int count = dataBaseNepalPublicHealthSent.returnTotalNoOf_TABLE_MAIN_NUM() + 1;
-            for(int i=count ; i>=1 ; i--) {
-//                String[] data = dataBaseNepalPublicHealthNotSent.return_Data_TABLE_MAIN(i);
-                String[] data = dataBaseNepalPublicHealthSent.return_Data_ID(i);
-                SavedFormParameters savedData = new SavedFormParameters();
-                Log.e("DATA" , "08 "+data[8] +" one: "+ data[1]+" two: "+data[2]);
-//                savedData.dbId = data[0];
-                savedData.formId = data[0];
-                savedData.formName = data[1];
-                savedData.date = data[2];
-                savedData.jSON = data[3];
-                savedData.gps = data[4] ;
-                savedData.photo = data[5];
-                savedData.status = data[6];
-                savedData.deletedStatus = data[7];
-                savedData.dbId = data[8];
+//        boolean isTableEmpty = dataBaseNepalPublicHealthSent.is_TABLE_MAIN_Empty();
+//        if(isTableEmpty){
+//            Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Sent ");
+//        }else{
+//            int count = dataBaseNepalPublicHealthSent.returnTotalNoOf_TABLE_MAIN_NUM() + 1;
+//            for(int i=count ; i>=1 ; i--) {
+////                String[] data = dataBaseNepalPublicHealthNotSent.return_Data_TABLE_MAIN(i);
+//                String[] data = dataBaseNepalPublicHealthSent.return_Data_ID(i);
+//                SavedFormParameters savedData = new SavedFormParameters();
+//                Log.e("DATA" , "08 "+data[8] +" one: "+ data[1]+" two: "+data[2]);
+////                savedData.dbId = data[0];
+//                savedData.formId = data[0];
+//                savedData.formName = data[1];
+//                savedData.date = data[2];
+//                savedData.jSON = data[3];
+//                savedData.gps = data[4] ;
+//                savedData.photo = data[5];
+//                savedData.status = data[6];
+//                savedData.deletedStatus = data[7];
+//                savedData.dbId = data[8];
+//
+//                if(savedData.dbId!= null) {
+//
+//                    resultCur.add(savedData);
+//                }
+//
+//
+//            }
+//        }
+        resultCur.addAll(dataBaseNepalPublicHealthSent.getAllSentForms());
 
-                if(savedData.dbId!= null) {
-
-                    resultCur.add(savedData);
-                }
-
-
-            }
-        }
         fillTable();
     }
 
