@@ -158,4 +158,8 @@ public class DataBaseNepalPublicHealth_Sent extends SQLiteOpenHelper {
         database.close();
     }
 
+
+
+
+
 }

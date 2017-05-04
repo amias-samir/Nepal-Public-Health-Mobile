@@ -116,7 +116,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     double finalLat;
     double initLong;
     double finalLong;
-    String formid ;
+    String formid, formNameSavedForm = "" ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     PendingIntent pendingIntent;
@@ -390,7 +390,16 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Recording Tool For Pregnent Women");
+
+                        if (formNameSavedForm.equals("")){
+                            FormNameToInput.setText("Recording Tool For Pregnent Women");
+                        }
+                        else {
+                            FormNameToInput.setText(formNameSavedForm);
+                            DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                            dataBaseNepalPublicHealthNotSent.open();
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                        }
 
                         long date = System.currentTimeMillis();
 
@@ -754,6 +763,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formNameSavedForm = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
             if (sent_Status.equals("Sent")) {

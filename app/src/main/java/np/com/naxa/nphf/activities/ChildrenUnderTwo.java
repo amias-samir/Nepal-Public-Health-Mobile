@@ -111,7 +111,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid ;
+    String formid, formNameSavedForm = "" ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -337,7 +337,17 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Children Under Two");
+
+
+                        if (formNameSavedForm.equals("")){
+                            FormNameToInput.setText("Children Under Two");
+                        }
+                        else {
+                            FormNameToInput.setText(formNameSavedForm);
+                            DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                            dataBaseNepalPublicHealthNotSent.open();
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                        }
 
                         long date = System.currentTimeMillis();
 
@@ -366,7 +376,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                                     dataBaseNepalPublicHealthNotSent.open();
-                                    long id = dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
                                     Toast.makeText(ChildrenUnderTwo.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
@@ -958,6 +968,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formNameSavedForm = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
 

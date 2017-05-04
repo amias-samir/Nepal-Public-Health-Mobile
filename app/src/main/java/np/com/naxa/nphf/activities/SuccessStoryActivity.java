@@ -101,7 +101,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid ;
+    String formid, formNameSavedForm = "" ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -137,7 +137,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_success_story);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Peer Group");
+        toolbar.setTitle("Success Story");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -356,7 +356,16 @@ public class SuccessStoryActivity extends AppCompatActivity {
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Success Story");
+
+                        if (formNameSavedForm.equals("")){
+                            FormNameToInput.setText("Success Story");
+                        }
+                        else {
+                            FormNameToInput.setText(formNameSavedForm);
+                            DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                            dataBaseNepalPublicHealthNotSent.open();
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                        }
 
                         long date = System.currentTimeMillis();
 
@@ -385,7 +394,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                                     dataBaseNepalPublicHealthNotSent.open();
-                                    long id = dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 
                                     Toast.makeText(SuccessStoryActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
@@ -773,6 +782,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formNameSavedForm = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
             if (sent_Status.equals("Sent")) {

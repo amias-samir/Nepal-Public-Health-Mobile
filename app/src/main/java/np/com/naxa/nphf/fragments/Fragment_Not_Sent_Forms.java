@@ -326,6 +326,7 @@ public class Fragment_Not_Sent_Forms extends Fragment {
             Default_DIalog.showDefaultDialog(getActivity() , R.string.app_name , "No data Saved ");
         }else{
             int count = dataBaseNepalPublicHealthNotSent.returnTotalNoOf_TABLE_MAIN_NUM() +1;
+            Log.e("ROW_COUNT", "createList: "+ ""+count );
             for(int i=count ; i>=1 ; i--) {
 //                String[] data = dataBaseNepalPublicHealthNotSent.return_Data_TABLE_MAIN(i);
                 String[] data = dataBaseNepalPublicHealthNotSent.return_Data_ID(i);

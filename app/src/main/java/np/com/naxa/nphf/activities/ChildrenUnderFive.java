@@ -107,7 +107,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid ;
+    String formid, formNameSavedForm = "" ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -284,7 +284,17 @@ public class ChildrenUnderFive extends AppCompatActivity {
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Children Under Five");
+
+
+
+                        if (formNameSavedForm.equals("")){
+                            FormNameToInput.setText("Children Under Five");                        }
+                        else {
+                            FormNameToInput.setText(formNameSavedForm);
+                            DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                            dataBaseNepalPublicHealthNotSent.open();
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                        }
 
                         long date = System.currentTimeMillis();
 
@@ -313,7 +323,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                                     dataBaseNepalPublicHealthNotSent.open();
-                                    long id = dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
 //                                    Toast.makeText(ChildrenUnderFive.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
@@ -905,6 +915,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formNameSavedForm = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
             if (sent_Status.equals("Sent")) {

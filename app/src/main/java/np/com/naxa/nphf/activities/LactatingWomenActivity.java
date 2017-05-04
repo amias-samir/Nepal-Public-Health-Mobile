@@ -122,7 +122,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     double finalLat;
     double initLong;
     double finalLong;
-    String formid ;
+    String formid, formNameSavedForm = "" ;
     ImageView previewImageSite;
     Bitmap thumbnail;
     PendingIntent lactatingpendingIntent;
@@ -427,7 +427,16 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Recording Tool For Lactating Women");
+
+                        if (formNameSavedForm.equals("")){
+                            FormNameToInput.setText("Recording Tool For Lactating Women");
+                        }
+                        else {
+                            FormNameToInput.setText(formNameSavedForm);
+                            DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                            dataBaseNepalPublicHealthNotSent.open();
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                        }
 
                         long date = System.currentTimeMillis();
 
@@ -456,7 +465,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
                                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                                     dataBaseNepalPublicHealthNotSent.open();
-                                    long id = dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
+                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
                                     Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                                     showDialog.dismiss();
@@ -828,6 +837,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formNameSavedForm = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: "+sent_Status);
 
 

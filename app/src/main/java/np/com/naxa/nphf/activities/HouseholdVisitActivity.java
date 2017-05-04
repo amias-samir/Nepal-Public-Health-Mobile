@@ -108,7 +108,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
     ImageButton photo;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
-    String formid;
+    String formid, formNameSendForm = "";
     double finalLat;
     double finalLong;
     ImageView previewImageSite;
@@ -416,7 +416,17 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
                         showDialog.setContentView(R.layout.date_input_layout);
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
-                        FormNameToInput.setText("Household Visit");
+
+                        if (formNameSendForm.equals("")){
+                            FormNameToInput.setText("Household Visit");
+                        }
+                        else {
+                            FormNameToInput.setText(formNameSendForm);
+                            DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                            dataBaseNepalPublicHealthNotSent.open();
+                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                        }
+
 
                         long date = System.currentTimeMillis();
 
@@ -999,6 +1009,7 @@ public class HouseholdVisitActivity extends AppCompatActivity implements Adapter
             String gpsLocationtoParse = (String) bundle.get("gps");
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
+            formNameSendForm = (String) bundle.get("form_name");
             Log.d(TAG, "initilizeUI: " + sent_Status);
 
 
