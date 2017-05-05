@@ -388,7 +388,7 @@
                                     android:id="@+id/success_story_story"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Topics"
+                                    android:hint="Story"
                                     android:inputType="textPersonName|textMultiLine"
                                     android:textColor="@color/black" />
                             </android.support.design.widget.TextInputLayout>
