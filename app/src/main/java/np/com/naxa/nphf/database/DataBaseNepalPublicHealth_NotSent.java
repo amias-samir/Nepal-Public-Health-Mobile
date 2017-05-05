@@ -182,7 +182,7 @@ public class DataBaseNepalPublicHealth_NotSent extends SQLiteOpenHelper {
     public List<SavedFormParameters> getAllNotSentForms() {
         ArrayList<SavedFormParameters> notSentFormsDetailsAll = new ArrayList<SavedFormParameters>();
 
-        String sql = "SELECT  * FROM " + TABLE_MAIN ;
+        String sql = "SELECT  * FROM " + TABLE_MAIN + " ORDER BY "+ ID_TABLE+" DESC" ;
 //        +"ORDER BY" + ID_TABLE +"DESC"
 
         Cursor c = getReadableDatabase().rawQuery(sql, null);

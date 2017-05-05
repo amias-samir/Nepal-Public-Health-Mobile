@@ -168,7 +168,7 @@ public class DataBaseNepalPublicHealth_Sent extends SQLiteOpenHelper {
     public List<SavedFormParameters> getAllSentForms() {
         ArrayList<SavedFormParameters> sentFormsDetailsAll = new ArrayList<SavedFormParameters>();
 
-        String sql = "SELECT  * FROM " + TABLE_MAIN;
+        String sql = "SELECT  * FROM " + TABLE_MAIN + " ORDER BY "+ ID_TABLE+" DESC" \;
 
         //  Log.e("YUWAPUSTA_DATABASE_ACTIVITY", sql);
 
