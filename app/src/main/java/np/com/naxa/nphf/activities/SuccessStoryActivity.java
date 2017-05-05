@@ -120,12 +120,12 @@ public class SuccessStoryActivity extends AppCompatActivity {
     String dataSentStatus, dateString;
 
 
-
-    AutoCompleteTextView tvVDCName, tvNameOfTool, tvNameOfRespondaents, tvTopics;
+//tvNameOfTool, name_of_tool,
+    AutoCompleteTextView tvVDCName,  tvNameOfRespondaents, tvTopics;
     CheckBox cbANC, cbPNC, cbInstitunationalDelivery, cbNewBornCare, cbBreastFeeding, cbComplementryFeeding, cbHygieneRelated, cbMotherGroupRelated,
                 cbRefer, cbSexualAndRepreductive, cbPeerGroup;
     CardView cv_Send_Save;
-    String vdc_name, name_of_tool, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
+    String vdc_name, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
             hygiene_related, mother_group_related, refer, sexual_and_reproductive, peer_group, img;
     JSONArray jsonArrayGPS = new JSONArray();
 
@@ -142,9 +142,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvVDCName = (AutoCompleteTextView) findViewById(R.id.success_story_vdc_name);
-        tvNameOfTool = (AutoCompleteTextView) findViewById(R.id.success_story_tool_name);
+//        tvNameOfTool = (AutoCompleteTextView) findViewById(R.id.success_story_tool_name);
         tvNameOfRespondaents = (AutoCompleteTextView) findViewById(R.id.success_story_respondents_name);
-        tvTopics = (AutoCompleteTextView) findViewById(R.id.success_story_topics);
+        tvTopics = (AutoCompleteTextView) findViewById(R.id.success_story_story);
 
         startGps = (Button) findViewById(R.id.success_story_GpsStart);
         previewMap = (Button) findViewById(R.id.success_story_preview_map);
@@ -270,7 +270,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                     if (isGpsTaken) {
 
                         vdc_name = tvVDCName.getText().toString();
-                        name_of_tool = tvNameOfTool.getText().toString();
+//                        name_of_tool = tvNameOfTool.getText().toString();
                         name_of_respondents = tvNameOfRespondaents.getText().toString();
                         topics = tvTopics.getText().toString();
                         img = encodedImage;
@@ -446,7 +446,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 if(isGpsTaken) {
 
                     vdc_name = tvVDCName.getText().toString();
-                    name_of_tool = tvNameOfTool.getText().toString();
+//                    name_of_tool = tvNameOfTool.getText().toString();
                     name_of_respondents = tvNameOfRespondaents.getText().toString();
                     topics = tvTopics.getText().toString();
                     img = encodedImage;
@@ -787,7 +787,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
             if (sent_Status.equals("Sent")) {
             tvVDCName.setEnabled(false);
-                    tvNameOfTool.setEnabled(false);
+//                    tvNameOfTool.setEnabled(false);
                 tvNameOfRespondaents.setEnabled(false);
                         tvTopics.setEnabled(false);
             cbANC.setEnabled(false);
@@ -856,7 +856,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
             JSONObject header = new JSONObject();
             header.put("tablename", "recording_tool_for_success_stories");
-            header.put("name_of_tool", name_of_tool);
+//            header.put("name_of_tool", name_of_tool);
             header.put("name_of_VDC", vdc_name);
             header.put("name_of_respondents", name_of_respondents);
             header.put("anc", anc);
@@ -870,7 +870,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
             header.put("refer", refer);
             header.put("sexual_and_reproductive", sexual_and_reproductive);
             header.put("peer_group", peer_group);
-            header.put("topics", topics);
+            header.put("story", topics);
 
             header.put("lat", finalLat);
             header.put("lon", finalLong);
@@ -909,9 +909,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
 
         vdc_name = jsonObj.getString("name_of_VDC");
-        name_of_tool = jsonObj.getString("name_of_tool");
+//        name_of_tool = jsonObj.getString("name_of_tool");
         name_of_respondents = jsonObj.getString("name_of_respondents");
-        topics = jsonObj.getString("topics");
+        topics = jsonObj.getString("story");
 
         Log.e(TAG, "SuccessStory: " + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
 
@@ -930,7 +930,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
 
         tvVDCName.setText(vdc_name);
-        tvNameOfTool.setText(name_of_tool);
+//        tvNameOfTool.setText(name_of_tool);
         tvNameOfRespondaents.setText(name_of_respondents);
         tvTopics.setText(topics);
 
@@ -1010,7 +1010,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 previewImageSite.setVisibility(View.VISIBLE);
 
                 tvVDCName.setText(vdc_name);
-                tvNameOfTool.setText(name_of_tool);
+//                tvNameOfTool.setText(name_of_tool);
                 tvNameOfRespondaents.setText(name_of_respondents);
                 tvTopics.setText(topics);
                 previewImageSite.setImageBitmap(thumbnail);

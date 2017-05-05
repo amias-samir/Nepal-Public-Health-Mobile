@@ -64,21 +64,7 @@
                             android:textColor="@color/black" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <!--VDC name-->
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/success_story_tool_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Name of Tool"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/black" />
-                    </android.support.design.widget.TextInputLayout>
-                    <!--VDC name-->
+                    <!--respondents name-->
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -399,7 +385,7 @@
                                 android:layout_marginTop="20dp">
 
                                 <AutoCompleteTextView
-                                    android:id="@+id/success_story_topics"
+                                    android:id="@+id/success_story_story"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Topics"
