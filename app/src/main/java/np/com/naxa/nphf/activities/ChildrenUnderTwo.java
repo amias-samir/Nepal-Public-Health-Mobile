@@ -82,6 +82,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import np.com.naxa.nphf.MainActivity;
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
@@ -405,6 +406,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                                         @Override
                                         public void onClick(View v) {
                                             showDialog.dismiss();
+                                            Intent intent = new Intent(ChildrenUnderTwo.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     });
                                 }
@@ -422,6 +425,12 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
 
                 child2_sm_name = tvsmName.getText().toString();
                 child2_mother_name = tvchild_motherName.getText().toString();
@@ -479,6 +488,12 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                     final View coordinatorLayoutView = findViewById(R.id.activity_pregnent_women);
                     Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                             .setAction("Retry", null).show();
+                }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
 
             }
@@ -1073,7 +1088,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
         if (jsonToSend.length() > 0) {
 
-            ChildrenUnderTwo.RestApii restApii = new ChildrenUnderTwo.RestApii();
+            RestApii restApii = new RestApii();
             restApii.execute();
         }
     }
@@ -1234,6 +1249,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(ChildrenUnderTwo.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1269,6 +1286,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(ChildrenUnderTwo.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }

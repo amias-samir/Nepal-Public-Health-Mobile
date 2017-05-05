@@ -85,6 +85,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import np.com.naxa.nphf.MainActivity;
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
@@ -118,33 +119,21 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     ImageButton pic;
     boolean isGpsTracking = false;
     boolean isGpsTaken = false;
-    double initLat;
     double finalLat;
-    double initLong;
     double finalLong;
     String formid, formNameSavedForm = "" ;
     ImageView previewImageSite;
     Bitmap thumbnail;
-    PendingIntent lactatingpendingIntent;
-    BroadcastReceiver lactatingmReceiver;
-    AlarmManager lactatingalarmManager;
-    ArrayList<LatLng> lactatinglistCf = new ArrayList<LatLng>();
-    List<Location> lactatinggpslocation = new ArrayList<>();
-    StringBuilder lactatingstringBuilder = new StringBuilder();
     ProgressDialog mProgressDlg;
     Context context = this;
     GPS_TRACKER_FOR_POINT gps;
     String jsonToSend, photoTosend;
     String imagePath, encodedImage = "", imageName = "no_photo";
-    ImageButton photo;
-    PendingIntent pendingIntent;
-    BroadcastReceiver mReceiver;
-    AlarmManager alarmManager;
+
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
     List<Location> gpslocation = new ArrayList<>();
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
-    ProgressDialog lwProgressDlg;
 
     AutoCompleteTextView tvLactatingWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvsmName;
     EditText tvVisitDate, tvVisitTime;
@@ -494,6 +483,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                                         @Override
                                         public void onClick(View v) {
                                             showDialog.dismiss();
+                                            Intent intent = new Intent(LactatingWomenActivity.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     });
                                 }
@@ -511,6 +502,13 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
+
                 lactating_women_name = tvLactatingWomenName.getText().toString();
                 vdc_name = tvVDCName.getText().toString();
                 ward_no = tvWardNo.getText().toString();
@@ -551,15 +549,13 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                             convertDataToJson();
                             sendDatToserver();
 
+                        }
+                    });
 
-                            no.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    showDialog.dismiss();
-                                }
-                            });
-
-
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog.dismiss();
                         }
                     });
                 } else {
@@ -567,6 +563,13 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                     Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                             .setAction("Retry", null).show();
                 }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
             }
         });
 
@@ -955,7 +958,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         if (jsonToSend.length() > 0) {
 
-            LactatingWomenActivity.RestApii restApii = new LactatingWomenActivity.RestApii();
+            RestApii restApii = new RestApii();
             restApii.execute();
         }
     }
@@ -1152,6 +1155,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(LactatingWomenActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1187,6 +1192,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(LactatingWomenActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }

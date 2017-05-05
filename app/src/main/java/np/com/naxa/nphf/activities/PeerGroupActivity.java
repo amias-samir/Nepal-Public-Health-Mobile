@@ -82,6 +82,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import np.com.naxa.nphf.MainActivity;
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
@@ -411,6 +412,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                                             @Override
                                             public void onClick(View v) {
                                                 showDialog.dismiss();
+                                                Intent intent = new Intent(PeerGroupActivity.this, MainActivity.class);
+                                                startActivity(intent);
                                             }
                                         });
                                     }
@@ -1206,6 +1209,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(PeerGroupActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1241,6 +1246,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(PeerGroupActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }

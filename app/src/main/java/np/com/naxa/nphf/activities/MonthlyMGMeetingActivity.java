@@ -82,6 +82,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import np.com.naxa.nphf.MainActivity;
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
@@ -456,6 +457,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                                         @Override
                                         public void onClick(View v) {
                                             showDialog.dismiss();
+                                            Intent intent = new Intent(MonthlyMGMeetingActivity.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     });
                                 }
@@ -1292,6 +1295,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(MonthlyMGMeetingActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1327,6 +1332,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(MonthlyMGMeetingActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }

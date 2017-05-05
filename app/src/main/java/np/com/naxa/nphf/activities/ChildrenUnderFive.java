@@ -352,6 +352,8 @@ public class ChildrenUnderFive extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             showDialog.dismiss();
+                                            Intent intent = new Intent(ChildrenUnderFive.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     });
                                 }
@@ -442,6 +444,12 @@ public class ChildrenUnderFive extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
 
                 child5_sm_name = tvchildren_5_sm_name.getText().toString();
                 child5_name = tvchildren_under5_name.getText().toString();
@@ -537,6 +545,11 @@ public class ChildrenUnderFive extends AppCompatActivity {
                     final View coordinatorLayoutView = findViewById(R.id.activity_children_five);
                     Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                             .setAction("Retry", null).show();
+                }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
 
             }
@@ -1030,7 +1043,7 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
         if (jsonToSend.length() > 0) {
 
-            ChildrenUnderFive.RestApii restApii = new ChildrenUnderFive.RestApii();
+            RestApii restApii = new RestApii();
             restApii.execute();
         }
     }
@@ -1246,6 +1259,9 @@ public class ChildrenUnderFive extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+
+                            Intent intent = new Intent(ChildrenUnderFive.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }

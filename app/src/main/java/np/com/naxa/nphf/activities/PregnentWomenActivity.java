@@ -85,6 +85,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import np.com.naxa.nphf.MainActivity;
 import np.com.naxa.nphf.R;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_NotSent;
 import np.com.naxa.nphf.database.DataBaseNepalPublicHealth_Sent;
@@ -457,6 +458,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                                         @Override
                                         public void onClick(View v) {
                                             showDialog.dismiss();
+                                            Intent intent = new Intent(PregnentWomenActivity.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     });
                                 }
@@ -474,6 +477,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
 
+                if (isGpsTracking) {
+                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (isGpsTaken) {
 
                 pregenent_women_name = tvPregnentWomenName.getText().toString();
                 vdc_name = tvVDCName.getText().toString();
@@ -535,9 +543,13 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                     Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                             .setAction("Retry", null).show();
                 }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
 
             }
-
 
         });
 
@@ -1069,6 +1081,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(PregnentWomenActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1104,6 +1118,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         @Override
                         public void onClick(View v) {
                             showDialog.dismiss();
+                            Intent intent = new Intent(PregnentWomenActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
