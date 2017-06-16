@@ -10,6 +10,11 @@ public class Constants {
 
     public static String [] ANC_VISIT = {"First Visit", "Second Visit", "Third Visit", "Fourth Visit"};
     public static String [] YES_NO = {"Yes", "No"};
+    public static String [] YES_NO_NA = {"Yes", "No", "N/A"};
+
+    public static final String[] VDC_NAME = {"Sarikhet Palase", "Raksirang", "Kankada", "Khairang", "Bharta Punyadevi"};
+    public static final String[] VDC_WARD_NO = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
     public static String [] PNC_VISIT =  {"First Visit", "Second Visit", "Third Visit"};
     public static String [] BIRTH_PLACE= {"Home","Hospital"};
     public static String [] ATTENDED_BIRTH_BY = {"SBA","HW","Others than SBA/HW"};

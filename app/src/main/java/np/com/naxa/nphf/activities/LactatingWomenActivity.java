@@ -103,13 +103,13 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     private static final String TAG = "LactatingWomenActivity";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner pnc_visit_spinner, delivery_at_place_spinner, birth_attended_by_lcw_spinner,
+    Spinner spinnerVDCName, spinnerWardNo, pnc_visit_spinner, delivery_at_place_spinner, birth_attended_by_lcw_spinner,
             lactaing_women_3rd_labour_spinner, oxytocin_received_after_birth_spinner,
             lactating_women_neonates_asphysia_spinner, lactating_women_45days_iron_spinner,
             lactating_women_vitaminA_spinner, lactating_women_neonatal_records_spinner,
             lactating_women_breastfeed_in1hour_spinner, lactating_women_exclusive_breastfeeding_spinner;
 
-    ArrayAdapter pnc_visit_adpt, delivery_at_place_adpt, birth_attended_by_lcw_adpt,
+    ArrayAdapter vdcNameadpt, wardNoadpt, pnc_visit_adpt, delivery_at_place_adpt, birth_attended_by_lcw_adpt,
             lactaing_women_3rd_labour_adpt, oxytocin_received_after_birth_adpt,
             lactating_women_neonates_asphysia_adpt, lactating_women_45days_iron_adtp,
             lactating_women_vitaminA_adpt, lactating_women_neonatal_records_adpt,
@@ -135,7 +135,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvLactatingWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvsmName;
+    AutoCompleteTextView tvLactatingWomenName,  tvEthnicity, tvAge, tvsmName;
+//    tvVDCName, tvWardNo,
     EditText tvVisitDate, tvVisitTime;
     CardView cv_Send_Save;
 
@@ -189,8 +190,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         // casting text view
         tvLactatingWomenName = (AutoCompleteTextView) findViewById(R.id.lactating_women_name);
-        tvVDCName = (AutoCompleteTextView) findViewById(R.id.lactating_women_vdc_name);
-        tvWardNo = (AutoCompleteTextView) findViewById(R.id.lactating_women_ward_no);
+//        tvVDCName = (AutoCompleteTextView) findViewById(R.id.lactating_women_vdc_name);
+//        tvWardNo = (AutoCompleteTextView) findViewById(R.id.lactating_women_ward_no);
         tvEthnicity = (AutoCompleteTextView) findViewById(R.id.lactating_women_ethnicity);
         tvAge = (AutoCompleteTextView) findViewById(R.id.lactating_women_age);
         tvsmName = (AutoCompleteTextView) findViewById(R.id.lactating_women_sm_name);
@@ -212,6 +213,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
 
         // initialiting spinners
+        spinnerVDCName = (Spinner) findViewById(R.id.lactating_women_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.lactating_women_ward_no);
         pnc_visit_spinner = (Spinner) findViewById(R.id.pnc_visit_spinner);
         delivery_at_place_spinner = (Spinner) findViewById(R.id.delivery_at_place);
         birth_attended_by_lcw_spinner = (Spinner) findViewById(R.id.birth_attended_by_lcw);
@@ -231,6 +234,23 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         //Check internet connection
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
 
         // pnc visit adapters
         pnc_visit_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.PNC_VISIT);
@@ -260,14 +280,14 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         // adapter  receiving active management in 3rd labour by lactating women
         // 3rd labour adapters
-        lactaing_women_3rd_labour_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
+        lactaing_women_3rd_labour_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO_NA);
         lactaing_women_3rd_labour_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lactaing_women_3rd_labour_spinner.setAdapter(lactaing_women_3rd_labour_adpt);
         lactaing_women_3rd_labour_spinner.setOnItemSelectedListener(this);
 
         // received oxytocin after delivery for lactating women
         oxytocin_received_after_birth_adpt = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item, Constants.YES_NO);
+                (this, android.R.layout.simple_spinner_item, Constants.YES_NO_NA);
         oxytocin_received_after_birth_adpt.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         oxytocin_received_after_birth_spinner.setAdapter(oxytocin_received_after_birth_adpt);
@@ -275,7 +295,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         // received neonates with birth asphysia
         lactating_women_neonates_asphysia_adpt = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item, Constants.YES_NO);
+                (this, android.R.layout.simple_spinner_item, Constants.YES_NO_NA);
         lactating_women_neonates_asphysia_adpt.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         lactating_women_neonates_asphysia_spinner.setAdapter(lactating_women_neonates_asphysia_adpt);
@@ -388,14 +408,14 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (isGpsTaken) {
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    if (isGpsTaken) {
                         lactating_women_name = tvLactatingWomenName.getText().toString();
-                        vdc_name = tvVDCName.getText().toString();
-                        ward_no = tvWardNo.getText().toString();
+//                        vdc_name = tvVDCName.getText().toString();
+//                        ward_no = tvWardNo.getText().toString();
                         ethnicity = tvEthnicity.getText().toString();
                         age = tvAge.getText().toString();
                         img = encodedImage;
@@ -490,11 +510,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                                 }
                             }
                         });
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
 
@@ -510,8 +530,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                     if (isGpsTaken) {
 
                 lactating_women_name = tvLactatingWomenName.getText().toString();
-                vdc_name = tvVDCName.getText().toString();
-                ward_no = tvWardNo.getText().toString();
+//                vdc_name = tvVDCName.getText().toString();
+//                ward_no = tvWardNo.getText().toString();
                 ethnicity = tvEthnicity.getText().toString();
                 age = tvAge.getText().toString();
                 img = encodedImage;
@@ -579,6 +599,20 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         int SpinnerID = parent.getId();
+
+
+        if(SpinnerID == R.id.lactating_women_vdc_name){
+            vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+vdc_name );
+
+        }
+
+        if(SpinnerID == R.id.lactating_women_ward_no){
+            ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+ward_no );
+
+        }
+
         if (SpinnerID == R.id.pnc_visit_spinner) {
             switch (position) {
                 case 0:
@@ -626,6 +660,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 case 1:
                     third_labour = "No";
                     break;
+                case 2:
+                    third_labour = "N/A";
+                    break;
             }
         }
 
@@ -637,6 +674,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 case 1:
                     oxytocin_received = "No";
                     break;
+                case 2:
+                    oxytocin_received = "N/A";
+                    break;
             }
         }
 
@@ -647,6 +687,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                     break;
                 case 1:
                     neonates_asphysia = "No";
+                    break;
+                case 2:
+                    neonates_asphysia = "N/A";
                     break;
             }
         }
@@ -856,9 +899,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 lactating_women_neonatal_records_spinner.setEnabled(false);
                 lactating_women_breastfeed_in1hour_spinner.setEnabled(false);
                 lactating_women_exclusive_breastfeeding_spinner.setEnabled(false);
+                spinnerVDCName.setEnabled(false);
+                spinnerWardNo.setEnabled(false);
                 tvLactatingWomenName.setEnabled(false);
-                tvVDCName.setEnabled(false);
-                tvWardNo.setEnabled(false);
+//                tvVDCName.setEnabled(false);
+//                tvWardNo.setEnabled(false);
                 tvEthnicity.setEnabled(false);
                 tvAge.setEnabled(false);
                 tvsmName.setEnabled(false);
@@ -1008,13 +1053,18 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         tvsmName.setText(sm_name);
         tvLactatingWomenName.setText(lactating_women_name);
-        tvVDCName.setText(vdc_name);
-        tvWardNo.setText(ward_no);
+//        tvVDCName.setText(vdc_name);
+//        tvWardNo.setText(ward_no);
         tvEthnicity.setText(ethnicity);
         tvAge.setText(age);
         tvVisitDate.setText(visit_date);
         tvVisitTime.setText(visit_time);
 
+        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(ward_no);
+        spinnerWardNo.setSelection(setWardNo);
 
         int setDeliveryPlace = delivery_at_place_adpt.getPosition(deliver_place);
         delivery_at_place_spinner.setSelection(setDeliveryPlace);
@@ -1091,8 +1141,8 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
                 tvsmName.setText(sm_name);
                 tvLactatingWomenName.setText(lactating_women_name);
-                tvVDCName.setText(vdc_name);
-                tvWardNo.setText(ward_no);
+//                tvVDCName.setText(vdc_name);
+//                tvWardNo.setText(ward_no);
                 tvEthnicity.setText(ethnicity);
                 tvAge.setText(age);
                 tvVisitDate.setText(visit_date);

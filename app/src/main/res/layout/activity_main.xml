@@ -73,7 +73,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Pregnent Women Details"
+                            android:text="Pregnant Women Details"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -187,7 +187,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Children Under Two years"
+                            android:text="Children Under Two Years"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -203,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="center"
-
+            android:layout_marginBottom="16dp"
             android:elevation="3dp">
 
             <RelativeLayout
@@ -242,7 +242,7 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Children Under Five years"
+                            android:text="Children Under Five Years"
                             android:textColor="#ffffff"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -258,7 +258,7 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="center"
-
+            android:layout_marginBottom="16dp"
             android:elevation="3dp">
 
             <RelativeLayout
@@ -313,7 +313,7 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="center"
-
+            android:layout_marginBottom="16dp"
             android:elevation="3dp">
 
             <RelativeLayout
@@ -368,7 +368,7 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="center"
-
+            android:layout_marginBottom="16dp"
             android:elevation="3dp">
 
             <RelativeLayout
@@ -423,7 +423,7 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="center"
-
+            android:layout_marginBottom="16dp"
             android:elevation="3dp">
 
             <RelativeLayout
@@ -478,7 +478,6 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="center"
-
             android:elevation="3dp">
 
             <RelativeLayout

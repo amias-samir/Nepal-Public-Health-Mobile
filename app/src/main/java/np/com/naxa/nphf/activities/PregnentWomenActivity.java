@@ -82,6 +82,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -102,8 +103,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     private static final String TAG = "PregnentWomenActivity";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner spinnerANCVisit, spinnerTD, spinnerTDPlus, spinnerVitA, spinnerReceivedIron, spinnerGravawatiBhet, spinnerFCHVsHelp;
-    ArrayAdapter ancVisitAdpt, tdAdpt, tdPlusAdapter, vitaAdpt, receivedIronAdapter, garvawatiBhetAdapter, fchvHelpAdapter;
+    Spinner spinnerVDCName, spinnerWardNo, spinnerANCVisit, spinnerTD, spinnerTDPlus, spinnerVitA, spinnerReceivedIron, spinnerGravawatiBhet, spinnerFCHVsHelp;
+    ArrayAdapter vdcNameadpt, wardNoadpt, ancVisitAdpt, tdAdpt, tdPlusAdapter, vitaAdpt, receivedIronAdapter, garvawatiBhetAdapter, fchvHelpAdapter;
     Button send, save, startGps, previewMap;
     ProgressDialog mProgressDlg;
     Context context = this;
@@ -128,7 +129,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvPregnentWomenName, tvVDCName, tvWardNo, tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
+    AutoCompleteTextView tvPregnentWomenName,  tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
+//    tvVDCName, tvWardNo,
     EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
     CardView cv_Send_Save;
 
@@ -145,8 +147,13 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     private int year;
     private int month;
     private int day;
+    private int eddday;
+    private int eddyear;
+    private int eddmonth;
     static final int DATE_DIALOG_ID = 999;
     static final int DELIVERY_DATE_DIALOG_ID = 99;
+    static final int LMP_DATE_DIALOG_ID = 999999;
+    static final int EDD_DATE_DIALOG_ID = 99999;
 
 
     private TimePicker timePicker1;
@@ -182,8 +189,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
 
         tvPregnentWomenName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_name);
-        tvVDCName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_vdc_name);
-        tvWardNo = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ward_no);
+//        tvVDCName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_vdc_name);
+//        tvWardNo = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ward_no);
         tvEthnicity = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ethnicity);
         tvAge = (AutoCompleteTextView) findViewById(R.id.pregnent_women_age);
         tvLMP = (AutoCompleteTextView) findViewById(R.id.pregnent_women_lmp);
@@ -204,6 +211,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         previewImageSite = (ImageView) findViewById(R.id.pregnent_women_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
 
+        spinnerVDCName = (Spinner) findViewById(R.id.pregnent_women_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.pregnent_women_ward_no);
         spinnerANCVisit = (Spinner) findViewById(R.id.pregnent_women_anc_visit_type);
         spinnerTD = (Spinner) findViewById(R.id.pregnant_women_45days_iron);
         spinnerTDPlus = (Spinner) findViewById(R.id.pregnent_women_td_plus);
@@ -224,6 +233,23 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         //Check internet connection
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
 
 //anc visit spinner
         ancVisitAdpt = new ArrayAdapter<String>(this,
@@ -265,7 +291,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
         //td spinner
         garvawatiBhetAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, Constants.YES_NO);
+                android.R.layout.simple_spinner_item, Constants.YES_NO_NA);
         garvawatiBhetAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerGravawatiBhet.setAdapter(garvawatiBhetAdapter);
@@ -360,14 +386,14 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
 
-                    if (isGpsTaken) {
+//                    if (isGpsTaken) {
                         pregenent_women_name = tvPregnentWomenName.getText().toString();
-                        vdc_name = tvVDCName.getText().toString();
-                        ward_no = tvWardNo.getText().toString();
+//                        vdc_name = tvVDCName.getText().toString();
+//                        ward_no = tvWardNo.getText().toString();
                         ethnicity = tvEthnicity.getText().toString();
                         age = tvAge.getText().toString();
                         lmp = tvLMP.getText().toString();
@@ -465,11 +491,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                                 }
                             }
                         });
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
         // add click listener to Button "POST"
@@ -484,8 +510,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                     if (isGpsTaken) {
 
                 pregenent_women_name = tvPregnentWomenName.getText().toString();
-                vdc_name = tvVDCName.getText().toString();
-                ward_no = tvWardNo.getText().toString();
+//                vdc_name = tvVDCName.getText().toString();
+//                ward_no = tvWardNo.getText().toString();
                 ethnicity = tvEthnicity.getText().toString();
                 age = tvAge.getText().toString();
                 lmp = tvLMP.getText().toString();
@@ -561,6 +587,18 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
         int spinnerId = parent.getId();
 
+        if(spinnerId == R.id.pregnent_women_vdc_name){
+            vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+vdc_name );
+
+        }
+
+        if(spinnerId == R.id.pregnent_women_ward_no){
+            ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+ward_no );
+
+        }
+
         if (spinnerId == R.id.pregnent_women_anc_visit_type) {
             switch (position) {
                 case 0:
@@ -629,6 +667,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                     break;
                 case 1:
                     garvawati_bhet = "No";
+                    break;
+                case 2:
+                    garvawati_bhet = "N/A";
                     break;
             }
         }
@@ -780,8 +821,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             if (sent_Status.equals("Sent")) {
                 tvPregnentWomenName.setEnabled(false);
-                tvVDCName.setEnabled(false);
-                tvWardNo.setEnabled(false);
+//                tvVDCName.setEnabled(false);
+//                tvWardNo.setEnabled(false);
                 tvEthnicity.setEnabled(false);
                 tvAge.setEnabled(false);
                 tvLMP.setEnabled(false);
@@ -791,6 +832,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 tvVisitDate.setEnabled(false);
                 tvVisitTime.setEnabled(false);
                 tvDeliveryDate.setEnabled(false);
+                spinnerVDCName.setEnabled(false);
+                spinnerWardNo.setEnabled(false);
                 spinnerANCVisit.setEnabled(false);
                 spinnerTD.setEnabled(false);
                 spinnerTDPlus.setEnabled(false);
@@ -934,11 +977,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         listCf.add(d);
         encodedImage = jsonObj.getString("image");
 
-        Log.e("Pregnent Women", "Parsed data " + pregenent_women_name + anc_visit);
+        Log.e("Pregnent Women", "Parsed data " + garvawati_bhet + anc_visit);
 
         tvPregnentWomenName.setText(pregenent_women_name);
-        tvVDCName.setText(vdc_name);
-        tvWardNo.setText(ward_no);
+//        tvVDCName.setText(vdc_name);
+//        tvWardNo.setText(ward_no);
         tvEthnicity.setText(ethnicity);
         tvAge.setText(age);
         tvLMP.setText(lmp);
@@ -949,6 +992,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         tvVisitDate.setText(visit_date);
         tvVisitTime.setText(visit_time);
 
+        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(ward_no);
+        spinnerWardNo.setSelection(setWardNo);
 
         int setANCVisit = ancVisitAdpt.getPosition(anc_visit);
         spinnerANCVisit.setSelection(setANCVisit);
@@ -1012,8 +1060,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 previewImageSite.setVisibility(View.VISIBLE);
 
                 tvPregnentWomenName.setText(pregenent_women_name);
-                tvVDCName.setText(vdc_name);
-                tvWardNo.setText(ward_no);
+//                tvVDCName.setText(vdc_name);
+//                tvWardNo.setText(ward_no);
                 tvEthnicity.setText(ethnicity);
                 tvAge.setText(age);
                 tvLMP.setText(lmp);
@@ -1189,11 +1237,48 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
+        int rawEDDmonth = month +10 ;
+        int rawEDDday = day+7 ;
+        eddday = rawEDDday;
+
+
         // set current date into textview
         tvVisitDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
                 .append(year).append("/").append(month + 1).append("/")
                 .append(day).append(""));
+
+        // set current date into LMP textview
+        tvLMP.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+
+        Log.e(TAG, "setCurrentDateOnView: eddday "+rawEDDday );
+        Log.e(TAG, "setCurrentDateOnView: raweddmonth "+rawEDDmonth );
+        Log.e(TAG, "setCurrentDateOnView: month "+month );
+        Log.e(TAG, "setCurrentDateOnView: maximum day "+c.getActualMaximum(Calendar.DAY_OF_MONTH) );
+
+
+        if(rawEDDday > c.getActualMaximum(Calendar.DAY_OF_MONTH)){
+            eddday = rawEDDday - (c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            rawEDDmonth = rawEDDmonth+1 ;
+        }
+
+        if(rawEDDmonth > 12){
+            eddyear = year +1;
+            eddmonth = rawEDDmonth - 12 ;
+        }
+
+
+        // set current date into LMP textview
+        tvEDD.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(eddyear).append("/").append(eddmonth).append("/")
+                .append(eddday).append(""));
+
+
 
         // set current date into textview
         tvDeliveryDate.setText(new StringBuilder()
@@ -1232,6 +1317,19 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
         });
 
+        tvLMP.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvLMP.setShowSoftInputOnFocus(false);
+                }
+                showDialog(LMP_DATE_DIALOG_ID);
+            }
+
+        });
+
 
     }
 
@@ -1246,6 +1344,10 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             case DELIVERY_DATE_DIALOG_ID:
                 // set date picker as current date
                 return new DatePickerDialog(this, deliveryDatePickerListener, year, month,
+                        day);
+            case LMP_DATE_DIALOG_ID:
+                // set date picker as current date
+                return new DatePickerDialog(this, lmpDatePickerListener, year, month,
                         day);
 
             case TIME_DIALOG_ID:
@@ -1285,6 +1387,55 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             tvDeliveryDate.setText(new StringBuilder().append(year)
                     .append("-").append(month + 1).append("-").append(day)
                     .append(""));
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener lmpDatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            int rawEDDmonth = month +10 ;
+            int rawEDDday = day+7 ;
+            eddday = rawEDDday;
+
+            // set selected date into textview
+            tvLMP.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+
+            final Calendar c = Calendar.getInstance();
+            Log.e(TAG, "setCurrentDateOnView: eddday "+rawEDDday );
+            Log.e(TAG, "setCurrentDateOnView: raweddmonth "+rawEDDmonth );
+            Log.e(TAG, "setCurrentDateOnView: month "+month );
+            Log.e(TAG, "setCurrentDateOnView: maximum day "+c.getActualMaximum(Calendar.DAY_OF_MONTH) );
+
+
+            if(rawEDDday > c.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                eddday = rawEDDday - (c.getActualMaximum(Calendar.DAY_OF_MONTH));
+                rawEDDmonth = rawEDDmonth+1 ;
+            }
+
+            if(rawEDDmonth > 12){
+                eddyear = year +1;
+                eddmonth = rawEDDmonth - 12 ;
+            }
+
+
+            // set current date into LMP textview
+            tvEDD.setText(new StringBuilder()
+                    // Month is 0 based, just add 1
+                    .append(eddyear).append("/").append(eddmonth).append("/")
+                    .append(eddday).append(""));
+
+
+
+
+
         }
     };
 
