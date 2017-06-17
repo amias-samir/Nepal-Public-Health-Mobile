@@ -2,13 +2,10 @@ package np.com.naxa.nphf.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -45,6 +42,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -135,14 +133,16 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvLactatingWomenName,  tvEthnicity, tvAge, tvsmName;
+    AutoCompleteTextView tvLactatingWomenName,  tvEthnicity, tvAge, tvsmName, tvBirthAttendedByOthers;
 //    tvVDCName, tvWardNo,
-    EditText tvVisitDate, tvVisitTime;
+    EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
     CardView cv_Send_Save;
 
+    RelativeLayout rlBirthAttendedBy ;
 
-    String lactating_women_name, vdc_name, ward_no, ethnicity, age, pnc_visit, deliver_place,
-            birth_attended_by, third_labour, oxytocin_received, neonates_asphysia, img,
+
+    String lactating_women_name, vdc_name, ward_no, ethnicity, age, pnc_visit, deliver_place, delivery_date,
+            birth_attended_by, birth_attended_by_others, third_labour, oxytocin_received, neonates_asphysia, img,
             fourtyfivedays_iron, vitaminA, neonatal_records, breastfeed_in1hour, exclusive_breastfeeding, sm_name, visit_date, visit_time;
 
     private int year;
@@ -190,13 +190,16 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         // casting text view
         tvLactatingWomenName = (AutoCompleteTextView) findViewById(R.id.lactating_women_name);
-//        tvVDCName = (AutoCompleteTextView) findViewById(R.id.lactating_women_vdc_name);
-//        tvWardNo = (AutoCompleteTextView) findViewById(R.id.lactating_women_ward_no);
+
+        rlBirthAttendedBy = (RelativeLayout) findViewById(R.id.rlbirthattended);
+        tvBirthAttendedByOthers = (AutoCompleteTextView) findViewById(R.id.lactating_women_birth_attended_by_others);
+//        tvBirthAttendedByOthers.setVisibility(View.INVISIBLE);
         tvEthnicity = (AutoCompleteTextView) findViewById(R.id.lactating_women_ethnicity);
         tvAge = (AutoCompleteTextView) findViewById(R.id.lactating_women_age);
         tvsmName = (AutoCompleteTextView) findViewById(R.id.lactating_women_sm_name);
         tvVisitDate = (EditText) findViewById(R.id.lactating_women_visit_date);
         tvVisitTime = (EditText) findViewById(R.id.lactating_women_visit_time);
+        tvDeliveryDate = (EditText) findViewById(R.id.lactating_women_delivery_date);
         pic = (ImageButton) findViewById(R.id.lactating_women_photo_site);
         previewImageSite = (ImageView) findViewById(R.id.lactating_women_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
@@ -414,13 +417,14 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 //
 //                    if (isGpsTaken) {
                         lactating_women_name = tvLactatingWomenName.getText().toString();
-//                        vdc_name = tvVDCName.getText().toString();
+                        birth_attended_by_others = tvBirthAttendedByOthers.getText().toString();
 //                        ward_no = tvWardNo.getText().toString();
                         ethnicity = tvEthnicity.getText().toString();
                         age = tvAge.getText().toString();
                         img = encodedImage;
                         sm_name = tvsmName.getText().toString();
                         visit_date = tvVisitDate.getText().toString();
+                        delivery_date = tvDeliveryDate.getText().toString();
                         visit_time = tvVisitTime.getText().toString();
                         img = encodedImage;
                         jsonLatLangArray = jsonArrayGPS.toString();
@@ -530,13 +534,14 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                     if (isGpsTaken) {
 
                 lactating_women_name = tvLactatingWomenName.getText().toString();
-//                vdc_name = tvVDCName.getText().toString();
+                birth_attended_by_others = tvBirthAttendedByOthers.getText().toString();
 //                ward_no = tvWardNo.getText().toString();
                 ethnicity = tvEthnicity.getText().toString();
                 age = tvAge.getText().toString();
                 img = encodedImage;
                 sm_name = tvsmName.getText().toString();
                 visit_date = tvVisitDate.getText().toString();
+                delivery_date = tvDeliveryDate.getText().toString();
                 visit_time = tvVisitTime.getText().toString();
 
                 // check internet
@@ -642,15 +647,24 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             switch (position) {
                 case 0:
                     birth_attended_by = "SBA";
+                    rlBirthAttendedBy.setVisibility(View.INVISIBLE);
+                    tvBirthAttendedByOthers.setText("");
                     break;
                 case 1:
                     birth_attended_by = "HW";
+                    tvBirthAttendedByOthers.setText("");
+                    rlBirthAttendedBy.setVisibility(View.INVISIBLE);
                     break;
                 case 2:
                     birth_attended_by = "Others than SBA/HW";
+
+                    rlBirthAttendedBy.setVisibility(View.VISIBLE);
+
+
                     break;
             }
         }
+
 
         if (SpinnerID == R.id.lactating_women_3rd_labour) {
             switch (position) {
@@ -902,12 +916,13 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 spinnerVDCName.setEnabled(false);
                 spinnerWardNo.setEnabled(false);
                 tvLactatingWomenName.setEnabled(false);
-//                tvVDCName.setEnabled(false);
+                tvBirthAttendedByOthers.setEnabled(false);
 //                tvWardNo.setEnabled(false);
                 tvEthnicity.setEnabled(false);
                 tvAge.setEnabled(false);
                 tvsmName.setEnabled(false);
                 tvVisitDate.setEnabled(false);
+                tvDeliveryDate.setEnabled(false);
                 tvVisitTime.setEnabled(false);
                 pic.setEnabled(false);
                 startGps.setEnabled(false);
@@ -964,6 +979,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("tablename", "recording_tool_for_lactating_woman");
             header.put("name_of_SM", sm_name);
             header.put("date", visit_date);
+            header.put("delivery_date", delivery_date);
             header.put("time", visit_time);
             header.put("name_of_lactating_woman", lactating_women_name);
             header.put("name_of_vdc", vdc_name);
@@ -972,6 +988,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("ethnicity", ethnicity);
             header.put("delivery_at", deliver_place);
             header.put("birth_attended_by", birth_attended_by);
+            header.put("birth_attended_by_if_other", birth_attended_by_others);
             header.put("recieved_active_management_of_third_stage_laour", third_labour);
             header.put("recieved_oxytocin_after_delivery", oxytocin_received);
             header.put("neonates_with_birth_asphyxia", neonates_asphysia);
@@ -1024,6 +1041,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         sm_name = jsonObj.getString("name_of_SM");
         visit_date = jsonObj.getString("date");
+        delivery_date = jsonObj.getString("delivery_date");
         visit_time = jsonObj.getString("time");
 
         lactating_women_name = jsonObj.getString("name_of_lactating_woman");
@@ -1034,6 +1052,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         ethnicity = jsonObj.getString("ethnicity");
         deliver_place = jsonObj.getString("delivery_at");
         birth_attended_by = jsonObj.getString("birth_attended_by");
+        birth_attended_by_others = jsonObj.getString("birth_attended_by_if_other");
 
         third_labour = jsonObj.getString("recieved_active_management_of_third_stage_laour");
         oxytocin_received = jsonObj.getString("recieved_oxytocin_after_delivery");
@@ -1053,11 +1072,12 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         tvsmName.setText(sm_name);
         tvLactatingWomenName.setText(lactating_women_name);
-//        tvVDCName.setText(vdc_name);
+        tvBirthAttendedByOthers.setText(birth_attended_by_others);
 //        tvWardNo.setText(ward_no);
         tvEthnicity.setText(ethnicity);
         tvAge.setText(age);
         tvVisitDate.setText(visit_date);
+        tvDeliveryDate.setText(delivery_date);
         tvVisitTime.setText(visit_time);
 
         int setVDCName = vdcNameadpt.getPosition(vdc_name);
@@ -1141,11 +1161,12 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
                 tvsmName.setText(sm_name);
                 tvLactatingWomenName.setText(lactating_women_name);
-//                tvVDCName.setText(vdc_name);
+                tvBirthAttendedByOthers.setText(birth_attended_by_others);
 //                tvWardNo.setText(ward_no);
                 tvEthnicity.setText(ethnicity);
                 tvAge.setText(age);
                 tvVisitDate.setText(visit_date);
+                tvDeliveryDate.setText(delivery_date);
                 tvVisitTime.setText(visit_time);
                 previewImageSite.setImageBitmap(thumbnail);
 
@@ -1316,7 +1337,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 .append(day).append(""));
 
         // set current date into textview
-        tvVisitDate.setText(new StringBuilder()
+        tvDeliveryDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
                 .append(year).append("/").append(month + 1).append("/")
                 .append(day).append(""));
@@ -1339,13 +1360,13 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         });
 
-        tvVisitDate.setOnClickListener(new View.OnClickListener() {
+        tvDeliveryDate.setOnClickListener(new View.OnClickListener() {
 
             //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tvVisitDate.setShowSoftInputOnFocus(false);
+                    tvDeliveryDate.setShowSoftInputOnFocus(false);
                 }
                 showDialog(DELIVERY_DATE_DIALOG_ID);
             }
@@ -1402,7 +1423,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             day = selectedDay;
 
             // set selected date into textview
-            tvVisitDate.setText(new StringBuilder().append(year)
+            tvDeliveryDate.setText(new StringBuilder().append(year)
                     .append("-").append(month + 1).append("-").append(day)
                     .append(""));
         }

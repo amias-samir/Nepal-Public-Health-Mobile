@@ -15,13 +15,9 @@
         layout="@layout/toolbar" />
 
     <ScrollView
-        android:layout_below="@id/toolbar"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp">
+        android:layout_height="wrap_content">
 
 
     <!--Children under two details-->
@@ -64,38 +60,109 @@
                         android:id="@+id/mother_name_2" />
                 </android.support.design.widget.TextInputLayout>
 
-                <!--VDC name-->
-                <android.support.design.widget.TextInputLayout
+                <!-- delivery date-->
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp">
+                    android:text="Date Of Birth"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"/>
+                <EditText
+                    android:id="@+id/children_2_date_of_birth"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="Date of Birth"
+                    android:inputType="date"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"
+                    />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/child_under2_vdc_name"
+                <!--Ward Name-->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/transparent"
+                    card_view:cardElevation="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Name of VDC"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/black" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="48dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/vdcName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/children_2_vdc_name"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="5dp"
+                            android:text="VDC Name"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/monsoon" />
+
+                        <Spinner
+                            android:id="@+id/children_2_vdc_name"
+                            android:layout_width="220dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_toEndOf="@+id/vdcName"
+                            android:layout_toRightOf="@+id/vdcName" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
 
                 <!--Ward No-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/children_2_vdcwardNo"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/transparent"
+                    card_view:cardElevation="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/children_2_ward_no"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:hint="Ward No."
-                        android:inputType="number"
-                        android:textColor="@color/black" />
-                </android.support.design.widget.TextInputLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/wardNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/children_2_ward_no"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="5dp"
+                            android:text="Ward No"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/monsoon" />
+
+                        <Spinner
+                            android:id="@+id/children_2_ward_no"
+                            android:layout_width="220dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_toEndOf="@+id/wardNo"
+                            android:layout_toRightOf="@+id/wardNo" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
 
                 <!--Age-->
                 <android.support.design.widget.TextInputLayout
@@ -317,72 +384,94 @@
 
 
         <!--Weight of the child verify from card-->
-        <!--Normal/ Risk/High Risk-->
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--card_view:cardBackgroundColor="@color/transparent"-->
+            <!--card_view:cardElevation="1dp"-->
+            <!--android:id="@+id/lactating_women_pnc_visit">-->
 
-        <android.support.v7.widget.CardView
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_margin="@dimen/layout_margin"-->
+                <!--android:padding="5dp">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentLeft="true"-->
+                    <!--android:layout_alignParentStart="true"-->
+                    <!--android:layout_alignParentTop="true"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:text="Weight of Child"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                    <!--android:textColor="@color/monsoon"-->
+                    <!--android:id="@+id/child_2_weight" />-->
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/visit_for_weight2"-->
+                    <!--android:layout_width="220dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_alignParentTop="true"-->
+                    <!--android:layout_toRightOf="@+id/child_2_weight" />-->
+
+
+            <!--</RelativeLayout>-->
+
+        <!--</android.support.v7.widget.CardView>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="5dp">-->
+
+        <!--weight of child under two-->
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            card_view:cardBackgroundColor="@color/transparent"
-            card_view:cardElevation="1dp"
-            android:id="@+id/lactating_women_pnc_visit">
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
+            <AutoCompleteTextView
+                android:id="@+id/children_2_weight_of_child"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:hint="Weight Of Child"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black" />
+        </android.support.design.widget.TextInputLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Weight of Child"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/monsoon"
-                    android:id="@+id/child_2_weight" />
-
-                <Spinner
-                    android:id="@+id/visit_for_weight2"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/child_2_weight" />
-
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical"
-        android:padding="5dp">
 
         <!--lactating women contact details of child under two-->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
 
             <AutoCompleteTextView
+                android:id="@+id/contact_details"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="45dp"
                 android:hint="Lactating Women Contact Details"
                 android:inputType="phone"
-                android:textColor="@color/black"
-                android:id="@+id/contact_details" />
+                android:textColor="@color/black" />
         </android.support.design.widget.TextInputLayout>
-         </LinearLayout>
+         <!--</LinearLayout>-->
 
 
         <!--name of SM-->

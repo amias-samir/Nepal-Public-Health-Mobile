@@ -99,8 +99,10 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     private static final String TAG = "chidren_under_two";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner spinner_growth_monitor, spinner_vaccination_verification, spinner_visit_weight;
-    ArrayAdapter growth_monitor_adpt, vaccination_verification_adpt, visit_weight_adpt;
+    Spinner spinnerVDCName, spinnerWardNo, spinner_growth_monitor, spinner_vaccination_verification;
+//    , spinner_visit_weight
+//    , visit_weight_adpt
+    ArrayAdapter vdcNameadpt, wardNoadpt, growth_monitor_adpt, vaccination_verification_adpt;
     Button send, save, startGps, previewMap;
     ProgressDialog mProgressDlg;
     Context context = this;
@@ -121,14 +123,14 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     String latLangArray = "", jsonLatLangArray = "";
 
 
-    AutoCompleteTextView tvchild_motherName, tvchildren2VDCName, tvchildrenWardNo, tvchild2_age,
-            tvchild2_sex, tvcontact_details_lactating_women, tvsmName;
-    EditText tvVisitDate, tvVisitTime;
+    AutoCompleteTextView tvchild_motherName,  tvchild2_age, tvchild2_sex, tvcontact_details_lactating_women, tvsmName, tvWeightOfChild;
+//    tvchildren2VDCName, tvchildrenWardNo,
+    EditText tvVisitDate, tvVisitTime, tvDateOfBirth;
     CardView cv_Send_Save;
 
 
     String child2_mother_name, child2_vdc_name, child2_ward_no, child2_age, child2_sex, growth_monitor, child2_sm_name,
-            vaccination, weight, contact_no_lactating_women, visit_date, visit_time, img;
+            vaccination, weight, contact_no_lactating_women, visit_date, visit_time, date_of_birth, img;
 
     JSONArray jsonArrayGPS = new JSONArray();
 
@@ -140,7 +142,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     private int month;
     private int day;
     static final int DATE_DIALOG_ID = 999;
-    static final int DELIVERY_DATE_DIALOG_ID = 99;
+    static final int BIRTH_DATE_DIALOG_ID = 99;
 
 
     private TimePicker timePicker1;
@@ -168,14 +170,15 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
 
         tvchild_motherName = (AutoCompleteTextView) findViewById(R.id.mother_name_2);
-        tvchildren2VDCName = (AutoCompleteTextView) findViewById(R.id.child_under2_vdc_name);
-        tvchildrenWardNo = (AutoCompleteTextView) findViewById(R.id.children_2_ward_no);
+//        tvchildren2VDCName = (AutoCompleteTextView) findViewById(R.id.child_under2_vdc_name);
+        tvWeightOfChild = (AutoCompleteTextView) findViewById(R.id.children_2_weight_of_child);
         tvchild2_age = (AutoCompleteTextView) findViewById(R.id.children_2_age);
         tvchild2_sex = (AutoCompleteTextView) findViewById(R.id.children_2_sex);
         tvcontact_details_lactating_women = (AutoCompleteTextView) findViewById(R.id.contact_details);
         tvsmName = (AutoCompleteTextView) findViewById(R.id.children_2_sm_name);
         tvVisitDate = (EditText) findViewById(R.id.children_2_visit_date);
         tvVisitTime = (EditText) findViewById(R.id.children_2_visit_time);
+        tvDateOfBirth = (EditText) findViewById(R.id.children_2_date_of_birth);
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
 
 
@@ -188,9 +191,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         previewImageSite = (ImageView) findViewById(R.id.children_2_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
 
+        spinnerVDCName = (Spinner) findViewById(R.id.children_2_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.children_2_ward_no);
         spinner_growth_monitor = (Spinner) findViewById(R.id.spinner_growth_monitor_2);
         spinner_vaccination_verification = (Spinner) findViewById(R.id.spinner_vaccination_details);
-        spinner_visit_weight = (Spinner) findViewById(R.id.visit_for_weight2);
+//        spinner_visit_weight = (Spinner) findViewById(R.id.visit_for_weight2);
 
         send = (Button) findViewById(R.id.children_2_send);
         save = (Button) findViewById(R.id.children_2_save);
@@ -209,6 +214,23 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connectivityManager.getActiveNetworkInfo();
 
+
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
+
         // child under two growth monitoring spinner
         growth_monitor_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.YES_NO);
         growth_monitor_adpt
@@ -226,11 +248,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
         // spinner weight of children two in different visit
 
-        visit_weight_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.CHILDREN_TWO_WEIGHT);
-        visit_weight_adpt
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_visit_weight.setAdapter(visit_weight_adpt);
-        spinner_visit_weight.setOnItemSelectedListener(this);
+//        visit_weight_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.CHILDREN_TWO_WEIGHT);
+//        visit_weight_adpt
+//                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner_visit_weight.setAdapter(visit_weight_adpt);
+//        spinner_visit_weight.setOnItemSelectedListener(this);
 
         initilizeUI();
 
@@ -310,20 +332,21 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (isGpsTaken) {
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    if (isGpsTaken) {
                         child2_sm_name = tvsmName.getText().toString();
                         child2_mother_name = tvchild_motherName.getText().toString();
-                        child2_vdc_name = tvchildren2VDCName.getText().toString();
-                        child2_ward_no = tvchildrenWardNo.getText().toString();
+                        weight = tvWeightOfChild.getText().toString();
+//                        child2_ward_no = tvchildrenWardNo.getText().toString();
                         child2_age = tvchild2_age.getText().toString();
                         child2_sex = tvchild2_sex.getText().toString();
                         img = encodedImage;
                         contact_no_lactating_women = tvcontact_details_lactating_women.getText().toString();
                         visit_date = tvVisitDate.getText().toString();
+                        date_of_birth = tvDateOfBirth.getText().toString();
                         visit_time = tvVisitTime.getText().toString();
                         jsonLatLangArray = jsonArrayGPS.toString();
 
@@ -413,11 +436,11 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                                 }
                             }
                         });
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
 
@@ -434,13 +457,14 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
                 child2_sm_name = tvsmName.getText().toString();
                 child2_mother_name = tvchild_motherName.getText().toString();
-                child2_vdc_name = tvchildren2VDCName.getText().toString();
-                child2_ward_no = tvchildrenWardNo.getText().toString();
+                weight = tvWeightOfChild.getText().toString();
+//                child2_ward_no = tvchildrenWardNo.getText().toString();
                 child2_age = tvchild2_age.getText().toString();
                 child2_sex = tvchild2_sex.getText().toString();
                 img = encodedImage;
                 contact_no_lactating_women = tvcontact_details_lactating_women.getText().toString();
                 visit_date = tvVisitDate.getText().toString();
+                date_of_birth = tvDateOfBirth.getText().toString();
                 visit_time = tvVisitTime.getText().toString();
 
 
@@ -509,6 +533,19 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         int SpinnerID = parent.getId();
+
+        if(SpinnerID == R.id.children_2_vdc_name){
+            child2_vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+child2_vdc_name );
+
+        }
+
+        if(SpinnerID == R.id.children_2_ward_no){
+            child2_ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+child2_ward_no );
+
+        }
+
         if (SpinnerID == R.id.spinner_growth_monitor_2) {
             switch (position) {
                 case 0:
@@ -549,24 +586,24 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             }
         }
 
-        if (SpinnerID == R.id.visit_for_weight2) {
-            switch (position) {
-
-                case 0:
-                    weight = "1st visit_0_11_months";
-                    break;
-                case 1:
-                    weight = "1st visit_12_23_months";
-                    break;
-                case 2:
-                    weight = "2nd visit_0_11_months";
-                    break;
-                case 3:
-                    weight = "2nd visit_12_23_months";
-                    break;
-
-            }
-        }
+//        if (SpinnerID == R.id.visit_for_weight2) {
+//            switch (position) {
+//
+//                case 0:
+//                    weight = "1st visit_0_11_months";
+//                    break;
+//                case 1:
+//                    weight = "1st visit_12_23_months";
+//                    break;
+//                case 2:
+//                    weight = "2nd visit_0_11_months";
+//                    break;
+//                case 3:
+//                    weight = "2nd visit_12_23_months";
+//                    break;
+//
+//            }
+//        }
 
     }
 
@@ -678,7 +715,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 .append(day).append(""));
 
         // set current date into textview
-        tvVisitDate.setText(new StringBuilder()
+        tvDateOfBirth.setText(new StringBuilder()
                 // Month is 0 based, just add 1
                 .append(year).append("/").append(month + 1).append("/")
                 .append(day).append(""));
@@ -701,15 +738,15 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
         });
 
-        tvVisitDate.setOnClickListener(new View.OnClickListener() {
+        tvDateOfBirth.setOnClickListener(new View.OnClickListener() {
 
             //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tvVisitDate.setShowSoftInputOnFocus(false);
+                    tvDateOfBirth.setShowSoftInputOnFocus(false);
                 }
-                showDialog(DELIVERY_DATE_DIALOG_ID);
+                showDialog(BIRTH_DATE_DIALOG_ID);
             }
 
         });
@@ -725,9 +762,9 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 return new DatePickerDialog(this, datePickerListener, year, month,
                         day);
 
-            case DELIVERY_DATE_DIALOG_ID:
+            case BIRTH_DATE_DIALOG_ID:
                 // set date picker as current date
-                return new DatePickerDialog(this, deliveryDatePickerListener, year, month,
+                return new DatePickerDialog(this, birthDatePickerListener, year, month,
                         day);
 
             case TIME_DIALOG_ID:
@@ -754,7 +791,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         }
     };
 
-    private DatePickerDialog.OnDateSetListener deliveryDatePickerListener = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener birthDatePickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
         public void onDateSet(DatePicker view, int selectedYear,
@@ -764,7 +801,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             day = selectedDay;
 
             // set selected date into textview
-            tvVisitDate.setText(new StringBuilder().append(year)
+            tvDateOfBirth.setText(new StringBuilder().append(year)
                     .append("-").append(month + 1).append("-").append(day)
                     .append(""));
         }
@@ -989,13 +1026,18 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
             if (sent_Status.equals("Sent")) {
                 tvchild_motherName.setEnabled(false);
-                tvchildren2VDCName.setEnabled(false);
-                tvchildrenWardNo.setEnabled(false);
+                spinnerVDCName.setEnabled(false);
+                spinnerWardNo.setEnabled(false);
+                spinner_growth_monitor.setEnabled(false);
+//                spinner_visit_weight.setEnabled(false);
+                spinner_vaccination_verification.setEnabled(false);
                 tvchild2_age.setEnabled(false);
+                tvWeightOfChild.setEnabled(false);
                 tvchild2_sex.setEnabled(false);
                 tvcontact_details_lactating_women.setEnabled(false);
                 tvsmName.setEnabled(false);
                 tvVisitDate.setEnabled(false);
+                tvDateOfBirth.setEnabled(false);
                 tvVisitTime.setEnabled(false);
                 photo.setEnabled(false);
                 startGps.setEnabled(false);
@@ -1067,6 +1109,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             header.put("weight_of_the_child", weight);
             header.put("contact_detail_of_lactating_women", contact_no_lactating_women);
             header.put("date", visit_date);
+            header.put("date_of_birth", date_of_birth);
             header.put("time", visit_time);
             header.put("lat", finalLat);
             header.put("lon", finalLong);
@@ -1111,6 +1154,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         vaccination = jsonObj.getString("name_of_vaccination");
         weight = jsonObj.getString("weight_of_the_child");
         visit_date = jsonObj.getString("date");
+        date_of_birth = jsonObj.getString("date_of_birth");
         visit_time = jsonObj.getString("time");
         contact_no_lactating_women = jsonObj.getString("contact_detail_of_lactating_women");
         finalLat = Double.parseDouble(jsonObj.getString("lat"));
@@ -1120,18 +1164,26 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 //        encodedImage = jsonObj.getString("image");
 
 
-        Log.e("Children Under Two", "Parsed data " + child2_mother_name + vaccination + weight);
+        Log.e("Children Under Two", "Parsed data " + child2_vdc_name + child2_ward_no + weight);
 
         tvsmName.setText(child2_sm_name);
         tvchild_motherName.setText(child2_mother_name);
-        tvchildren2VDCName.setText(child2_vdc_name);
-        tvchildrenWardNo.setText(child2_ward_no);
+//        tvchildren2VDCName.setText(child2_vdc_name);
+//        tvchildrenWardNo.setText(child2_ward_no);
         tvchild2_age.setText(child2_age);
         tvchild2_sex.setText(child2_sex);
+        tvWeightOfChild.setText(weight);
         tvVisitDate.setText(visit_date);
+        tvDateOfBirth.setText(date_of_birth);
         tvVisitTime.setText(visit_time);
         tvcontact_details_lactating_women.setText(contact_no_lactating_women);
 
+
+        int setVDCName = vdcNameadpt.getPosition(child2_vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(child2_ward_no);
+        spinnerWardNo.setSelection(setWardNo);
 
         int setGrothMonitor = growth_monitor_adpt.getPosition(growth_monitor);
         spinner_growth_monitor.setSelection(setGrothMonitor);
@@ -1139,8 +1191,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         int setVaccination = vaccination_verification_adpt.getPosition(vaccination);
         spinner_vaccination_verification.setSelection(setVaccination);
 
-        int setChildWeight = visit_weight_adpt.getPosition(weight);
-        spinner_visit_weight.setSelection(setChildWeight);
+//        int setChildWeight = visit_weight_adpt.getPosition(weight);
+//        spinner_visit_weight.setSelection(setChildWeight);
 
 
     }
@@ -1184,12 +1236,14 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
                 tvsmName.setText(child2_sm_name);
                 tvchild_motherName.setText(child2_mother_name);
-                tvchildren2VDCName.setText(child2_vdc_name);
-                tvchildrenWardNo.setText(child2_ward_no);
+//                tvchildren2VDCName.setText(child2_vdc_name);
+//                tvchildrenWardNo.setText(child2_ward_no);
                 tvchild2_age.setText(child2_age);
                 tvchild2_sex.setText(child2_sex);
+                tvWeightOfChild.setText(weight);
                 tvVisitDate.setText(visit_date);
                 tvVisitTime.setText(visit_time);
+                tvDateOfBirth.setText(date_of_birth);
                 tvcontact_details_lactating_women.setText(contact_no_lactating_women);
                 previewImageSite.setImageBitmap(thumbnail);
 
