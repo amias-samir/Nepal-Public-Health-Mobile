@@ -194,6 +194,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         cbTreatedWithAntibiotic = (CheckBox) findViewById(R.id.children_five_treated_with_antibiotic);
         cbRefferedBySM_ARI = (CheckBox) findViewById(R.id.children_five_ari_referred_by_sm);
 
+
         setCurrentDateOnView();
         addListenerOnButton();
         setCurrentTimeOnView();
@@ -1108,7 +1109,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         ward_no = jsonObj.getString("ward_no");
         child5_age = jsonObj.getString("age");
         child5_sex = jsonObj.getString("sex");
-        child5_vdc_name = jsonObj.getString("name_of_VDC");
+//        child5_vdc_name = jsonObj.getString("name_of_VDC");
 //        child5_ward_no = jsonObj.getString("ward_no");
 
         Log.e(TAG, "ChildrenUnderFive: " + " SAMIR  " + ward_no + "----VDC----" + vdc_name + " , " + finalLong);

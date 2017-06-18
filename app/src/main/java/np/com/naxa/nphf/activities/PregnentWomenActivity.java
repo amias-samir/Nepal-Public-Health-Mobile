@@ -40,6 +40,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -98,13 +100,13 @@ import np.com.naxa.nphf.model.Constants;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 
-public class PregnentWomenActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class PregnentWomenActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "PregnentWomenActivity";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner spinnerVDCName, spinnerWardNo, spinnerANCVisit, spinnerTD, spinnerTDPlus, spinnerVitA, spinnerReceivedIron, spinnerGravawatiBhet, spinnerFCHVsHelp;
-    ArrayAdapter vdcNameadpt, wardNoadpt, ancVisitAdpt, tdAdpt, tdPlusAdapter, vitaAdpt, receivedIronAdapter, garvawatiBhetAdapter, fchvHelpAdapter;
+    Spinner spinnerVDCName, spinnerWardNo, spinnerTD, spinnerTDPlus, spinnerVitA, spinnerReceivedIron, spinnerGravawatiBhet, spinnerFCHVsHelp;
+    ArrayAdapter vdcNameadpt, wardNoadpt, tdAdpt, tdPlusAdapter, vitaAdpt, receivedIronAdapter, garvawatiBhetAdapter, fchvHelpAdapter;
     Button send, save, startGps, previewMap;
     ProgressDialog mProgressDlg;
     Context context = this;
@@ -131,14 +133,18 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
     AutoCompleteTextView tvPregnentWomenName,  tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
 //    tvNextMonthMeetingTopic, tvWardNo,
-    EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
+    EditText tvVisitDate, tvVisitTime, tvDeliveryDate, tvANCFirstVisitDate, tvANCSecondVisitDate, tvANCThirdVisitDate, tvANCFourthVisitDate;
     CardView cv_Send_Save;
+    CheckBox cbANCFirstVisit,cbANCSecondVisit,cbANCThirdVisit,cbANCFourthVisit;
 
 
     String pregenent_women_name, vdc_name, ward_no, ethnicity, age, lmp, edd, visit_date, visit_time, delivery_date, contact_no, sm_name,
-            anc_visit, td, td_plus, vit_a, received_iron, garvawati_bhet, fchv_help, img;
+            anc_visit, td, td_plus, vit_a, received_iron, garvawati_bhet, fchv_help, img, first_visit = "", second_visit = "", third_visit = "",
+            fourth_visit = "", first_visit_date = "", second_visit_date= "", third_visit_date = "", fourth_visit_date = "";
 
     JSONArray jsonArrayGPS = new JSONArray();
+    JSONObject ancVisitjson = new JSONObject();
+    JSONObject ancVisitDatejson = new JSONObject();
 
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
@@ -154,6 +160,10 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     static final int DELIVERY_DATE_DIALOG_ID = 99;
     static final int LMP_DATE_DIALOG_ID = 999999;
     static final int EDD_DATE_DIALOG_ID = 99999;
+    static final int ANC_FIRST_VISIT_DTE = 88;
+    static final int ANC_SECOND_VISIT_DTE = 888;
+    static final int ANC_THIRD_VISIT_DTE = 8888;
+    static final int ANC_FOURTH_VISIT_DTE = 88888;
 
 
     private TimePicker timePicker1;
@@ -189,8 +199,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
 
         tvPregnentWomenName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_name);
-//        tvNextMonthMeetingTopic = (AutoCompleteTextView) findViewById(R.id.pregnent_women_vdc_name);
-//        tvWardNo = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ward_no);
         tvEthnicity = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ethnicity);
         tvAge = (AutoCompleteTextView) findViewById(R.id.pregnent_women_age);
         tvLMP = (AutoCompleteTextView) findViewById(R.id.pregnent_women_lmp);
@@ -201,7 +209,23 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         tvVisitDate = (EditText) findViewById(R.id.pregnent_women_visit_date);
         tvVisitTime = (EditText) findViewById(R.id.pregnent_women_visit_time);
         tvDeliveryDate = (EditText) findViewById(R.id.pregnent_women_delivery_date);
+        tvANCFirstVisitDate = (EditText) findViewById(R.id.anc_first_visit_date);
+        tvANCSecondVisitDate = (EditText) findViewById(R.id.anc_second_visit_date);
+        tvANCThirdVisitDate = (EditText) findViewById(R.id.anc_third_visit_date);
+        tvANCFourthVisitDate = (EditText) findViewById(R.id.anc_fourth_visit_date);
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
+        cbANCFirstVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_first_visit);
+        cbANCSecondVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_second_visit);
+        cbANCThirdVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_third_visit);
+        cbANCFourthVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_fourth_visit);
+
+        cbANCFirstVisit.setOnCheckedChangeListener( this);
+        cbANCSecondVisit.setOnCheckedChangeListener( this);
+        cbANCThirdVisit.setOnCheckedChangeListener( this);
+        cbANCFourthVisit.setOnCheckedChangeListener( this);
+
+
         setCurrentDateOnView();
         addListenerOnButton();
         setCurrentTimeOnView();
@@ -213,7 +237,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
         spinnerVDCName = (Spinner) findViewById(R.id.pregnent_women_vdc_name);
         spinnerWardNo = (Spinner) findViewById(R.id.pregnent_women_ward_no);
-        spinnerANCVisit = (Spinner) findViewById(R.id.pregnent_women_anc_visit_type);
         spinnerTD = (Spinner) findViewById(R.id.pregnant_women_45days_iron);
         spinnerTDPlus = (Spinner) findViewById(R.id.pregnent_women_td_plus);
         spinnerVitA = (Spinner) findViewById(R.id.pregnent_women_vitA);
@@ -251,13 +274,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         spinnerWardNo.setAdapter(wardNoadpt);
         spinnerWardNo.setOnItemSelectedListener(this);
 
-//anc visit spinner
-        ancVisitAdpt = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, Constants.ANC_VISIT);
-        ancVisitAdpt
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerANCVisit.setAdapter(ancVisitAdpt);
-        spinnerANCVisit.setOnItemSelectedListener(this);
 //td spinner
         tdAdpt = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Constants.YES_NO);
@@ -406,6 +422,46 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         img = encodedImage;
                         jsonLatLangArray = jsonArrayGPS.toString();
 
+//                if (cbANCFirstVisit.isChecked() == true) {
+//                    first_visit = "yes";
+//                    tvANCFirstVisitDate.setVisibility(View.VISIBLE);
+//                    first_visit_date = tvANCFirstVisitDate.getText().toString();
+//                } else {
+//                    first_visit = "no";
+//                    tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+//                    first_visit_date = "";
+//                }
+//
+//                if (cbANCSecondVisit.isChecked() == true) {
+//                    second_visit = "yes";
+//                    tvANCSecondVisitDate.setVisibility(View.VISIBLE);
+//                    second_visit_date = tvANCSecondVisitDate.getText().toString();
+//                } else {
+//                    second_visit = "no";
+//                    tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+//                    second_visit_date = "";
+//                }
+//
+//                if (cbANCThirdVisit.isChecked() == true) {
+//                    third_visit = "yes";
+//                    tvANCThirdVisitDate.setVisibility(View.VISIBLE);
+//                    third_visit_date = tvANCThirdVisitDate.getText().toString();
+//                } else {
+//                    third_visit = "no";
+//                    tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+//                    third_visit_date = "";
+//                }
+//                if (cbANCFourthVisit.isChecked() == true) {
+//                    fourth_visit = "yes";
+//                    tvANCFourthVisitDate.setVisibility(View.VISIBLE);
+//                    fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+//                } else {
+//                    fourth_visit_date = "no";
+//                    tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
+//                    fourth_visit_date = "";
+//                }
+
+
 
                         convertDataToJson();
 
@@ -523,6 +579,45 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 contact_no = tvContactNo.getText().toString();
                 sm_name = tvSMName.getText().toString();
 
+//                        if (cbANCFirstVisit.isChecked() == true) {
+//                            first_visit = "yes";
+//                            tvANCFirstVisitDate.setVisibility(View.VISIBLE);
+//                            first_visit_date = tvANCFirstVisitDate.getText().toString();
+//                        } else {
+//                            first_visit = "no";
+//                            tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+//                            first_visit_date = "";
+//                        }
+//
+//                        if (cbANCSecondVisit.isChecked() == true) {
+//                            second_visit = "yes";
+//                            tvANCSecondVisitDate.setVisibility(View.VISIBLE);
+//                            second_visit_date = tvANCSecondVisitDate.getText().toString();
+//                        } else {
+//                            second_visit = "no";
+//                            tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+//                            second_visit_date = "";
+//                        }
+//
+//                        if (cbANCThirdVisit.isChecked() == true) {
+//                            third_visit = "yes";
+//                            tvANCThirdVisitDate.setVisibility(View.VISIBLE);
+//                            third_visit_date = tvANCThirdVisitDate.getText().toString();
+//                        } else {
+//                            third_visit = "no";
+//                            tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+//                            third_visit_date = "";
+//                        }
+//                        if (cbANCFourthVisit.isChecked() == true) {
+//                            fourth_visit = "yes";
+//                            tvANCFourthVisitDate.setVisibility(View.VISIBLE);
+//                            fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+//                        } else {
+//                            fourth_visit_date = "no";
+//                            tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
+//                            fourth_visit_date = "";
+//                        }
+
 
                 if (networkInfo != null && networkInfo.isConnected()) {
 
@@ -597,23 +692,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             ward_no = Constants.VDC_WARD_NO[position];
             Log.e(TAG, "onItemSelected: "+ward_no );
 
-        }
-
-        if (spinnerId == R.id.pregnent_women_anc_visit_type) {
-            switch (position) {
-                case 0:
-                    anc_visit = "First Visit";
-                    break;
-                case 1:
-                    anc_visit = "Second Visit";
-                    break;
-                case 2:
-                    anc_visit = "Third Visit";
-                    break;
-                case 3:
-                    anc_visit = "Fourth Visit";
-                    break;
-            }
         }
 
         if (spinnerId == R.id.pregnant_women_45days_iron) {
@@ -834,7 +912,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 tvDeliveryDate.setEnabled(false);
                 spinnerVDCName.setEnabled(false);
                 spinnerWardNo.setEnabled(false);
-                spinnerANCVisit.setEnabled(false);
                 spinnerTD.setEnabled(false);
                 spinnerTDPlus.setEnabled(false);
                 spinnerVitA.setEnabled(false);
@@ -843,6 +920,15 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 spinnerFCHVsHelp.setEnabled(false);
                 photo.setEnabled(false);
                 startGps.setEnabled(false);
+
+                cbANCFirstVisit.setEnabled(false);
+                cbANCSecondVisit.setEnabled(false);
+                cbANCThirdVisit.setEnabled(false);
+                cbANCFourthVisit.setEnabled(false);
+                tvANCFirstVisitDate.setEnabled(false);
+                tvANCSecondVisitDate.setEnabled(false);
+                tvANCThirdVisitDate.setEnabled(false);
+                tvANCFourthVisitDate.setEnabled(false);
                 cv_Send_Save.setVisibility(View.GONE);
 
             }
@@ -897,6 +983,17 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             JSONObject header = new JSONObject();
 
+            ancVisitjson.put("first_visit", first_visit);
+            ancVisitjson.put("second_visit", second_visit);
+            ancVisitjson.put("third_visit", third_visit);
+            ancVisitjson.put("fourth_visit", fourth_visit);
+
+            ancVisitDatejson.put("first_visit_date", first_visit_date);
+            ancVisitDatejson.put("second_visit_date", second_visit_date);
+            ancVisitDatejson.put("third_visit_date", third_visit_date);
+            ancVisitDatejson.put("fourth_visit_date", fourth_visit_date);
+
+
             header.put("tablename", "recording_tool_for_pregnant_woman");
             header.put("name_of_VDC", vdc_name);
             header.put("ward", ward_no);
@@ -906,7 +1003,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             header.put("ethinicity", ethnicity);
             header.put("LMP", lmp);
             header.put("EDD", edd);
-            header.put("ANC_visit", anc_visit);
+            header.put("ANC_visit", ancVisitjson.toString());
+            header.put("ANC_visit_date", ancVisitDatejson.toString());
             header.put("date", visit_date);
             header.put("time", visit_time);
             header.put("Td", td);
@@ -959,7 +1057,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         ethnicity = jsonObj.getString("ethinicity");
         lmp = jsonObj.getString("LMP");
         edd = jsonObj.getString("EDD");
-        anc_visit = jsonObj.getString("ANC_visit");
         visit_date = jsonObj.getString("date");
         visit_time = jsonObj.getString("time");
 
@@ -980,8 +1077,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         Log.e("Pregnent Women", "Parsed data " + garvawati_bhet + anc_visit);
 
         tvPregnentWomenName.setText(pregenent_women_name);
-//        tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
-//        tvWardNo.setText(ward_no);
         tvEthnicity.setText(ethnicity);
         tvAge.setText(age);
         tvLMP.setText(lmp);
@@ -997,9 +1092,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
         int setWardNo = wardNoadpt.getPosition(ward_no);
         spinnerWardNo.setSelection(setWardNo);
-
-        int setANCVisit = ancVisitAdpt.getPosition(anc_visit);
-        spinnerANCVisit.setSelection(setANCVisit);
 
         int setTD = tdAdpt.getPosition(td);
         spinnerTD.setSelection(setTD);
@@ -1020,7 +1112,45 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         spinnerFCHVsHelp.setSelection(setFCVHelp);
 
 
+        String anc = jsonObj.getString("ANC_visit");
+        String anc_date = jsonObj.getString("ANC_visit_date");
+
+        JSONObject ancObj = new JSONObject(anc);
+        first_visit = ancObj.getString("first_visit");
+        second_visit = ancObj.getString("second_visit");
+        third_visit = ancObj.getString("third_visit");
+        fourth_visit = ancObj.getString("fourth_visit");
+
+        JSONObject ancVisitObj = new JSONObject(anc_date);
+        first_visit_date = ancVisitObj.getString("first_visit_date");
+        second_visit_date = ancVisitObj.getString("second_visit_date");
+        third_visit_date = ancVisitObj.getString("third_visit_date");
+        fourth_visit_date = ancVisitObj.getString("fourth_visit_date");
+
+
+
+
+        if (first_visit.equals("yes")) {
+            cbANCFirstVisit.setChecked(true);
+            tvANCFirstVisitDate.setText(first_visit_date);
+
+        }
+        if (second_visit.equals("yes")) {
+            cbANCSecondVisit.setChecked(true);
+            tvANCSecondVisitDate.setText(second_visit_date);
+        }
+        if (third_visit.equals("yes")) {
+            cbANCThirdVisit.setChecked(true);
+            tvANCThirdVisitDate.setText(third_visit_date);
+        }
+        if (fourth_visit.equals("yes")) {
+            cbANCFourthVisit.setChecked(true);
+            tvANCFourthVisitDate.setText(fourth_visit_date);
+        }
+
     }
+
+
 
     private class RestApii extends AsyncTask<String, Void, String> {
 
@@ -1248,6 +1378,30 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 .append(year).append("/").append(month + 1).append("/")
                 .append(day).append(""));
 
+        // set current date into textview
+        tvANCFirstVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+        // set current date into textview
+        tvANCSecondVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+        // set current date into textview
+        tvANCThirdVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+        // set current date into textview
+        tvANCFourthVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
         // set current date into LMP textview
         tvLMP.setText(new StringBuilder()
                 // Month is 0 based, just add 1
@@ -1304,6 +1458,56 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
         });
 
+
+        tvANCFirstVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvANCFirstVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(ANC_FIRST_VISIT_DTE);
+            }
+
+        });
+        tvANCSecondVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvANCSecondVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(ANC_SECOND_VISIT_DTE);
+            }
+
+        });
+        tvANCThirdVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvANCThirdVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(ANC_THIRD_VISIT_DTE);
+            }
+
+        });
+        tvANCFourthVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvANCFourthVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(ANC_FOURTH_VISIT_DTE);
+            }
+
+        });
+
         tvDeliveryDate.setOnClickListener(new View.OnClickListener() {
 
             //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -1340,6 +1544,22 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 // set date picker as current date
                 return new DatePickerDialog(this, datePickerListener, year, month,
                         day);
+            case ANC_FIRST_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, firstVisitdatePickerListener, year, month,
+                        day);
+            case ANC_SECOND_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, secondVisitdatePickerListener, year, month,
+                        day);
+            case ANC_THIRD_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, thirdVisitdatePickerListener, year, month,
+                        day);
+            case ANC_FOURTH_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, fourthVisitdatePickerListener, year, month,
+                        day);
 
             case DELIVERY_DATE_DIALOG_ID:
                 // set date picker as current date
@@ -1369,6 +1589,67 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             // set selected date into textview
             tvVisitDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener firstVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvANCFirstVisitDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+    private DatePickerDialog.OnDateSetListener secondVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvANCSecondVisitDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+    private DatePickerDialog.OnDateSetListener thirdVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvANCThirdVisitDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+    private DatePickerDialog.OnDateSetListener fourthVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvANCFourthVisitDate.setText(new StringBuilder().append(year)
                     .append("-").append(month + 1).append("-").append(day)
                     .append(""));
         }
@@ -1609,5 +1890,67 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 showDialog.dismiss();
             }
         });
+    }
+
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        switch(buttonView.getId()){
+            case R.id.pregnent_women_anc_first_visit:
+                if (cbANCFirstVisit.isChecked() == true) {
+                    first_visit = "yes";
+                    tvANCFirstVisitDate.setVisibility(View.VISIBLE);
+                    first_visit_date = tvANCFirstVisitDate.getText().toString();
+                } else {
+                    first_visit = "no";
+                    tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+                    first_visit_date = "";
+                }
+
+
+                break;
+            case R.id.pregnent_women_anc_second_visit:
+                if (cbANCSecondVisit.isChecked() == true) {
+                    second_visit = "yes";
+                    tvANCSecondVisitDate.setVisibility(View.VISIBLE);
+                    second_visit_date = tvANCSecondVisitDate.getText().toString();
+                } else {
+                    second_visit = "no";
+                    tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+                    second_visit_date = "";
+                }
+
+
+                break;
+            case R.id.pregnent_women_anc_third_visit:
+                if (cbANCThirdVisit.isChecked() == true) {
+                    third_visit = "yes";
+                    tvANCThirdVisitDate.setVisibility(View.VISIBLE);
+                    third_visit_date = tvANCThirdVisitDate.getText().toString();
+                } else {
+                    third_visit = "no";
+                    tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+                    third_visit_date = "";
+                }
+
+
+                break;
+            case R.id.pregnent_women_anc_fourth_visit:
+                if (cbANCFourthVisit.isChecked() == true) {
+                    fourth_visit = "yes";
+                    tvANCFourthVisitDate.setVisibility(View.VISIBLE);
+                    fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+                } else {
+                    fourth_visit_date = "no";
+                    tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
+                    fourth_visit_date = "";
+                }
+
+                break;
+
+
+        }
     }
 }
