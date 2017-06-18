@@ -376,13 +376,59 @@
 
                             </RelativeLayout>
 
+                            <!--problem-->
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/success_story_problems"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Problems"
+                                    android:inputType="textPersonName|textMultiLine"
+                                    android:textColor="@color/black"
+                                    android:maxLines="5" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <!--intervention by sm-->
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="20dp">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/success_story_intervention_by_sm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Intervention By SM"
+                                    android:inputType="textPersonName|textMultiLine"
+                                    android:textColor="@color/black"
+                                    android:maxLines="5" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <!--result of input-->
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="20dp">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/success_story_result_of_input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Results of Input"
+                                    android:inputType="textPersonName|textMultiLine"
+                                    android:textColor="@color/black"
+                                    android:maxLines="5" />
+                            </android.support.design.widget.TextInputLayout>
 
                             <!--Discussed Topic-->
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="20dp"
-                                android:layout_marginTop="20dp">
+                                android:layout_marginBottom="20dp">
 
                                 <AutoCompleteTextView
                                     android:id="@+id/success_story_story"

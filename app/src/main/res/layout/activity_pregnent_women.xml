@@ -55,7 +55,7 @@
                             android:textColor="@color/black" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <!--Ward Name-->
+                    <!--VDC Name-->
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

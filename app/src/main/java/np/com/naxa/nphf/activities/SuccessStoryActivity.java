@@ -102,7 +102,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid, formNameSavedForm = "" ;
+    String formid, formNameSavedForm = "";
     ImageView previewImageSite;
     Bitmap thumbnail;
     ArrayList<LatLng> listCf = new ArrayList<LatLng>();
@@ -121,15 +121,15 @@ public class SuccessStoryActivity extends AppCompatActivity {
     String dataSentStatus, dateString;
 
 
-//tvNameOfTool, name_of_tool,
-    AutoCompleteTextView tvVDCName,  tvNameOfRespondaents, tvTopics;
+    //tvNameOfTool, name_of_tool,
+    AutoCompleteTextView tvVDCName, tvNameOfRespondaents, tvTopics, tvProblems, tvInterventionOfSM, tvResultOfInput;
     CheckBox cbANC, cbPNC, cbInstitunationalDelivery, cbNewBornCare, cbBreastFeeding, cbComplementryFeeding, cbHygieneRelated, cbMotherGroupRelated,
-                cbRefer, cbSexualAndRepreductive, cbPeerGroup;
+            cbRefer, cbSexualAndRepreductive, cbPeerGroup;
     CardView cv_Send_Save;
     String vdc_name, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
-            hygiene_related, mother_group_related, refer, sexual_and_reproductive, peer_group, img;
+            hygiene_related, mother_group_related, refer, sexual_and_reproductive, peer_group, img,
+            problems, intervention_by_sm, result_of_input;
     JSONArray jsonArrayGPS = new JSONArray();
-
 
 
     @Override
@@ -146,6 +146,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //        tvNameOfTool = (AutoCompleteTextView) findViewById(R.id.success_story_tool_name);
         tvNameOfRespondaents = (AutoCompleteTextView) findViewById(R.id.success_story_respondents_name);
         tvTopics = (AutoCompleteTextView) findViewById(R.id.success_story_story);
+        tvProblems = (AutoCompleteTextView) findViewById(R.id.success_story_problems);
+        tvInterventionOfSM = (AutoCompleteTextView) findViewById(R.id.success_story_intervention_by_sm);
+        tvResultOfInput = (AutoCompleteTextView) findViewById(R.id.success_story_result_of_input);
 
         startGps = (Button) findViewById(R.id.success_story_GpsStart);
         previewMap = (Button) findViewById(R.id.success_story_preview_map);
@@ -179,7 +182,6 @@ public class SuccessStoryActivity extends AppCompatActivity {
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         networkInfo = connectivityManager.getActiveNetworkInfo();
-
 
 
         /**₧
@@ -264,15 +266,18 @@ public class SuccessStoryActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (isGpsTaken) {
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    if (isGpsTaken) {
 
                         vdc_name = tvVDCName.getText().toString();
 //                        name_of_tool = tvNameOfTool.getText().toString();
                         name_of_respondents = tvNameOfRespondaents.getText().toString();
+                        problems = tvProblems.getText().toString();
+                        intervention_by_sm = tvInterventionOfSM.getText().toString();
+                        result_of_input = tvResultOfInput.getText().toString();
                         topics = tvTopics.getText().toString();
                         img = encodedImage;
                         jsonLatLangArray = jsonArrayGPS.toString();
@@ -358,10 +363,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
                         final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
                         final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
 
-                        if (formNameSavedForm.equals("")){
+                        if (formNameSavedForm.equals("")) {
                             FormNameToInput.setText("Success Story");
-                        }
-                        else {
+                        } else {
                             FormNameToInput.setText(formNameSavedForm);
                             DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                             dataBaseNepalPublicHealthNotSent.open();
@@ -432,11 +436,11 @@ public class SuccessStoryActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
 
@@ -446,11 +450,14 @@ public class SuccessStoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(isGpsTaken) {
+                if (isGpsTaken) {
 
                     vdc_name = tvVDCName.getText().toString();
 //                    name_of_tool = tvNameOfTool.getText().toString();
                     name_of_respondents = tvNameOfRespondaents.getText().toString();
+                    problems = tvProblems.getText().toString();
+                    intervention_by_sm = tvInterventionOfSM.getText().toString();
+                    result_of_input = tvResultOfInput.getText().toString();
                     topics = tvTopics.getText().toString();
                     img = encodedImage;
                     jsonLatLangArray = jsonArrayGPS.toString();
@@ -570,12 +577,10 @@ public class SuccessStoryActivity extends AppCompatActivity {
                         Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
                                 .setAction("Retry", null).show();
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+
                 }
-                     else{
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-
 
 
             }
@@ -603,6 +608,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void askForGPS() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -786,23 +792,26 @@ public class SuccessStoryActivity extends AppCompatActivity {
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
             formNameSavedForm = (String) bundle.get("form_name");
-            Log.d(TAG, "initilizeUI: "+sent_Status);
+            Log.d(TAG, "initilizeUI: " + sent_Status);
 
             if (sent_Status.equals("Sent")) {
-            tvVDCName.setEnabled(false);
+                tvVDCName.setEnabled(false);
 //                    tvNameOfTool.setEnabled(false);
                 tvNameOfRespondaents.setEnabled(false);
-                        tvTopics.setEnabled(false);
-            cbANC.setEnabled(false);
-                    cbPNC.setEnabled(false);
+                tvTopics.setEnabled(false);
+                tvProblems.setEnabled(false);
+                tvInterventionOfSM.setEnabled(false);
+                tvResultOfInput.setEnabled(false);
+                cbANC.setEnabled(false);
+                cbPNC.setEnabled(false);
                 cbInstitunationalDelivery.setEnabled(false);
-                        cbNewBornCare.setEnabled(false);
+                cbNewBornCare.setEnabled(false);
                 cbBreastFeeding.setEnabled(false);
-                        cbComplementryFeeding.setEnabled(false);
+                cbComplementryFeeding.setEnabled(false);
                 cbHygieneRelated.setEnabled(false);
-                        cbMotherGroupRelated.setEnabled(false);
-                    cbRefer.setEnabled(false);
-                            cbSexualAndRepreductive.setEnabled(false);
+                cbMotherGroupRelated.setEnabled(false);
+                cbRefer.setEnabled(false);
+                cbSexualAndRepreductive.setEnabled(false);
                 cbPeerGroup.setEnabled(false);
                 photo.setEnabled(false);
                 startGps.setEnabled(false);
@@ -862,6 +871,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //            header.put("name_of_tool", name_of_tool);
             header.put("name_of_VDC", vdc_name);
             header.put("name_of_respondents", name_of_respondents);
+            header.put("problems", problems);
+            header.put("intervention_by_sm", intervention_by_sm);
+            header.put("result_of_input", result_of_input);
             header.put("anc", anc);
             header.put("pnc", pnc);
             header.put("institunationl_delivery", institunationl_delivery);
@@ -915,6 +927,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //        name_of_tool = jsonObj.getString("name_of_tool");
         name_of_respondents = jsonObj.getString("name_of_respondents");
         topics = jsonObj.getString("story");
+        problems = jsonObj.getString("problems");
+        intervention_by_sm = jsonObj.getString("intervention_by_sm");
+        result_of_input = jsonObj.getString("result_of_input");
 
         Log.e(TAG, "SuccessStory: " + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
 
@@ -936,6 +951,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //        tvNameOfTool.setText(name_of_tool);
         tvNameOfRespondaents.setText(name_of_respondents);
         tvTopics.setText(topics);
+        tvProblems.setText(problems);
+        tvInterventionOfSM.setText(intervention_by_sm);
+        tvResultOfInput.setText(result_of_input);
 
         if (anc.equals("yes")) {
             cbANC.setChecked(true);
@@ -1016,6 +1034,9 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //                tvNameOfTool.setText(name_of_tool);
                 tvNameOfRespondaents.setText(name_of_respondents);
                 tvTopics.setText(topics);
+                tvProblems.setText(problems);
+                tvInterventionOfSM.setText(intervention_by_sm);
+                tvResultOfInput.setText(result_of_input);
                 previewImageSite.setImageBitmap(thumbnail);
 
                 long date = System.currentTimeMillis();
@@ -1035,7 +1056,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 Log.e("dbID", "" + id);
                 dataBaseNepalPublicHealthSent.close();
 
-                if(CheckValues.isFromSavedFrom) {
+                if (CheckValues.isFromSavedFrom) {
                     Log.e(TAG, "onPostExecute: FormID : " + formid);
                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
                     dataBaseNepalPublicHealth_NotSent.open();
@@ -1079,7 +1100,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                     });
                 }
 
-                if(!CheckValues.isFromSavedFrom){
+                if (!CheckValues.isFromSavedFrom) {
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
