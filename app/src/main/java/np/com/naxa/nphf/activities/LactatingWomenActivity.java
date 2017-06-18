@@ -134,7 +134,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     String latLangArray = "", jsonLatLangArray = "";
 
     AutoCompleteTextView tvLactatingWomenName,  tvEthnicity, tvAge, tvsmName, tvBirthAttendedByOthers;
-//    tvVDCName, tvWardNo,
+//    tvNextMonthMeetingTopic, tvWardNo,
     EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
     CardView cv_Send_Save;
 

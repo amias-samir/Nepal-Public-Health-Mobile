@@ -141,15 +141,15 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
     private int minute;
     static final int TIME_DIALOG_ID = 9999;
 
-    Spinner spinner_month, spinner_mother_group;
-    ArrayAdapter visit_month_adpt, mother_group_adpt;
+    Spinner spinnerVDCName, spinnerWardNo, spinner_month, spinner_mother_group;
+    ArrayAdapter vdcNameadpt, wardNoadpt, visit_month_adpt, mother_group_adpt;
 
     EditText tvVisitDate, tvVisitTime, tvPregnentWomenOld, tvPregnentWomenNew, tvLactatingWomenOld, tvLactatingWomenNew, tvMotherU2Old,
             tvMotherU2New, tvMotherU5Old, tvMotherU5New;
-    AutoCompleteTextView tvVDCName, tvDiscussedTopic, tvTotalParticipants, tvNameOfSM;
+    AutoCompleteTextView  tvDiscussedTopic, tvTotalParticipants, tvNameOfSM, tvNextMonthMeetingTopic;
 
-    String visit_date, visit_time, visit_month, mother_group, pregnent_women_old, pregnent_women_new, lactating_women_old, lactating_women_new, mother_u2_old,
-            mother_u2_new, mother_u5_old, mother_u5_new, vdc_name, discussed_topic, total_prticipants, sm_name, img;
+    String visit_date, visit_time, visit_month, vdc_name, ward_no, mother_group, pregnent_women_old, pregnent_women_new, lactating_women_old, lactating_women_new, mother_u2_old,
+            mother_u2_new, mother_u5_old, mother_u5_new, next_month_meeting_topic, discussed_topic, total_prticipants, sm_name, img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +161,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        spinnerVDCName = (Spinner) findViewById(R.id.monthly_meeting_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.monthly_meeting_ward_no);
         spinner_month = (Spinner) findViewById(R.id.spinner_monthly_meeting_visit_month);
         spinner_mother_group = (Spinner) findViewById(R.id.spinner_monthly_meeting_mother_group);
 
@@ -183,7 +185,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         addListenerOnTimeButton();
 
 
-        tvVDCName = (AutoCompleteTextView) findViewById(R.id.monthly_meeting_vdc_name);
+        tvNextMonthMeetingTopic = (AutoCompleteTextView) findViewById(R.id.monthly_meeting_next_month_meeting_topic);
         tvDiscussedTopic = (AutoCompleteTextView) findViewById(R.id.monthly_meeting_discussed_topic);
         tvTotalParticipants = (AutoCompleteTextView) findViewById(R.id.monthly_meeting_total_paticipants);
         tvTotalParticipants.setVisibility(View.GONE);
@@ -208,6 +210,24 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         //Check internet connection
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
 
         // visit month
         visit_month_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.MONTH);
@@ -300,12 +320,12 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (isGpsTaken) {
-                        vdc_name = tvVDCName.getText().toString();
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    if (isGpsTaken) {
+                        next_month_meeting_topic = tvNextMonthMeetingTopic.getText().toString();
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
 //                            pregnent women
@@ -464,11 +484,11 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                                 }
                             }
                         });
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
 
@@ -481,7 +501,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                 } else {
 
                     if (isGpsTaken) {
-                        vdc_name = tvVDCName.getText().toString();
+                        next_month_meeting_topic = tvNextMonthMeetingTopic.getText().toString();
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
 //                            pregnent women
@@ -988,6 +1008,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
             if (sent_Status.equals("Sent")) {
                 spinner_month.setEnabled(false);
                 spinner_mother_group.setEnabled(false);
+                spinnerVDCName.setEnabled(false);
+                spinnerWardNo.setEnabled(false);
                 tvVisitDate.setEnabled(false);
                 tvVisitTime.setEnabled(false);
                 tvPregnentWomenOld.setEnabled(false);
@@ -998,7 +1020,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                 tvMotherU2New.setEnabled(false);
                 tvMotherU5Old.setEnabled(false);
                 tvMotherU5New.setEnabled(false);
-                tvVDCName.setEnabled(false);
+                tvNextMonthMeetingTopic.setEnabled(false);
                 tvDiscussedTopic.setEnabled(false);
                 tvTotalParticipants.setEnabled(false);
                 tvNameOfSM.setEnabled(false);
@@ -1054,6 +1076,18 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         int SpinnerID = parent.getId();
 
+        if(SpinnerID == R.id.monthly_meeting_vdc_name){
+            vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+vdc_name );
+
+        }
+
+        if(SpinnerID == R.id.monthly_meeting_ward_no){
+            ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+ward_no );
+
+        }
+
         if (SpinnerID == R.id.spinner_monthly_meeting_visit_month) {
             long spinnerPosition = 0;
             spinnerPosition = visit_month_adpt.getItemId(position);
@@ -1089,6 +1123,8 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
             header.put("date", visit_date);
             header.put("time", visit_time);
             header.put("name_of_VDC", vdc_name);
+            header.put("ward", ward_no);
+            header.put("next_month_meeting_topic", next_month_meeting_topic);
             header.put("mother_group", mother_group);
             header.put("discussed_topic", discussed_topic);
             header.put("pregnent_women_old", pregnent_women_old);
@@ -1138,10 +1174,12 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         LatLng d = new LatLng(finalLat, finalLong);
         listCf.add(d);
 
-        vdc_name = jsonObj.getString("name_of_VDC");
+        next_month_meeting_topic = jsonObj.getString("next_month_meeting_topic");
         visit_month = jsonObj.getString("visit_month");
         visit_date = jsonObj.getString("date");
         visit_time = jsonObj.getString("time");
+        vdc_name = jsonObj.getString("name_of_VDC");
+        ward_no = jsonObj.getString("ward");
         mother_group = jsonObj.getString("mother_group");
         pregnent_women_old = jsonObj.getString("pregnent_women_old");
         pregnent_women_new = jsonObj.getString("pregnent_women_new");
@@ -1158,11 +1196,11 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         sm_name = jsonObj.getString("name_of_SM");
 
 
-        Log.e(TAG, "" + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
+        Log.e(TAG, "" + " SAMIR  " + next_month_meeting_topic + "----location----" + finalLat + " , " + finalLong);
 
         tvVisitDate.setText(visit_date);
         tvVisitTime.setText(visit_time);
-        tvVDCName.setText(vdc_name);
+        tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
         tvDiscussedTopic.setText(discussed_topic);
         tvPregnentWomenOld.setText(pregnent_women_old);
         tvPregnentWomenNew.setText(pregnent_women_new);
@@ -1177,6 +1215,12 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         tvTotalParticipants.setVisibility(View.VISIBLE);
         tvTotalParticipants.setText(total_prticipants);
 
+
+        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(ward_no);
+        spinnerWardNo.setSelection(setWardNo);
 
         int setVisitMonth = visit_month_adpt.getPosition(visit_month);
         spinner_month.setSelection(setVisitMonth);
@@ -1226,7 +1270,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
                 previewImageSite.setVisibility(View.VISIBLE);
                 tvTotalParticipants.setVisibility(View.VISIBLE);
 
-                tvVDCName.setText(vdc_name);
+                tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
                 tvDiscussedTopic.setText(discussed_topic);
                 tvPregnentWomenOld.setText(pregnent_women_old);
                 tvPregnentWomenNew.setText(pregnent_women_new);

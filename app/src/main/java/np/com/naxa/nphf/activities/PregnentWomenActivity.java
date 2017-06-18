@@ -130,7 +130,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     String latLangArray = "", jsonLatLangArray = "";
 
     AutoCompleteTextView tvPregnentWomenName,  tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
-//    tvVDCName, tvWardNo,
+//    tvNextMonthMeetingTopic, tvWardNo,
     EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
     CardView cv_Send_Save;
 
@@ -189,7 +189,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
 
         tvPregnentWomenName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_name);
-//        tvVDCName = (AutoCompleteTextView) findViewById(R.id.pregnent_women_vdc_name);
+//        tvNextMonthMeetingTopic = (AutoCompleteTextView) findViewById(R.id.pregnent_women_vdc_name);
 //        tvWardNo = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ward_no);
         tvEthnicity = (AutoCompleteTextView) findViewById(R.id.pregnent_women_ethnicity);
         tvAge = (AutoCompleteTextView) findViewById(R.id.pregnent_women_age);
@@ -392,7 +392,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
 //                    if (isGpsTaken) {
                         pregenent_women_name = tvPregnentWomenName.getText().toString();
-//                        vdc_name = tvVDCName.getText().toString();
+//                        next_month_meeting_topic = tvNextMonthMeetingTopic.getText().toString();
 //                        ward_no = tvWardNo.getText().toString();
                         ethnicity = tvEthnicity.getText().toString();
                         age = tvAge.getText().toString();
@@ -510,7 +510,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                     if (isGpsTaken) {
 
                 pregenent_women_name = tvPregnentWomenName.getText().toString();
-//                vdc_name = tvVDCName.getText().toString();
+//                next_month_meeting_topic = tvNextMonthMeetingTopic.getText().toString();
 //                ward_no = tvWardNo.getText().toString();
                 ethnicity = tvEthnicity.getText().toString();
                 age = tvAge.getText().toString();
@@ -821,7 +821,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             if (sent_Status.equals("Sent")) {
                 tvPregnentWomenName.setEnabled(false);
-//                tvVDCName.setEnabled(false);
+//                tvNextMonthMeetingTopic.setEnabled(false);
 //                tvWardNo.setEnabled(false);
                 tvEthnicity.setEnabled(false);
                 tvAge.setEnabled(false);
@@ -899,9 +899,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             header.put("tablename", "recording_tool_for_pregnant_woman");
             header.put("name_of_VDC", vdc_name);
+            header.put("ward", ward_no);
             header.put("name_of_SM", sm_name);
             header.put("name_of_pregnant_women", pregenent_women_name);
-            header.put("ward", ward_no);
             header.put("age", age);
             header.put("ethinicity", ethnicity);
             header.put("LMP", lmp);
@@ -952,9 +952,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         Log.e("PregnentWomenActivity", "json : " + jsonObj.toString());
 
         vdc_name = jsonObj.getString("name_of_VDC");
+        ward_no = jsonObj.getString("ward");
         sm_name = jsonObj.getString("name_of_SM");
         pregenent_women_name = jsonObj.getString("name_of_pregnant_women");
-        ward_no = jsonObj.getString("ward");
         age = jsonObj.getString("age");
         ethnicity = jsonObj.getString("ethinicity");
         lmp = jsonObj.getString("LMP");
@@ -980,7 +980,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         Log.e("Pregnent Women", "Parsed data " + garvawati_bhet + anc_visit);
 
         tvPregnentWomenName.setText(pregenent_women_name);
-//        tvVDCName.setText(vdc_name);
+//        tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
 //        tvWardNo.setText(ward_no);
         tvEthnicity.setText(ethnicity);
         tvAge.setText(age);
@@ -1060,7 +1060,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 previewImageSite.setVisibility(View.VISIBLE);
 
                 tvPregnentWomenName.setText(pregenent_women_name);
-//                tvVDCName.setText(vdc_name);
+//                tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
 //                tvWardNo.setText(ward_no);
                 tvEthnicity.setText(ethnicity);
                 tvAge.setText(age);
