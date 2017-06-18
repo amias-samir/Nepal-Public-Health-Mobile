@@ -339,58 +339,13 @@
 
         <!--Name of vaccination verified from the card -->
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            card_view:cardBackgroundColor="@color/transparent"
-            card_view:cardElevation="1dp"
-            android:id="@+id/vaccination_details_verify_card">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/layout_margin"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Vaccination Details"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/monsoon"
-                    android:id="@+id/vaccination_details" />
-
-                <Spinner
-                    android:id="@+id/spinner_vaccination_details"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/vaccination_details" />
-
-
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-        <!--Weight of the child verify from card-->
         <!--<android.support.v7.widget.CardView-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_margin="10dp"-->
             <!--card_view:cardBackgroundColor="@color/transparent"-->
             <!--card_view:cardElevation="1dp"-->
-            <!--android:id="@+id/lactating_women_pnc_visit">-->
+            <!--android:id="@+id/vaccination_details_verify_card">-->
 
             <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
@@ -408,10 +363,55 @@
                     <!--android:layout_alignParentTop="true"-->
                     <!--android:gravity="center_vertical"-->
                     <!--android:paddingLeft="5dp"-->
-                    <!--android:text="Weight of Child"-->
+                    <!--android:text="Vaccination Details"-->
                     <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
                     <!--android:textColor="@color/monsoon"-->
-                    <!--android:id="@+id/child_2_weight" />-->
+                    <!--android:id="@+id/vaccination_details" />-->
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/spinner_vaccination_details"-->
+                    <!--android:layout_width="220dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_alignParentTop="true"-->
+                    <!--android:layout_toRightOf="@+id/vaccination_details" />-->
+
+
+
+            <!--</RelativeLayout>-->
+
+        <!--</android.support.v7.widget.CardView>-->
+
+
+        <!--Vaccnation multi spinner-->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardBackgroundColor="@color/transparent"
+            card_view:cardElevation="1dp"
+            android:id="@+id/lactating_women_pnc_visit">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/layout_margin"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="Vaccintion details"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/monsoon"
+                    android:id="@+id/child_2_weight" />
 
                 <!--<Spinner-->
                     <!--android:id="@+id/visit_for_weight2"-->
@@ -420,18 +420,27 @@
                     <!--android:layout_alignParentRight="true"-->
                     <!--android:layout_alignParentTop="true"-->
                     <!--android:layout_toRightOf="@+id/child_2_weight" />-->
+                <com.thomashaertel.widget.MultiSpinner
+                    android:id="@+id/spinnerMulti"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/child_2_weight" />
+
+                <EditText
+                    android:id="@+id/selected_vaccination_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_below="@+id/spinnerMulti"
+                    />
 
 
-            <!--</RelativeLayout>-->
+            </RelativeLayout>
 
-        <!--</android.support.v7.widget.CardView>-->
+        </android.support.v7.widget.CardView>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:orientation="vertical"-->
-        <!--android:padding="5dp">-->
 
         <!--weight of child under two-->
         <android.support.design.widget.TextInputLayout

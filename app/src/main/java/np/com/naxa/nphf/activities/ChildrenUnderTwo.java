@@ -57,6 +57,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
+import com.thomashaertel.widget.MultiSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,10 +100,14 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     private static final String TAG = "chidren_under_two";
     public static Toolbar toolbar;
     int CAMERA_PIC_REQUEST = 2;
-    Spinner spinnerVDCName, spinnerWardNo, spinner_growth_monitor, spinner_vaccination_verification;
-//    , spinner_visit_weight
-//    , visit_weight_adpt
-    ArrayAdapter vdcNameadpt, wardNoadpt, growth_monitor_adpt, vaccination_verification_adpt;
+    Spinner spinnerVDCName, spinnerWardNo, spinner_growth_monitor;
+//    spinner_vaccination_verification;
+    ArrayAdapter vdcNameadpt, wardNoadpt, growth_monitor_adpt;
+//    vaccination_verification_adpt;
+
+    private MultiSpinner spinner;
+    private ArrayAdapter<String> adapter;
+
     Button send, save, startGps, previewMap;
     ProgressDialog mProgressDlg;
     Context context = this;
@@ -123,9 +128,10 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
     String latLangArray = "", jsonLatLangArray = "";
 
 
-    AutoCompleteTextView tvchild_motherName,  tvchild2_age, tvchild2_sex, tvcontact_details_lactating_women, tvsmName, tvWeightOfChild;
+    AutoCompleteTextView tvchild_motherName,  tvchild2_age, tvchild2_sex, tvcontact_details_lactating_women, tvsmName,
+            tvWeightOfChild;
 //    tvchildren2VDCName, tvchildrenWardNo,
-    EditText tvVisitDate, tvVisitTime, tvDateOfBirth;
+    EditText tvVisitDate, tvVisitTime, tvDateOfBirth, tvMultispinnerVaccination;
     CardView cv_Send_Save;
 
 
@@ -194,7 +200,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         spinnerVDCName = (Spinner) findViewById(R.id.children_2_vdc_name);
         spinnerWardNo = (Spinner) findViewById(R.id.children_2_ward_no);
         spinner_growth_monitor = (Spinner) findViewById(R.id.spinner_growth_monitor_2);
-        spinner_vaccination_verification = (Spinner) findViewById(R.id.spinner_vaccination_details);
+//        spinner_vaccination_verification = (Spinner) findViewById(R.id.spinner_vaccination_details);
 //        spinner_visit_weight = (Spinner) findViewById(R.id.visit_for_weight2);
 
         send = (Button) findViewById(R.id.children_2_send);
@@ -202,6 +208,28 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         startGps = (Button) findViewById(R.id.children_2_GpsStart);
         previewMap = (Button) findViewById(R.id.children_2_preview_map);
         previewMap.setEnabled(false);
+
+//        multispinne spinner Vaccination
+        // create spinner list elements
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        adapter.add("BCG");
+        adapter.add("DPT,HepB-Hib,Polio,PCV 1st Dose");
+        adapter.add("DPT,HepB-Hib,Polio,PCV 2nd Dose");
+        adapter.add("DPT,HepB-Hib,Polio,IPV 3rd Dose");
+        adapter.add("PCV (3rd) and MR (1st)");
+        adapter.add("JE");
+        adapter.add("MR (2nd)");
+
+        // get spinner and set adapter
+        spinner = (MultiSpinner) findViewById(R.id.spinnerMulti);
+        tvMultispinnerVaccination = (EditText) findViewById(R.id.selected_vaccination_details);
+        spinner.setAdapter(adapter, false, onSelectedListener);
+
+        // set initial selection
+        boolean[] selectedItems = new boolean[adapter.getCount()];
+//        selectedItems[1] = true; // select second item
+        spinner.setSelected(selectedItems);
+
 
         client = new GoogleApiClient.Builder(this)
                 .addApi(AppIndex.API)
@@ -239,12 +267,12 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         spinner_growth_monitor.setOnItemSelectedListener(this);
 
         // spinner vaccination details
-        vaccination_verification_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.VACCINATION);
-        vaccination_verification_adpt
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner_vaccination_verification.setAdapter(vaccination_verification_adpt);
-        spinner_vaccination_verification.setOnItemSelectedListener(this);
+//        vaccination_verification_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.VACCINATION);
+//        vaccination_verification_adpt
+//                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner_vaccination_verification.setAdapter(vaccination_verification_adpt);
+//        spinner_vaccination_verification.setOnItemSelectedListener(this);
 
         // spinner weight of children two in different visit
 
@@ -340,7 +368,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                         child2_sm_name = tvsmName.getText().toString();
                         child2_mother_name = tvchild_motherName.getText().toString();
                         weight = tvWeightOfChild.getText().toString();
-//                        child2_ward_no = tvchildrenWardNo.getText().toString();
+                        vaccination = tvMultispinnerVaccination.getText().toString();
                         child2_age = tvchild2_age.getText().toString();
                         child2_sex = tvchild2_sex.getText().toString();
                         img = encodedImage;
@@ -458,7 +486,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 child2_sm_name = tvsmName.getText().toString();
                 child2_mother_name = tvchild_motherName.getText().toString();
                 weight = tvWeightOfChild.getText().toString();
-//                child2_ward_no = tvchildrenWardNo.getText().toString();
+                vaccination = tvMultispinnerVaccination.getText().toString();
                 child2_age = tvchild2_age.getText().toString();
                 child2_sex = tvchild2_sex.getText().toString();
                 img = encodedImage;
@@ -558,33 +586,33 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
             }
         }
 
-        if (SpinnerID == R.id.spinner_vaccination_details) {
-            switch (position) {
-                case 0:
-                    vaccination = "BCG";
-                    break;
-
-                case 1:
-                    vaccination = "DPT ,HepB -Hib,Polio,PCV 1st Dose";
-                    break;
-                case 2:
-                    vaccination = "DPT ,HepB -Hib,Polio,PCV 2nd Dose";
-                    break;
-                case 3:
-                    vaccination = "DPT,HepB-Hib,Polio,IPV 3rd Dose";
-                    break;
-                case 4:
-                    vaccination = "PCV (3rd) and MR (1st )";
-                    break;
-                case 5:
-                    vaccination = "JE";
-                    break;
-                case 6:
-                    vaccination = "MR (2nd)";
-                    break;
-
-            }
-        }
+//        if (SpinnerID == R.id.spinner_vaccination_details) {
+//            switch (position) {
+//                case 0:
+//                    vaccination = "BCG";
+//                    break;
+//
+//                case 1:
+//                    vaccination = "DPT ,HepB -Hib,Polio,PCV 1st Dose";
+//                    break;
+//                case 2:
+//                    vaccination = "DPT ,HepB -Hib,Polio,PCV 2nd Dose";
+//                    break;
+//                case 3:
+//                    vaccination = "DPT,HepB-Hib,Polio,IPV 3rd Dose";
+//                    break;
+//                case 4:
+//                    vaccination = "PCV (3rd) and MR (1st )";
+//                    break;
+//                case 5:
+//                    vaccination = "JE";
+//                    break;
+//                case 6:
+//                    vaccination = "MR (2nd)";
+//                    break;
+//
+//            }
+//        }
 
 //        if (SpinnerID == R.id.visit_for_weight2) {
 //            switch (position) {
@@ -1029,8 +1057,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
                 spinnerVDCName.setEnabled(false);
                 spinnerWardNo.setEnabled(false);
                 spinner_growth_monitor.setEnabled(false);
-//                spinner_visit_weight.setEnabled(false);
-                spinner_vaccination_verification.setEnabled(false);
+                tvMultispinnerVaccination.setEnabled(false);
                 tvchild2_age.setEnabled(false);
                 tvWeightOfChild.setEnabled(false);
                 tvchild2_sex.setEnabled(false);
@@ -1169,7 +1196,10 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         tvsmName.setText(child2_sm_name);
         tvchild_motherName.setText(child2_mother_name);
 //        tvchildren2VDCName.setText(child2_vdc_name);
-//        tvchildrenWardNo.setText(child2_ward_no);
+        tvMultispinnerVaccination.setText(vaccination);
+        if(!vaccination.equals("")){
+            tvMultispinnerVaccination.setVisibility(View.VISIBLE);
+        }
         tvchild2_age.setText(child2_age);
         tvchild2_sex.setText(child2_sex);
         tvWeightOfChild.setText(weight);
@@ -1188,8 +1218,8 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
         int setGrothMonitor = growth_monitor_adpt.getPosition(growth_monitor);
         spinner_growth_monitor.setSelection(setGrothMonitor);
 
-        int setVaccination = vaccination_verification_adpt.getPosition(vaccination);
-        spinner_vaccination_verification.setSelection(setVaccination);
+//        int setVaccination = vaccination_verification_adpt.getPosition(vaccination);
+//        spinner_vaccination_verification.setSelection(setVaccination);
 
 //        int setChildWeight = visit_weight_adpt.getPosition(weight);
 //        spinner_visit_weight.setSelection(setChildWeight);
@@ -1236,7 +1266,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
                 tvsmName.setText(child2_sm_name);
                 tvchild_motherName.setText(child2_mother_name);
-//                tvchildren2VDCName.setText(child2_vdc_name);
+                tvMultispinnerVaccination.setText(vaccination);
 //                tvchildrenWardNo.setText(child2_ward_no);
                 tvchild2_age.setText(child2_age);
                 tvchild2_sex.setText(child2_sex);
@@ -1397,6 +1427,34 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
 
     }
+
+
+    //=====================multispinner selection ============================//
+
+    private MultiSpinner.MultiSpinnerListener onSelectedListener = new MultiSpinner.MultiSpinnerListener() {
+
+        public void onItemsSelected(boolean[] selected) {
+            // Do something here with the selected items
+
+            tvMultispinnerVaccination.setVisibility(View.VISIBLE);
+
+
+            StringBuilder builder = new StringBuilder();
+
+            int max = selected.length;
+
+            for (int i = 0; i < selected.length; i++) {
+                if (selected[i]) {
+                    tvMultispinnerVaccination.setText(builder.append(adapter.getItem(i)).append(" & "));
+                }
+
+            }
+
+            Toast.makeText(ChildrenUnderTwo.this, builder.toString(), Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    //==========================multiselection spinner selection code ends here========================//
 
 
 }
