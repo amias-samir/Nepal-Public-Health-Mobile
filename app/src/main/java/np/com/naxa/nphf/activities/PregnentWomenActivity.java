@@ -132,9 +132,8 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
     String latLangArray = "", jsonLatLangArray = "";
 
     AutoCompleteTextView tvPregnentWomenName,  tvEthnicity, tvAge, tvLMP, tvEDD, tvContactNo, tvSMName;
-//    tvNextMonthMeetingTopic, tvWardNo,
-    EditText tvVisitDate, tvVisitTime, tvDeliveryDate, tvANCFirstVisitDate, tvANCSecondVisitDate, tvANCThirdVisitDate, tvANCFourthVisitDate;
     CardView cv_Send_Save;
+    EditText tvVisitDate, tvVisitTime, tvDeliveryDate, tvANCFirstVisitDate, tvANCSecondVisitDate, tvANCThirdVisitDate, tvANCFourthVisitDate;
     CheckBox cbANCFirstVisit,cbANCSecondVisit,cbANCThirdVisit,cbANCFourthVisit;
 
 
@@ -215,9 +214,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         tvANCFourthVisitDate = (EditText) findViewById(R.id.anc_fourth_visit_date);
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
 
-        cbANCFirstVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_first_visit);
-        cbANCSecondVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_second_visit);
-        cbANCThirdVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_third_visit);
+        cbANCFirstVisit = (CheckBox) findViewById(R.id.lactating_women_anc_first_visit);
+        cbANCSecondVisit = (CheckBox) findViewById(R.id.lactating_women_anc_second_visit);
+        cbANCThirdVisit = (CheckBox) findViewById(R.id.lactating_women_anc_third_visit);
         cbANCFourthVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_fourth_visit);
 
         cbANCFirstVisit.setOnCheckedChangeListener( this);
@@ -422,33 +421,33 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         img = encodedImage;
                         jsonLatLangArray = jsonArrayGPS.toString();
 
-//                if (cbANCFirstVisit.isChecked() == true) {
+//                if (cbPNCFirstVisit.isChecked() == true) {
 //                    first_visit = "yes";
-//                    tvANCFirstVisitDate.setVisibility(View.VISIBLE);
-//                    first_visit_date = tvANCFirstVisitDate.getText().toString();
+//                    tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
+//                    first_visit_date = tvPNCFirstVisitDate.getText().toString();
 //                } else {
 //                    first_visit = "no";
-//                    tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+//                    tvPNCFirstVisitDate.setVisibility(View.INVISIBLE);
 //                    first_visit_date = "";
 //                }
 //
-//                if (cbANCSecondVisit.isChecked() == true) {
+//                if (cbPNCSecondVisit.isChecked() == true) {
 //                    second_visit = "yes";
-//                    tvANCSecondVisitDate.setVisibility(View.VISIBLE);
-//                    second_visit_date = tvANCSecondVisitDate.getText().toString();
+//                    tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
+//                    second_visit_date = tvPNCSecondVisitDate.getText().toString();
 //                } else {
 //                    second_visit = "no";
-//                    tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+//                    tvPNCSecondVisitDate.setVisibility(View.INVISIBLE);
 //                    second_visit_date = "";
 //                }
 //
-//                if (cbANCThirdVisit.isChecked() == true) {
+//                if (cbPNCThirdVisit.isChecked() == true) {
 //                    third_visit = "yes";
-//                    tvANCThirdVisitDate.setVisibility(View.VISIBLE);
-//                    third_visit_date = tvANCThirdVisitDate.getText().toString();
+//                    tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
+//                    third_visit_date = tvPNCThirdVisitDate.getText().toString();
 //                } else {
 //                    third_visit = "no";
-//                    tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+//                    tvPNCThirdVisitDate.setVisibility(View.INVISIBLE);
 //                    third_visit_date = "";
 //                }
 //                if (cbANCFourthVisit.isChecked() == true) {
@@ -579,33 +578,33 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 contact_no = tvContactNo.getText().toString();
                 sm_name = tvSMName.getText().toString();
 
-//                        if (cbANCFirstVisit.isChecked() == true) {
+//                        if (cbPNCFirstVisit.isChecked() == true) {
 //                            first_visit = "yes";
-//                            tvANCFirstVisitDate.setVisibility(View.VISIBLE);
-//                            first_visit_date = tvANCFirstVisitDate.getText().toString();
+//                            tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
+//                            first_visit_date = tvPNCFirstVisitDate.getText().toString();
 //                        } else {
 //                            first_visit = "no";
-//                            tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+//                            tvPNCFirstVisitDate.setVisibility(View.INVISIBLE);
 //                            first_visit_date = "";
 //                        }
 //
-//                        if (cbANCSecondVisit.isChecked() == true) {
+//                        if (cbPNCSecondVisit.isChecked() == true) {
 //                            second_visit = "yes";
-//                            tvANCSecondVisitDate.setVisibility(View.VISIBLE);
-//                            second_visit_date = tvANCSecondVisitDate.getText().toString();
+//                            tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
+//                            second_visit_date = tvPNCSecondVisitDate.getText().toString();
 //                        } else {
 //                            second_visit = "no";
-//                            tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+//                            tvPNCSecondVisitDate.setVisibility(View.INVISIBLE);
 //                            second_visit_date = "";
 //                        }
 //
-//                        if (cbANCThirdVisit.isChecked() == true) {
+//                        if (cbPNCThirdVisit.isChecked() == true) {
 //                            third_visit = "yes";
-//                            tvANCThirdVisitDate.setVisibility(View.VISIBLE);
-//                            third_visit_date = tvANCThirdVisitDate.getText().toString();
+//                            tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
+//                            third_visit_date = tvPNCThirdVisitDate.getText().toString();
 //                        } else {
 //                            third_visit = "no";
-//                            tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+//                            tvPNCThirdVisitDate.setVisibility(View.INVISIBLE);
 //                            third_visit_date = "";
 //                        }
 //                        if (cbANCFourthVisit.isChecked() == true) {

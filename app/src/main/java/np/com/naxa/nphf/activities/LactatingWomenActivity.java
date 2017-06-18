@@ -37,6 +37,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -96,7 +98,7 @@ import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 
 
-public class LactatingWomenActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class LactatingWomenActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LactatingWomenActivity";
     public static Toolbar toolbar;
@@ -137,19 +139,27 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 //    tvNextMonthMeetingTopic, tvWardNo,
     EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
     CardView cv_Send_Save;
+    EditText tvPNCFirstVisitDate, tvPNCSecondVisitDate, tvPNCThirdVisitDate, tvANCFourthVisitDate;
+    CheckBox cbPNCFirstVisit, cbPNCSecondVisit, cbPNCThirdVisit,cbANCFourthVisit;
 
     RelativeLayout rlBirthAttendedBy ;
 
 
     String lactating_women_name, vdc_name, ward_no, ethnicity, age, pnc_visit, deliver_place, delivery_date,
             birth_attended_by, birth_attended_by_others, third_labour, oxytocin_received, neonates_asphysia, img,
-            fourtyfivedays_iron, vitaminA, neonatal_records, breastfeed_in1hour, exclusive_breastfeeding, sm_name, visit_date, visit_time;
+            fourtyfivedays_iron, vitaminA, neonatal_records, breastfeed_in1hour, exclusive_breastfeeding, sm_name, visit_date, visit_time,
+            first_visit = "", second_visit = "", third_visit = "", fourth_visit = "", first_visit_date = "",
+            second_visit_date= "", third_visit_date = "", fourth_visit_date = "";
 
     private int year;
     private int month;
     private int day;
     static final int DATE_DIALOG_ID = 999;
     static final int DELIVERY_DATE_DIALOG_ID = 99;
+
+    static final int PNC_FIRST_VISIT_DTE = 88;
+    static final int PNC_SECOND_VISIT_DTE = 888;
+    static final int PNC_THIRD_VISIT_DTE = 8888;
 
 
     private TimePicker timePicker1;
@@ -207,6 +217,10 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         previewMap = (Button) findViewById(R.id.lactating_women_preview_map);
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
 
+        tvPNCFirstVisitDate = (EditText) findViewById(R.id.pnc_first_visit_date);
+        tvPNCSecondVisitDate = (EditText) findViewById(R.id.pnc_second_visit_date);
+        tvPNCThirdVisitDate = (EditText) findViewById(R.id.pnc_third_visit_date);
+
         previewMap.setEnabled(false);
 
         setCurrentDateOnView();
@@ -218,7 +232,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         // initialiting spinners
         spinnerVDCName = (Spinner) findViewById(R.id.lactating_women_vdc_name);
         spinnerWardNo = (Spinner) findViewById(R.id.lactating_women_ward_no);
-        pnc_visit_spinner = (Spinner) findViewById(R.id.pnc_visit_spinner);
         delivery_at_place_spinner = (Spinner) findViewById(R.id.delivery_at_place);
         birth_attended_by_lcw_spinner = (Spinner) findViewById(R.id.birth_attended_by_lcw);
         lactaing_women_3rd_labour_spinner = (Spinner) findViewById(R.id.lactating_women_3rd_labour);
@@ -233,6 +246,17 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         // buttons
         send = (Button) findViewById(R.id.lactating_women_send);
         save = (Button) findViewById(R.id.lactating_women_save);
+
+
+
+        cbPNCFirstVisit = (CheckBox) findViewById(R.id.lactating_women_anc_first_visit);
+        cbPNCSecondVisit = (CheckBox) findViewById(R.id.lactating_women_anc_second_visit);
+        cbPNCThirdVisit = (CheckBox) findViewById(R.id.lactating_women_anc_third_visit);
+
+        cbPNCFirstVisit.setOnCheckedChangeListener( this);
+        cbPNCSecondVisit.setOnCheckedChangeListener( this);
+        cbPNCThirdVisit.setOnCheckedChangeListener( this);
+
 
         //Check internet connection
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -255,11 +279,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         spinnerWardNo.setAdapter(wardNoadpt);
         spinnerWardNo.setOnItemSelectedListener(this);
 
-        // pnc visit adapters
-        pnc_visit_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.PNC_VISIT);
-        pnc_visit_adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pnc_visit_spinner.setAdapter(pnc_visit_adpt);
-        pnc_visit_spinner.setOnItemSelectedListener(this);
 
         // birth_attended_by_lcw of lactating women
         birth_attended_by_lcw_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.ATTENDED_BIRTH_BY);
@@ -424,6 +443,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                         img = encodedImage;
                         sm_name = tvsmName.getText().toString();
                         visit_date = tvVisitDate.getText().toString();
+//                        first_visit_date = tvPNCFirstVisitDate.getText().toString();
+//                        second_visit_date = tvPNCSecondVisitDate.getText().toString();
+//                        third_visit_date = tvPNCThirdVisitDate.getText().toString();
                         delivery_date = tvDeliveryDate.getText().toString();
                         visit_time = tvVisitTime.getText().toString();
                         img = encodedImage;
@@ -541,6 +563,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 img = encodedImage;
                 sm_name = tvsmName.getText().toString();
                 visit_date = tvVisitDate.getText().toString();
+//                first_visit_date = tvPNCFirstVisitDate.getText().toString();
+//                second_visit_date = tvPNCSecondVisitDate.getText().toString();
+//                third_visit_date = tvPNCThirdVisitDate.getText().toString();
                 delivery_date = tvDeliveryDate.getText().toString();
                 visit_time = tvVisitTime.getText().toString();
 
@@ -618,19 +643,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         }
 
-        if (SpinnerID == R.id.pnc_visit_spinner) {
-            switch (position) {
-                case 0:
-                    pnc_visit = "First Visit";
-                    break;
-                case 1:
-                    pnc_visit = "Second Visit";
-                    break;
-                case 2:
-                    pnc_visit = "Third Visit";
-                    break;
-            }
-        }
+
 
         if (SpinnerID == R.id.delivery_at_place) {
             switch (position) {
@@ -926,6 +939,12 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 tvVisitTime.setEnabled(false);
                 pic.setEnabled(false);
                 startGps.setEnabled(false);
+                cbPNCFirstVisit.setEnabled(false);
+                cbPNCSecondVisit.setEnabled(false);
+                cbPNCThirdVisit.setEnabled(false);
+                tvPNCFirstVisitDate.setEnabled(false);
+                tvPNCSecondVisitDate.setEnabled(false);
+                tvPNCThirdVisitDate.setEnabled(false);
                 cv_Send_Save.setVisibility(View.GONE);
 
             }
@@ -980,6 +999,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("name_of_SM", sm_name);
             header.put("date", visit_date);
             header.put("delivery_date", delivery_date);
+            header.put("pnc_(First_visit)", first_visit_date);
+            header.put("pnc_(Second_visit)", second_visit_date);
+            header.put("pnc_(Third_visit)", third_visit_date);
             header.put("time", visit_time);
             header.put("name_of_lactating_woman", lactating_women_name);
             header.put("name_of_vdc", vdc_name);
@@ -1058,13 +1080,11 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         oxytocin_received = jsonObj.getString("recieved_oxytocin_after_delivery");
         neonates_asphysia = jsonObj.getString("neonates_with_birth_asphyxia");
 
-        pnc_visit = jsonObj.getString("PNC_visit");
         fourtyfivedays_iron = jsonObj.getString("received_45_days_supply_of_iron");
         vitaminA = jsonObj.getString("vit_A");
         neonatal_records = jsonObj.getString("neonatal_check_ups");
         breastfeed_in1hour = jsonObj.getString("breast_feeding_within_one_hour_of_birth");
         exclusive_breastfeeding = jsonObj.getString("exclusive_breast_feeding");
-
         encodedImage = jsonObj.getString("image");
 
         Log.e("Lactating Women ", "Parsed data " + neonates_asphysia + " finalLat " + finalLong + " listcf" + listCf);
@@ -1101,9 +1121,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         int setReceivedNeonates = lactating_women_neonates_asphysia_adpt.getPosition(neonates_asphysia);
         lactating_women_neonates_asphysia_spinner.setSelection(setReceivedNeonates);
 
-        int setPNCVisit = pnc_visit_adpt.getPosition(pnc_visit);
-        pnc_visit_spinner.setSelection(setPNCVisit);
-
         int setFourtyfiveDaysIron = lactating_women_45days_iron_adtp.getPosition(fourtyfivedays_iron);
         lactating_women_45days_iron_spinner.setSelection(setFourtyfiveDaysIron);
 
@@ -1119,6 +1136,23 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         int setExcluseBreastFeeding = lactating_women_exclusive_breastfeeding_adpt.getPosition(exclusive_breastfeeding);
         lactating_women_exclusive_breastfeeding_spinner.setSelection(setExcluseBreastFeeding);
 
+        first_visit_date = jsonObj.getString("pnc_(First_visit)");
+        second_visit_date = jsonObj.getString("pnc_(Second_visit)");
+        third_visit_date = jsonObj.getString("pnc_(Third_visit)");
+
+        if (!first_visit_date.equals("")) {
+            cbPNCFirstVisit.setChecked(true);
+            tvPNCFirstVisitDate.setText(first_visit_date);
+
+        }
+        if (!second_visit_date.equals("")) {
+            cbPNCSecondVisit.setChecked(true);
+            tvPNCSecondVisitDate.setText(second_visit_date);
+        }
+        if (!third_visit_date.equals("")) {
+            cbPNCThirdVisit.setChecked(true);
+            tvPNCThirdVisitDate.setText(third_visit_date);
+        }
 
     }
 
@@ -1337,6 +1371,24 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 .append(day).append(""));
 
         // set current date into textview
+        tvPNCFirstVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+        // set current date into textview
+        tvPNCSecondVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+        // set current date into textview
+        tvPNCThirdVisitDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(year).append("/").append(month + 1).append("/")
+                .append(day).append(""));
+
+        // set current date into textview
         tvDeliveryDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
                 .append(year).append("/").append(month + 1).append("/")
@@ -1356,6 +1408,44 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                     tvVisitDate.setShowSoftInputOnFocus(false);
                 }
                 showDialog(DATE_DIALOG_ID);
+            }
+
+        });
+        tvPNCFirstVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvPNCFirstVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(PNC_FIRST_VISIT_DTE);
+            }
+
+        });
+
+        tvPNCSecondVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvPNCSecondVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(PNC_SECOND_VISIT_DTE);
+            }
+
+        });
+
+        tvPNCThirdVisitDate.setOnClickListener(new View.OnClickListener() {
+
+            //            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tvPNCThirdVisitDate.setShowSoftInputOnFocus(false);
+                }
+                showDialog(PNC_THIRD_VISIT_DTE);
             }
 
         });
@@ -1382,6 +1472,18 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             case DATE_DIALOG_ID:
                 // set date picker as current date
                 return new DatePickerDialog(this, datePickerListener, year, month,
+                        day);
+            case PNC_FIRST_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, firstVisitdatePickerListener, year, month,
+                        day);
+            case PNC_SECOND_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, secondVisitdatePickerListener, year, month,
+                        day);
+            case PNC_THIRD_VISIT_DTE:
+                // set date picker as current date
+                return new DatePickerDialog(this, thirdVisitdatePickerListener, year, month,
                         day);
 
             case DELIVERY_DATE_DIALOG_ID:
@@ -1424,6 +1526,52 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
             // set selected date into textview
             tvDeliveryDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener firstVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvPNCFirstVisitDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+    private DatePickerDialog.OnDateSetListener secondVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvPNCSecondVisitDate.setText(new StringBuilder().append(year)
+                    .append("-").append(month + 1).append("-").append(day)
+                    .append(""));
+        }
+    };
+    private DatePickerDialog.OnDateSetListener thirdVisitdatePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvPNCThirdVisitDate.setText(new StringBuilder().append(year)
                     .append("-").append(month + 1).append("-").append(day)
                     .append(""));
         }
@@ -1602,6 +1750,58 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         });
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        switch(buttonView.getId()){
+            case R.id.lactating_women_anc_first_visit:
+                if (cbPNCFirstVisit.isChecked() == true) {
+                    first_visit = "yes";
+                    tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
+                    if(!CheckValues.isFromSavedFrom) {
+                        first_visit_date = tvPNCFirstVisitDate.getText().toString();
+                    }
+                } else {
+                    first_visit = "no";
+                    tvPNCFirstVisitDate.setVisibility(View.INVISIBLE);
+                    first_visit_date = "";
+                }
+
+
+                break;
+            case R.id.lactating_women_anc_second_visit:
+                if (cbPNCSecondVisit.isChecked() == true) {
+                    second_visit = "yes";
+                    tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
+                    if(!CheckValues.isFromSavedFrom) {
+                        second_visit_date = tvPNCSecondVisitDate.getText().toString();
+                    }
+                } else {
+                    second_visit = "no";
+                    tvPNCSecondVisitDate.setVisibility(View.INVISIBLE);
+                    second_visit_date = "";
+                }
+
+
+                break;
+            case R.id.lactating_women_anc_third_visit:
+                if (cbPNCThirdVisit.isChecked() == true) {
+                    third_visit = "yes";
+                    tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
+                    if(!CheckValues.isFromSavedFrom) {
+                        third_visit_date = tvPNCThirdVisitDate.getText().toString();
+                    }
+                } else {
+                    third_visit = "no";
+                    tvPNCThirdVisitDate.setVisibility(View.INVISIBLE);
+                    third_visit_date = "";
+                }
+
+
+                break;
+
+                }
+    }
 
 }
 
