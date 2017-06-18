@@ -109,20 +109,89 @@
                         android:inputType="date"
                         android:textColor="@color/black" />
 
-                    <!--VDC name-->
-                    <android.support.design.widget.TextInputLayout
+                    <!--VDC Name-->
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp">
+                        card_view:cardBackgroundColor="@color/transparent"
+                        card_view:cardElevation="1dp">
 
-                        <AutoCompleteTextView
-                            android:id="@+id/peer_group_vdc_name"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Name of VDC"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/black" />
-                    </android.support.design.widget.TextInputLayout>
+                            android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/layout_margin"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/vdcName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/peer_group_vdc_name"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:text="VDC Name"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/monsoon" />
+
+                            <Spinner
+                                android:id="@+id/peer_group_vdc_name"
+                                android:layout_width="220dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_toEndOf="@+id/vdcName"
+                                android:layout_toRightOf="@+id/vdcName" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <!--Ward No-->
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardBackgroundColor="@color/transparent"
+                        card_view:cardElevation="1dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/layout_margin"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/wardNo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/peer_group_ward_no"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:text="Ward No"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/monsoon" />
+
+                            <Spinner
+                                android:id="@+id/peer_group_ward_no"
+                                android:layout_width="220dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_toEndOf="@+id/wardNo"
+                                android:layout_toRightOf="@+id/wardNo" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
 
@@ -320,7 +389,6 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginTop="20dp">
 
                         <AutoCompleteTextView
@@ -328,6 +396,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Discussed Topic"
+                            android:inputType="textPersonName|textMultiLine"
+                            android:textColor="@color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <!--Next Month Topic-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/peer_group_next_month_meeting_topic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Next Month Meeting Topic"
                             android:inputType="textPersonName|textMultiLine"
                             android:textColor="@color/black" />
                     </android.support.design.widget.TextInputLayout>

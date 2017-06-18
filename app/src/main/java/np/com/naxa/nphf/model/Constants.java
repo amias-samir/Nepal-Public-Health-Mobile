@@ -19,7 +19,7 @@ public class Constants {
     public static String [] BIRTH_PLACE= {"Home","Hospital"};
     public static String [] ATTENDED_BIRTH_BY = {"SBA","HW","Others than SBA/HW"};
     public static String [] NATIONAL_NEONATES = {"First checkup","Second checkup","Third checkup"};
-    public static String [] PEER_GROUP = {"Peer Group 1","Peer Group 2","Peer Group 3", "Peer Group 4"};
+    public static String [] PEER_GROUP = {"Peer Group 1","Peer Group 2","Peer Group 3", "Peer Group 4", "PWG Group"};
     public static String [] PEER_GROUP_TYPE = {"Child Club","School Child","Community Child"};
     public static String [] SESSION = {"Session 1","Session 2","Session 3","Session 4", "Session 5", "Session 6", "Session 7",
                                         "Session 8", "Session 9", "Session 10"};

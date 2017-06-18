@@ -33,6 +33,8 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,6 +43,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -88,10 +91,11 @@ import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
 import np.com.naxa.nphf.model.CheckValues;
+import np.com.naxa.nphf.model.Constants;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 
-public class ChildrenUnderFive extends AppCompatActivity {
+public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "chidren_under_five";
     public static Toolbar toolbar;
@@ -115,15 +119,17 @@ public class ChildrenUnderFive extends AppCompatActivity {
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvchildren_under5_name, tvchild_under5_vdc_name, tvchildren_5_ward_no,
-            tvchildren_5_age, tvchildren_5_sex, tvchildren_5_sm_name, tvDiarrohea;
+    Spinner  spinnerVDCName, spinnerWardNo ;
+    ArrayAdapter vdcNameadpt, wardNoadpt ;
+
+    AutoCompleteTextView tvchildren_under5_name, tvchildren_5_age, tvchildren_5_sex, tvchildren_5_sm_name, tvDiarrohea;
     CheckBox cbSufferedDiarrhoea, cbTreatedWithZinc, cbReferredBySM, cbSufferedARI, cbTreatedWithAntibiotic, cbRefferedBySM_ARI;
     EditText tvVisitDate, tvVisitTime;
     CardView cv_Send_Save;
 
 
 
-    String child5_name, child5_vdc_name, child5_ward_no, child5_age, child5_sex, child5_sm_name,
+    String child5_name, child5_vdc_name, child5_ward_no, child5_age, child5_sex, child5_sm_name, vdc_name, ward_no,
             visit_date, visit_time, img, suffered_diarrhoea, treated_with_zinc, reffered_by_sm, suffered_ari, treated_with_anibiotic, referred_by_sm_ari;
 
     JSONArray jsonArrayGPS = new JSONArray();
@@ -165,8 +171,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvchildren_under5_name = (AutoCompleteTextView) findViewById(R.id.children_under5_name);
-        tvchild_under5_vdc_name = (AutoCompleteTextView) findViewById(R.id.child_under5_vdc_name);
-        tvchildren_5_ward_no = (AutoCompleteTextView) findViewById(R.id.child_under5_ward_no);
         tvchildren_5_age = (AutoCompleteTextView) findViewById(R.id.children_5_age);
         tvchildren_5_sex = (AutoCompleteTextView) findViewById(R.id.children_5_sex);
         tvchildren_5_sm_name = (AutoCompleteTextView) findViewById(R.id.children_5_sm_name);
@@ -178,6 +182,9 @@ public class ChildrenUnderFive extends AppCompatActivity {
         send = (Button) findViewById(R.id.children_5_send);
         save = (Button) findViewById(R.id.children_5_save);
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
+        spinnerVDCName = (Spinner) findViewById(R.id.children_5_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.children_5_ward_no);
 
 
         cbSufferedDiarrhoea = (CheckBox) findViewById(R.id.children_five_suffered_diarrhoea);
@@ -206,6 +213,23 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
         networkInfo = connectivityManager.getActiveNetworkInfo();
 
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
+
+
         /**₧
          * Author Samir
          */
@@ -218,15 +242,13 @@ public class ChildrenUnderFive extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (isGpsTaken) {
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    if (isGpsTaken) {
                         child5_sm_name = tvchildren_5_sm_name.getText().toString();
                         child5_name = tvchildren_under5_name.getText().toString();
-                        child5_vdc_name = tvchildren_5_ward_no.getText().toString();
-                        child5_ward_no = tvchildren_5_ward_no.getText().toString();
                         child5_age = tvchildren_5_age.getText().toString();
                         child5_sex = tvchildren_5_sex.getText().toString();
                         img = encodedImage;
@@ -359,11 +381,11 @@ public class ChildrenUnderFive extends AppCompatActivity {
                                 }
                             }
                         });
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
 
@@ -453,8 +475,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
                 child5_sm_name = tvchildren_5_sm_name.getText().toString();
                 child5_name = tvchildren_under5_name.getText().toString();
-                child5_vdc_name = tvchildren_5_ward_no.getText().toString();
-                child5_ward_no = tvchildren_5_ward_no.getText().toString();
                 child5_age = tvchildren_5_age.getText().toString();
                 child5_sex = tvchildren_5_sex.getText().toString();
                 img = encodedImage;
@@ -557,6 +577,28 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
         });
 
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int spinnerId = parent.getId();
+
+        if(spinnerId == R.id.children_5_vdc_name){
+            vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+vdc_name );
+
+        }
+
+        if(spinnerId == R.id.children_5_ward_no){
+            ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+ward_no );
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -933,8 +975,8 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
             if (sent_Status.equals("Sent")) {
                 tvchildren_under5_name.setEnabled(false);
-                tvchild_under5_vdc_name.setEnabled(false);
-                tvchildren_5_ward_no.setEnabled(false);
+                spinnerVDCName.setEnabled(false);
+                spinnerWardNo.setEnabled(false);
                 tvchildren_5_age.setEnabled(false);
                 tvchildren_5_sex.setEnabled(false);
                 tvchildren_5_sm_name.setEnabled(false);
@@ -1014,11 +1056,11 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
             header.put("tablename", "recording_tool_for_children_under_five");
             header.put("name_of_SM", child5_sm_name);
-            header.put("name_of_VDC", child5_vdc_name);
+            header.put("name_of_VDC", vdc_name);
+            header.put("ward_no", ward_no);
             header.put("date", visit_date);
             header.put("time", visit_time);
             header.put("name_of_child", child5_name);
-            header.put("ward_no", child5_ward_no);
             header.put("age", child5_age);
             header.put("sex", child5_sex);
             header.put("diarrhoea", diarroheaJson.toString());
@@ -1049,10 +1091,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
     }
 
     public void parseJson(String jsonToParse) throws JSONException {
-//        JSONObject jsonOb = new JSONObject(jsonToParse);
-//        Log.e("ChildrenUnderFive", "json : " + jsonOb.toString());
-//        String data = jsonOb.getString("formdata");
-//        Log.e("ChildrenUnderFive", "formdata : " + jsonOb.toString());
         JSONObject jsonObj = new JSONObject(jsonToParse);
         Log.e("ChildrenUnderFive", "json parse : " + jsonObj.toString());
 
@@ -1066,22 +1104,21 @@ public class ChildrenUnderFive extends AppCompatActivity {
         visit_time = jsonObj.getString("time");
         child5_name = jsonObj.getString("name_of_child");
         child5_sm_name = jsonObj.getString("name_of_SM");
+        vdc_name = jsonObj.getString("name_of_VDC");
+        ward_no = jsonObj.getString("ward_no");
         child5_age = jsonObj.getString("age");
         child5_sex = jsonObj.getString("sex");
         child5_vdc_name = jsonObj.getString("name_of_VDC");
-        child5_ward_no = jsonObj.getString("ward_no");
+//        child5_ward_no = jsonObj.getString("ward_no");
 
-        Log.e(TAG, "ChildrenUnderFive: " + " SAMIR  " + child5_ward_no + "----location----" + finalLat + " , " + finalLong);
+        Log.e(TAG, "ChildrenUnderFive: " + " SAMIR  " + ward_no + "----VDC----" + vdc_name + " , " + finalLong);
 
         tvchildren_5_sm_name.setText(child5_sm_name);
         tvchildren_under5_name.setText(child5_name);
-        tvchild_under5_vdc_name.setText(child5_vdc_name);
-        tvchildren_5_ward_no.setText(child5_ward_no);
         tvchildren_5_age.setText(child5_age);
         tvchildren_5_sex.setText(child5_sex);
         tvVisitDate.setText(visit_date);
         tvVisitTime.setText(visit_time);
-
 
         String dirrhoea = jsonObj.getString("diarrhoea");
         String ari = jsonObj.getString("ari");
@@ -1118,6 +1155,13 @@ public class ChildrenUnderFive extends AppCompatActivity {
         if (treated_with_anibiotic.equals("yes")) {
             cbTreatedWithAntibiotic.setChecked(true);
         }
+
+//        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+//        spinnerVDCName.setSelection(setVDCName);
+//
+//        int setWardNo = wardNoadpt.getPosition(ward_no);
+//        spinnerWardNo.setSelection(setWardNo);
+
 
 
     }
@@ -1161,8 +1205,6 @@ public class ChildrenUnderFive extends AppCompatActivity {
 
                 tvchildren_5_sm_name.setText(child5_sm_name);
                 tvchildren_under5_name.setText(child5_name);
-                tvchild_under5_vdc_name.setText(child5_vdc_name);
-                tvchildren_5_ward_no.setText(child5_ward_no);
                 tvchildren_5_age.setText(child5_age);
                 tvchildren_5_sex.setText(child5_sex);
                 previewImageSite.setImageBitmap(thumbnail);

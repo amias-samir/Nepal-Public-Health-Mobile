@@ -142,13 +142,13 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
     private int minute;
     static final int TIME_DIALOG_ID = 9999;
 
-    Spinner spinnerVisitMonth, spinnerPeerGroup, spinnerPeerGroupType;
-    ArrayAdapter peer_group_adpt, peer_group_type_adpt, visit_month_adpt;
+    Spinner spinnerVDCName, spinnerWardNo, spinnerVisitMonth, spinnerPeerGroup, spinnerPeerGroupType;
+    ArrayAdapter vdcNameadpt, wardNoadpt, peer_group_adpt, peer_group_type_adpt, visit_month_adpt;
 
-    AutoCompleteTextView tvVDCName, tvDiscussedTopic, tvTotalParticipants, tvNameOfSM;
+    AutoCompleteTextView  tvDiscussedTopic, tvTotalParticipants, tvNameOfSM, tvNextMonthMeetingTopic;
     EditText tvVisitDate, tvVisitTime, tvMaleNo, tvFemaleNo;
 
-    String visit_month, peer_group, peer_group_type, vdc_name, discussed_topic, total_prticipants, sm_name,
+    String visit_month, peer_group, peer_group_type, vdc_name, ward_no, discussed_topic, next_month_meeting_topic, total_prticipants, sm_name,
             visit_date, visit_time, male_no, female_no, img;
 
 
@@ -162,8 +162,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tvVDCName = (AutoCompleteTextView) findViewById(R.id.peer_group_vdc_name);
         tvDiscussedTopic = (AutoCompleteTextView) findViewById(R.id.peer_group_discussed_topic);
+        tvNextMonthMeetingTopic = (AutoCompleteTextView) findViewById(R.id.peer_group_next_month_meeting_topic);
         tvTotalParticipants = (AutoCompleteTextView) findViewById(R.id.peer_group_total_paticipants);
         tvNameOfSM = (AutoCompleteTextView) findViewById(R.id.peer_group_sm_name);
 
@@ -172,6 +172,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         tvMaleNo = (EditText) findViewById(R.id.peer_group_male_number);
         tvFemaleNo = (EditText) findViewById(R.id.peer_group_female_number);
 
+        spinnerVDCName = (Spinner) findViewById(R.id.peer_group_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.peer_group_ward_no);
         spinnerVisitMonth = (Spinner) findViewById(R.id.spinner_peer_group_visit_month);
         spinnerPeerGroup = (Spinner) findViewById(R.id.spinner_peer_group_peer_group);
         spinnerPeerGroupType = (Spinner) findViewById(R.id.spinner_peer_group_peer_group_type);
@@ -202,6 +204,23 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         //Check internet connection
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
 
         // visit month
         visit_month_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.MONTH);
@@ -302,14 +321,14 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isGpsTracking) {
-                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (isGpsTaken) {
-                        vdc_name = tvVDCName.getText().toString();
+//                if (isGpsTracking) {
+//                    Toast.makeText(getApplicationContext(), "Please end GPS Tracking.", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    if (isGpsTaken) {
                         sm_name = tvNameOfSM.getText().toString();
                         discussed_topic = tvDiscussedTopic.getText().toString();
+                        next_month_meeting_topic = tvNextMonthMeetingTopic.getText().toString();
 
                         if (tvMaleNo.getText().toString().equals("")) {
                             male_no = "0";
@@ -420,11 +439,11 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                                 }
                             });
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
             }
         });
 
@@ -435,9 +454,9 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
 
                 if (isGpsTaken) {
 
-                    vdc_name = tvVDCName.getText().toString();
                     sm_name = tvNameOfSM.getText().toString();
                     discussed_topic = tvDiscussedTopic.getText().toString();
+                    next_month_meeting_topic = tvNextMonthMeetingTopic.getText().toString();
 
                     if (tvMaleNo.getText().toString().equals("")) {
                         male_no = "0";
@@ -921,11 +940,13 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
 
 
             if (sent_Status.equals("Sent")) {
+                spinnerVDCName.setEnabled(false);
+                spinnerWardNo.setEnabled(false);
                 spinnerVisitMonth.setEnabled(false);
                 spinnerPeerGroup.setEnabled(false);
                 spinnerPeerGroupType.setEnabled(false);
-                tvVDCName.setEnabled(false);
                 tvDiscussedTopic.setEnabled(false);
+                tvNextMonthMeetingTopic.setEnabled(false);
                 tvTotalParticipants.setEnabled(false);
                 tvNameOfSM.setEnabled(false);
                 tvVisitDate.setEnabled(false);
@@ -983,6 +1004,18 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         int SpinnerID = parent.getId();
 
+        if(SpinnerID == R.id.peer_group_vdc_name){
+            vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+vdc_name );
+
+        }
+
+        if(SpinnerID == R.id.peer_group_ward_no){
+            ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+ward_no );
+
+        }
+
         if (SpinnerID == R.id.spinner_peer_group_visit_month) {
             long spinnerPosition = 0;
             spinnerPosition = visit_month_adpt.getItemId(position);
@@ -1027,9 +1060,11 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
             header.put("date", visit_date);
             header.put("time", visit_time);
             header.put("name_of_VDC", vdc_name);
+            header.put("ward_no", ward_no);
             header.put("peer_group", peer_group);
             header.put("peer_group_type", peer_group_type);
             header.put("discussed_topic", discussed_topic);
+            header.put("next_month_meeting_topic", next_month_meeting_topic);
             header.put("male_no", male_no);
             header.put("female_no", female_no);
             header.put("total_prticipants", total_prticipants);
@@ -1071,22 +1106,24 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         listCf.add(d);
 
         vdc_name = jsonObj.getString("name_of_VDC");
+        ward_no = jsonObj.getString("ward_no");
         visit_month = jsonObj.getString("visit_month");
         visit_date = jsonObj.getString("date");
         visit_time = jsonObj.getString("time");
         peer_group = jsonObj.getString("peer_group");
         peer_group_type = jsonObj.getString("peer_group_type");
         discussed_topic = jsonObj.getString("discussed_topic");
+        next_month_meeting_topic = jsonObj.getString("next_month_meeting_topic");
         male_no = jsonObj.getString("male_no");
         female_no = jsonObj.getString("female_no");
         total_prticipants = jsonObj.getString("total_prticipants");
         sm_name = jsonObj.getString("name_of_SM");
 
 
-        Log.e(TAG, "PeerGroup: " + " SAMIR  " + vdc_name + "----location----" + finalLat + " , " + finalLong);
+        Log.e(TAG, "PeerGroup: " + " SAMIR  " + vdc_name + "----ward----" + ward_no + " , " + finalLong);
 
-        tvVDCName.setText(vdc_name);
         tvDiscussedTopic.setText(discussed_topic);
+        tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
         tvMaleNo.setText(male_no);
         tvFemaleNo.setText(female_no);
         tvNameOfSM.setText(sm_name);
@@ -1094,6 +1131,12 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
         tvTotalParticipants.setVisibility(View.VISIBLE);
         tvTotalParticipants.setText(total_prticipants);
 
+
+        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(ward_no);
+        spinnerWardNo.setSelection(setWardNo);
 
         int setVisitMonth = visit_month_adpt.getPosition(visit_month);
         spinnerVisitMonth.setSelection(setVisitMonth);
@@ -1145,8 +1188,8 @@ public class PeerGroupActivity extends AppCompatActivity implements AdapterView.
                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
                 previewImageSite.setVisibility(View.VISIBLE);
 
-                tvVDCName.setText(vdc_name);
                 tvDiscussedTopic.setText(discussed_topic);
+                tvNextMonthMeetingTopic.setText(next_month_meeting_topic);
                 tvMaleNo.setText(male_no);
                 tvFemaleNo.setText(female_no);
                 tvNameOfSM.setText(sm_name);
