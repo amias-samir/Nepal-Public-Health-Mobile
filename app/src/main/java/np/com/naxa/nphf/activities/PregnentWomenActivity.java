@@ -1011,7 +1011,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             header.put("ANC_First_visit", first_visit_date);
             header.put("ANC_Second_visit", second_visit_date);
             header.put("ANC_Third_visit", third_visit_date);
-            header.put("ANC_Fourt_visit", fourth_visit_date);
+            header.put("ANC_Fourth_visit", fourth_visit_date);
 
             header.put("time", visit_time);
             header.put("Td", td);
@@ -1135,7 +1135,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         first_visit_date = jsonObj.getString("ANC_First_visit");
         second_visit_date = jsonObj.getString("ANC_Second_visit");
         third_visit_date = jsonObj.getString("ANC_Third_visit");
-        fourth_visit_date = jsonObj.getString("ANC_Fourt_visit");
+        fourth_visit_date = jsonObj.getString("ANC_Fourth_visit");
 
         Log.e(TAG, "parseJson: "+first_visit_date+"second"+second_visit_date+"third"+third_visit_date+"fourth"+first_visit_date );
 
