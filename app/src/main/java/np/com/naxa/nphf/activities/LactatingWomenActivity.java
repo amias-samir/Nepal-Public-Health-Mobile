@@ -1009,7 +1009,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("tablename", "recording_tool_for_lactating_woman");
             header.put("name_of_SM", sm_name);
             header.put("date", visit_date);
-            header.put("delivery_date", delivery_date);
+            header.put("date_of_delivery", delivery_date);
             header.put("pnc_First_visit", first_visit_date);
             header.put("pnc_Second_visit", second_visit_date);
             header.put("pnc_Third_visit", third_visit_date);
@@ -1074,7 +1074,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         sm_name = jsonObj.getString("name_of_SM");
         visit_date = jsonObj.getString("date");
-        delivery_date = jsonObj.getString("delivery_date");
+        delivery_date = jsonObj.getString("date_of_delivery");
         visit_time = jsonObj.getString("time");
 
         lactating_women_name = jsonObj.getString("name_of_lactating_woman");
