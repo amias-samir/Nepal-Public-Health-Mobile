@@ -593,7 +593,7 @@
 
                                 <EditText
                                     android:id="@+id/pnc_first_visit_date"
-                                    android:layout_width="200dp"
+                                    android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:visibility="gone"
@@ -615,7 +615,7 @@
 
                                 <EditText
                                     android:id="@+id/pnc_second_visit_date"
-                                    android:layout_width="200dp"
+                                    android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:visibility="gone"
@@ -637,7 +637,7 @@
 
                                 <EditText
                                     android:id="@+id/pnc_third_visit_date"
-                                    android:layout_width="200dp"
+                                    android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:visibility="gone"
