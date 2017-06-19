@@ -1450,7 +1450,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
             }
 
-            Toast.makeText(ChildrenUnderTwo.this, builder.toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(ChildrenUnderTwo.this, builder.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
