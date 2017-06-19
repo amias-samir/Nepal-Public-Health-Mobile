@@ -1123,7 +1123,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
             header.put("date", visit_date);
             header.put("time", visit_time);
             header.put("name_of_VDC", vdc_name);
-            header.put("ward", ward_no);
+            header.put("ward_no", ward_no);
             header.put("next_month_meeting_topic", next_month_meeting_topic);
             header.put("mother_group", mother_group);
             header.put("discussed_topic", discussed_topic);
@@ -1179,7 +1179,7 @@ public class MonthlyMGMeetingActivity extends AppCompatActivity implements Adapt
         visit_date = jsonObj.getString("date");
         visit_time = jsonObj.getString("time");
         vdc_name = jsonObj.getString("name_of_VDC");
-        ward_no = jsonObj.getString("ward");
+        ward_no = jsonObj.getString("ward_no");
         mother_group = jsonObj.getString("mother_group");
         pregnent_women_old = jsonObj.getString("pregnent_women_old");
         pregnent_women_new = jsonObj.getString("pregnent_women_new");
