@@ -579,48 +579,47 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 contact_no = tvContactNo.getText().toString();
                 sm_name = tvSMName.getText().toString();
 
-                        if (cbANCFirstVisit.isChecked() == true) {
-                            first_visit = "yes";
-                            tvANCFirstVisitDate.setVisibility(View.VISIBLE);
-                            first_visit_date = tvANCFirstVisitDate.getText().toString();
-                        } else {
-                            first_visit = "no";
-                            tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
-                            first_visit_date = "";
-                        }
+//                        if (cbPNCFirstVisit.isChecked() == true) {
+//                            first_visit = "yes";
+//                            tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
+//                            first_visit_date = tvPNCFirstVisitDate.getText().toString();
+//                        } else {
+//                            first_visit = "no";
+//                            tvPNCFirstVisitDate.setVisibility(View.INVISIBLE);
+//                            first_visit_date = "";
+//                        }
+//
+//                        if (cbPNCSecondVisit.isChecked() == true) {
+//                            second_visit = "yes";
+//                            tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
+//                            second_visit_date = tvPNCSecondVisitDate.getText().toString();
+//                        } else {
+//                            second_visit = "no";
+//                            tvPNCSecondVisitDate.setVisibility(View.INVISIBLE);
+//                            second_visit_date = "";
+//                        }
+//
+//                        if (cbPNCThirdVisit.isChecked() == true) {
+//                            third_visit = "yes";
+//                            tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
+//                            third_visit_date = tvPNCThirdVisitDate.getText().toString();
+//                        } else {
+//                            third_visit = "no";
+//                            tvPNCThirdVisitDate.setVisibility(View.INVISIBLE);
+//                            third_visit_date = "";
+//                        }
+//                        if (cbANCFourthVisit.isChecked() == true) {
+//                            fourth_visit = "yes";
+//                            tvANCFourthVisitDate.setVisibility(View.VISIBLE);
+//                            fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+//                        } else {
+//                            fourth_visit_date = "no";
+//                            tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
+//                            fourth_visit_date = "";
+//                        }
 
-                        if (cbANCSecondVisit.isChecked() == true) {
-                            second_visit = "yes";
-                            tvANCSecondVisitDate.setVisibility(View.VISIBLE);
-                            second_visit_date = tvANCSecondVisitDate.getText().toString();
-                        } else {
-                            second_visit = "no";
-                            tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
-                            second_visit_date = "";
-                        }
 
-                        if (cbANCThirdVisit.isChecked() == true) {
-                            third_visit = "yes";
-                            tvANCThirdVisitDate.setVisibility(View.VISIBLE);
-                            third_visit_date = tvANCThirdVisitDate.getText().toString();
-                        } else {
-                            third_visit = "no";
-                            tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
-                            third_visit_date = "";
-                        }
-                        if (cbANCFourthVisit.isChecked() == true) {
-                            fourth_visit = "yes";
-                            tvANCFourthVisitDate.setVisibility(View.VISIBLE);
-                            fourth_visit_date = tvANCFourthVisitDate.getText().toString();
-                        } else {
-                            fourth_visit_date = "no";
-                            tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
-                            fourth_visit_date = "";
-                        }
-
-
-
-                        if (networkInfo != null && networkInfo.isConnected()) {
+                if (networkInfo != null && networkInfo.isConnected()) {
 
 
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
@@ -984,6 +983,16 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             JSONObject header = new JSONObject();
 
+//            ancVisitjson.put("first_visit", first_visit);
+//            ancVisitjson.put("second_visit", second_visit);
+//            ancVisitjson.put("third_visit", third_visit);
+//            ancVisitjson.put("fourth_visit", fourth_visit);
+//
+//            ancVisitDatejson.put("first_visit_date", first_visit_date);
+//            ancVisitDatejson.put("second_visit_date", second_visit_date);
+//            ancVisitDatejson.put("third_visit_date", third_visit_date);
+//            ancVisitDatejson.put("fourth_visit_date", fourth_visit_date);
+
 
             header.put("tablename", "recording_tool_for_pregnant_woman");
             header.put("name_of_VDC", vdc_name);
@@ -1121,12 +1130,14 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 //
 //        JSONObject ancVisitObj = new JSONObject(anc_date);
 
+
+
         first_visit_date = jsonObj.getString("ANC_First_visit");
         second_visit_date = jsonObj.getString("ANC_Second_visit");
-        third_visit_date = jsonObj.getString("ANC_(Third_visit");
+        third_visit_date = jsonObj.getString("ANC_Third_visit");
         fourth_visit_date = jsonObj.getString("ANC_Fourt_visit");
 
-
+        Log.e(TAG, "parseJson: "+first_visit_date+"second"+second_visit_date+"third"+third_visit_date+"fourth"+first_visit_date );
 
 
         if (!first_visit_date.equals("")) {
