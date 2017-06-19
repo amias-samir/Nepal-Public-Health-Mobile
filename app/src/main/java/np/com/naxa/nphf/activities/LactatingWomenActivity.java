@@ -121,7 +121,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     boolean isGpsTaken = false;
     double finalLat;
     double finalLong;
-    String formid, formNameSavedForm = "" ;
+    String formid, formNameSavedForm = "";
     ImageView previewImageSite;
     Bitmap thumbnail;
     ProgressDialog mProgressDlg;
@@ -135,21 +135,21 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     StringBuilder stringBuilder = new StringBuilder();
     String latLangArray = "", jsonLatLangArray = "";
 
-    AutoCompleteTextView tvLactatingWomenName,  tvEthnicity, tvAge, tvsmName, tvBirthAttendedByOthers;
-//    tvNextMonthMeetingTopic, tvWardNo,
+    AutoCompleteTextView tvLactatingWomenName, tvEthnicity, tvAge, tvsmName, tvBirthAttendedByOthers;
+    //    tvNextMonthMeetingTopic, tvWardNo,
     EditText tvVisitDate, tvVisitTime, tvDeliveryDate;
     CardView cv_Send_Save;
     EditText tvPNCFirstVisitDate, tvPNCSecondVisitDate, tvPNCThirdVisitDate, tvANCFourthVisitDate;
-    CheckBox cbPNCFirstVisit, cbPNCSecondVisit, cbPNCThirdVisit,cbANCFourthVisit;
+    CheckBox cbPNCFirstVisit, cbPNCSecondVisit, cbPNCThirdVisit, cbANCFourthVisit;
 
-    RelativeLayout rlBirthAttendedBy ;
+    RelativeLayout rlBirthAttendedBy;
 
 
     String lactating_women_name, vdc_name, ward_no, ethnicity, age, pnc_visit, deliver_place, delivery_date,
             birth_attended_by, birth_attended_by_others, third_labour, oxytocin_received, neonates_asphysia, img,
             fourtyfivedays_iron, vitaminA, neonatal_records, breastfeed_in1hour, exclusive_breastfeeding, sm_name, visit_date, visit_time,
             first_visit = "", second_visit = "", third_visit = "", fourth_visit = "", first_visit_date = "",
-            second_visit_date= "", third_visit_date = "", fourth_visit_date = "";
+            second_visit_date = "", third_visit_date = "", fourth_visit_date = "";
 
     private int year;
     private int month;
@@ -223,6 +223,14 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
         previewMap.setEnabled(false);
 
+        cbPNCFirstVisit = (CheckBox) findViewById(R.id.lactating_women_anc_first_visit);
+        cbPNCSecondVisit = (CheckBox) findViewById(R.id.lactating_women_anc_second_visit);
+        cbPNCThirdVisit = (CheckBox) findViewById(R.id.lactating_women_anc_third_visit);
+
+        cbPNCFirstVisit.setOnCheckedChangeListener(this);
+        cbPNCSecondVisit.setOnCheckedChangeListener(this);
+        cbPNCThirdVisit.setOnCheckedChangeListener(this);
+
         setCurrentDateOnView();
         addListenerOnButton();
         setCurrentTimeOnView();
@@ -246,16 +254,6 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         // buttons
         send = (Button) findViewById(R.id.lactating_women_send);
         save = (Button) findViewById(R.id.lactating_women_save);
-
-
-
-        cbPNCFirstVisit = (CheckBox) findViewById(R.id.lactating_women_anc_first_visit);
-        cbPNCSecondVisit = (CheckBox) findViewById(R.id.lactating_women_anc_second_visit);
-        cbPNCThirdVisit = (CheckBox) findViewById(R.id.lactating_women_anc_third_visit);
-
-        cbPNCFirstVisit.setOnCheckedChangeListener( this);
-        cbPNCSecondVisit.setOnCheckedChangeListener( this);
-        cbPNCThirdVisit.setOnCheckedChangeListener( this);
 
 
         //Check internet connection
@@ -435,107 +433,115 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 //                } else {
 //
 //                    if (isGpsTaken) {
-                        lactating_women_name = tvLactatingWomenName.getText().toString();
-                        birth_attended_by_others = tvBirthAttendedByOthers.getText().toString();
+                lactating_women_name = tvLactatingWomenName.getText().toString();
+                birth_attended_by_others = tvBirthAttendedByOthers.getText().toString();
 //                        ward_no = tvWardNo.getText().toString();
-                        ethnicity = tvEthnicity.getText().toString();
-                        age = tvAge.getText().toString();
-                        img = encodedImage;
-                        sm_name = tvsmName.getText().toString();
-                        visit_date = tvVisitDate.getText().toString();
-//                        first_visit_date = tvPNCFirstVisitDate.getText().toString();
-//                        second_visit_date = tvPNCSecondVisitDate.getText().toString();
-//                        third_visit_date = tvPNCThirdVisitDate.getText().toString();
-                        delivery_date = tvDeliveryDate.getText().toString();
-                        visit_time = tvVisitTime.getText().toString();
-                        img = encodedImage;
-                        jsonLatLangArray = jsonArrayGPS.toString();
+                ethnicity = tvEthnicity.getText().toString();
+                age = tvAge.getText().toString();
+                img = encodedImage;
+                sm_name = tvsmName.getText().toString();
+                visit_date = tvVisitDate.getText().toString();
+
+                if (cbPNCFirstVisit.isChecked() == true) {
+                    first_visit_date = tvPNCFirstVisitDate.getText().toString();
+                }
+                if (cbPNCFirstVisit.isChecked() == true) {
+                    second_visit_date = tvPNCSecondVisitDate.getText().toString();
+                }
+                if (cbPNCFirstVisit.isChecked() == true) {
+                    third_visit_date = tvPNCThirdVisitDate.getText().toString();
+                }
 
 
-                        convertDataToJson();
+                delivery_date = tvDeliveryDate.getText().toString();
+                visit_time = tvVisitTime.getText().toString();
+                img = encodedImage;
+                jsonLatLangArray = jsonArrayGPS.toString();
 
-                        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                        final int width = metrics.widthPixels;
-                        int height = metrics.heightPixels;
 
-                        final Dialog showDialog = new Dialog(context);
-                        showDialog.setContentView(R.layout.date_input_layout);
-                        final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
-                        final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+                convertDataToJson();
 
-                        if (formNameSavedForm.equals("")){
-                            FormNameToInput.setText("Recording Tool For Lactating Women");
-                        }
-                        else {
-                            FormNameToInput.setText(formNameSavedForm);
+                DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                final int width = metrics.widthPixels;
+                int height = metrics.heightPixels;
+
+                final Dialog showDialog = new Dialog(context);
+                showDialog.setContentView(R.layout.date_input_layout);
+                final EditText FormNameToInput = (EditText) showDialog.findViewById(R.id.input_tableName);
+                final EditText dateToInput = (EditText) showDialog.findViewById(R.id.input_date);
+
+                if (formNameSavedForm.equals("")) {
+                    FormNameToInput.setText("Recording Tool For Lactating Women");
+                } else {
+                    FormNameToInput.setText(formNameSavedForm);
+                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
+                    dataBaseNepalPublicHealthNotSent.open();
+                    dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
+                }
+
+                long date = System.currentTimeMillis();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+                String dateString = sdf.format(date);
+                dateToInput.setText(dateString);
+
+                AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
+                showDialog.setTitle("Save Data");
+                showDialog.setCancelable(true);
+                showDialog.show();
+                showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                logIn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        String dateDataCollected = dateToInput.getText().toString();
+                        String formName = FormNameToInput.getText().toString();
+                        if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
+                            Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String[] data = new String[]{"2", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
+                                    "" + imageName, "Not Sent", "0"};
+
                             DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
                             dataBaseNepalPublicHealthNotSent.open();
-                            dataBaseNepalPublicHealthNotSent.dropRowNotSentForms(formid);
-                        }
+                            dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
 
-                        long date = System.currentTimeMillis();
+                            Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                            showDialog.dismiss();
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-                        String dateString = sdf.format(date);
-                        dateToInput.setText(dateString);
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.savedform_sent_popup);
+                            final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
+                            final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
 
-                        AppCompatButton logIn = (AppCompatButton) showDialog.findViewById(R.id.login_button);
-                        showDialog.setTitle("Save Data");
-                        showDialog.setCancelable(true);
-                        showDialog.show();
-                        showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            showDialog.setTitle("Successfully Saved");
+                            showDialog.setCancelable(false);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                        logIn.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                // TODO Auto-generated method stub
-                                String dateDataCollected = dateToInput.getText().toString();
-                                String formName = FormNameToInput.getText().toString();
-                                if (dateDataCollected == null || dateDataCollected.equals("") || formName == null || formName.equals("")) {
-                                    Toast.makeText(context, "Please fill the required field. ", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    String[] data = new String[]{"2", formName, dateDataCollected, jsonToSend, jsonLatLangArray,
-                                            "" + imageName, "Not Sent", "0"};
-
-                                    DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealthNotSent = new DataBaseNepalPublicHealth_NotSent(context);
-                                    dataBaseNepalPublicHealthNotSent.open();
-                                    dataBaseNepalPublicHealthNotSent.insertIntoTable_Main(data);
-
-                                    Toast.makeText(LactatingWomenActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                            yes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     showDialog.dismiss();
-
-                                    final Dialog showDialog = new Dialog(context);
-                                    showDialog.setContentView(R.layout.savedform_sent_popup);
-                                    final Button yes = (Button) showDialog.findViewById(R.id.buttonYes);
-                                    final Button no = (Button) showDialog.findViewById(R.id.buttonNo);
-
-                                    showDialog.setTitle("Successfully Saved");
-                                    showDialog.setCancelable(false);
-                                    showDialog.show();
-                                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                                    yes.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            showDialog.dismiss();
-                                            Intent intent = new Intent(LactatingWomenActivity.this, SavedFormsActivity.class);
-                                            startActivity(intent);
+                                    Intent intent = new Intent(LactatingWomenActivity.this, SavedFormsActivity.class);
+                                    startActivity(intent);
 //                                finish();
-                                        }
-                                    });
-
-                                    no.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            showDialog.dismiss();
-                                            Intent intent = new Intent(LactatingWomenActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    });
                                 }
-                            }
-                        });
+                            });
+
+                            no.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog.dismiss();
+                                    Intent intent = new Intent(LactatingWomenActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    }
+                });
 //                    } else {
 //                        Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
 //
@@ -555,64 +561,70 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
                     if (isGpsTaken) {
 
-                lactating_women_name = tvLactatingWomenName.getText().toString();
-                birth_attended_by_others = tvBirthAttendedByOthers.getText().toString();
+                        lactating_women_name = tvLactatingWomenName.getText().toString();
+                        birth_attended_by_others = tvBirthAttendedByOthers.getText().toString();
 //                ward_no = tvWardNo.getText().toString();
-                ethnicity = tvEthnicity.getText().toString();
-                age = tvAge.getText().toString();
-                img = encodedImage;
-                sm_name = tvsmName.getText().toString();
-                visit_date = tvVisitDate.getText().toString();
-//                first_visit_date = tvPNCFirstVisitDate.getText().toString();
-//                second_visit_date = tvPNCSecondVisitDate.getText().toString();
-//                third_visit_date = tvPNCThirdVisitDate.getText().toString();
-                delivery_date = tvDeliveryDate.getText().toString();
-                visit_time = tvVisitTime.getText().toString();
-
-                // check internet
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                    int width = metrics.widthPixels;
-                    int height = metrics.heightPixels;
-
-                    final Dialog showDialog = new Dialog(context);
-                    showDialog.setContentView(R.layout.alert_dialog_before_send);
-                    final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
-                    final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
-
-                    // warning dialog
-                    showDialog.setTitle("WARNING !!!");
-                    showDialog.setCancelable(false);
-                    showDialog.show();
-                    showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                    yes.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog.dismiss();
-                            mProgressDlg = new ProgressDialog(context);
-                            mProgressDlg.setMessage("Please wait...");
-                            mProgressDlg.setIndeterminate(false);
-                            mProgressDlg.setCancelable(false);
-                            mProgressDlg.show();
-                            // data goes here
-                            convertDataToJson();
-                            sendDatToserver();
-
+                        ethnicity = tvEthnicity.getText().toString();
+                        age = tvAge.getText().toString();
+                        img = encodedImage;
+                        sm_name = tvsmName.getText().toString();
+                        visit_date = tvVisitDate.getText().toString();
+                        if (cbPNCFirstVisit.isChecked() == true) {
+                            first_visit_date = tvPNCFirstVisitDate.getText().toString();
                         }
-                    });
-
-                    no.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog.dismiss();
+                        if (cbPNCFirstVisit.isChecked() == true) {
+                            second_visit_date = tvPNCSecondVisitDate.getText().toString();
                         }
-                    });
-                } else {
-                    final View coordinatorLayoutView = findViewById(R.id.activity_lactating_women);
-                    Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
-                            .setAction("Retry", null).show();
-                }
+                        if (cbPNCFirstVisit.isChecked() == true) {
+                            third_visit_date = tvPNCThirdVisitDate.getText().toString();
+                        }
+                        delivery_date = tvDeliveryDate.getText().toString();
+                        visit_time = tvVisitTime.getText().toString();
+
+                        // check internet
+                        if (networkInfo != null && networkInfo.isConnected()) {
+                            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+                            int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
+
+                            final Dialog showDialog = new Dialog(context);
+                            showDialog.setContentView(R.layout.alert_dialog_before_send);
+                            final Button yes = (Button) showDialog.findViewById(R.id.alertButtonYes);
+                            final Button no = (Button) showDialog.findViewById(R.id.alertButtonNo);
+
+                            // warning dialog
+                            showDialog.setTitle("WARNING !!!");
+                            showDialog.setCancelable(false);
+                            showDialog.show();
+                            showDialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            yes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog.dismiss();
+                                    mProgressDlg = new ProgressDialog(context);
+                                    mProgressDlg.setMessage("Please wait...");
+                                    mProgressDlg.setIndeterminate(false);
+                                    mProgressDlg.setCancelable(false);
+                                    mProgressDlg.show();
+                                    // data goes here
+                                    convertDataToJson();
+                                    sendDatToserver();
+
+                                }
+                            });
+
+                            no.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog.dismiss();
+                                }
+                            });
+                        } else {
+                            final View coordinatorLayoutView = findViewById(R.id.activity_lactating_women);
+                            Snackbar.make(coordinatorLayoutView, "No internet connection", Snackbar.LENGTH_LONG)
+                                    .setAction("Retry", null).show();
+                        }
 
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to take at least one gps cooordinate", Toast.LENGTH_SHORT).show();
@@ -631,18 +643,17 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         int SpinnerID = parent.getId();
 
 
-        if(SpinnerID == R.id.lactating_women_vdc_name){
+        if (SpinnerID == R.id.lactating_women_vdc_name) {
             vdc_name = Constants.VDC_NAME[position];
-            Log.e(TAG, "onItemSelected: "+vdc_name );
+            Log.e(TAG, "onItemSelected: " + vdc_name);
 
         }
 
-        if(SpinnerID == R.id.lactating_women_ward_no){
+        if (SpinnerID == R.id.lactating_women_ward_no) {
             ward_no = Constants.VDC_WARD_NO[position];
-            Log.e(TAG, "onItemSelected: "+ward_no );
+            Log.e(TAG, "onItemSelected: " + ward_no);
 
         }
-
 
 
         if (SpinnerID == R.id.delivery_at_place) {
@@ -911,7 +922,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             formid = (String) bundle.get("DBid");
             String sent_Status = (String) bundle.get("sent_Status");
             formNameSavedForm = (String) bundle.get("form_name");
-            Log.d(TAG, "initilizeUI: "+sent_Status);
+            Log.d(TAG, "initilizeUI: " + sent_Status);
 
 
             if (sent_Status.equals("Sent")) {
@@ -999,9 +1010,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
             header.put("name_of_SM", sm_name);
             header.put("date", visit_date);
             header.put("delivery_date", delivery_date);
-            header.put("pnc_(First_visit)", first_visit_date);
-            header.put("pnc_(Second_visit)", second_visit_date);
-            header.put("pnc_(Third_visit)", third_visit_date);
+            header.put("pnc_First_visit", first_visit_date);
+            header.put("pnc_Second_visit", second_visit_date);
+            header.put("pnc_Third_visit", third_visit_date);
             header.put("time", visit_time);
             header.put("name_of_lactating_woman", lactating_women_name);
             header.put("name_of_vdc", vdc_name);
@@ -1136,9 +1147,9 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         int setExcluseBreastFeeding = lactating_women_exclusive_breastfeeding_adpt.getPosition(exclusive_breastfeeding);
         lactating_women_exclusive_breastfeeding_spinner.setSelection(setExcluseBreastFeeding);
 
-        first_visit_date = jsonObj.getString("pnc_(First_visit)");
-        second_visit_date = jsonObj.getString("pnc_(Second_visit)");
-        third_visit_date = jsonObj.getString("pnc_(Third_visit)");
+        first_visit_date = jsonObj.getString("pnc_First_visit");
+        second_visit_date = jsonObj.getString("pnc_Second_visit");
+        third_visit_date = jsonObj.getString("pnc_Third_visit");
 
         if (!first_visit_date.equals("")) {
             cbPNCFirstVisit.setChecked(true);
@@ -1147,6 +1158,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
         }
         if (!second_visit_date.equals("")) {
             cbPNCSecondVisit.setChecked(true);
+
             tvPNCSecondVisitDate.setText(second_visit_date);
         }
         if (!third_visit_date.equals("")) {
@@ -1222,7 +1234,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 dataBaseNepalPublicHealthSent.close();
 
 
-                if(CheckValues.isFromSavedFrom) {
+                if (CheckValues.isFromSavedFrom) {
                     Log.e(TAG, "onPostExecute: FormID : " + formid);
                     DataBaseNepalPublicHealth_NotSent dataBaseNepalPublicHealth_NotSent = new DataBaseNepalPublicHealth_NotSent(context);
                     dataBaseNepalPublicHealth_NotSent.open();
@@ -1266,7 +1278,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                     });
                 }
 
-                if(!CheckValues.isFromSavedFrom){
+                if (!CheckValues.isFromSavedFrom) {
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
@@ -1753,12 +1765,12 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        switch(buttonView.getId()){
+        switch (buttonView.getId()) {
             case R.id.lactating_women_anc_first_visit:
                 if (cbPNCFirstVisit.isChecked() == true) {
                     first_visit = "yes";
                     tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
-                    if(!CheckValues.isFromSavedFrom) {
+                    if (!CheckValues.isFromSavedFrom) {
                         first_visit_date = tvPNCFirstVisitDate.getText().toString();
                     }
                 } else {
@@ -1773,7 +1785,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 if (cbPNCSecondVisit.isChecked() == true) {
                     second_visit = "yes";
                     tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
-                    if(!CheckValues.isFromSavedFrom) {
+                    if (!CheckValues.isFromSavedFrom) {
                         second_visit_date = tvPNCSecondVisitDate.getText().toString();
                     }
                 } else {
@@ -1788,7 +1800,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
                 if (cbPNCThirdVisit.isChecked() == true) {
                     third_visit = "yes";
                     tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
-                    if(!CheckValues.isFromSavedFrom) {
+                    if (!CheckValues.isFromSavedFrom) {
                         third_visit_date = tvPNCThirdVisitDate.getText().toString();
                     }
                 } else {
@@ -1800,7 +1812,7 @@ public class LactatingWomenActivity extends AppCompatActivity implements Adapter
 
                 break;
 
-                }
+        }
     }
 
 }

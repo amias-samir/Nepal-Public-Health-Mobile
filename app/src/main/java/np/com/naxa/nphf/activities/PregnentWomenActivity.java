@@ -214,9 +214,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         tvANCFourthVisitDate = (EditText) findViewById(R.id.anc_fourth_visit_date);
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
 
-        cbANCFirstVisit = (CheckBox) findViewById(R.id.lactating_women_anc_first_visit);
-        cbANCSecondVisit = (CheckBox) findViewById(R.id.lactating_women_anc_second_visit);
-        cbANCThirdVisit = (CheckBox) findViewById(R.id.lactating_women_anc_third_visit);
+        cbANCFirstVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_first_visit);
+        cbANCSecondVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_second_visit);
+        cbANCThirdVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_third_visit);
         cbANCFourthVisit = (CheckBox) findViewById(R.id.pregnent_women_anc_fourth_visit);
 
         cbANCFirstVisit.setOnCheckedChangeListener( this);
@@ -421,44 +421,45 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                         img = encodedImage;
                         jsonLatLangArray = jsonArrayGPS.toString();
 
-//                if (cbPNCFirstVisit.isChecked() == true) {
-//                    first_visit = "yes";
-//                    tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
-//                    first_visit_date = tvPNCFirstVisitDate.getText().toString();
-//                } else {
-//                    first_visit = "no";
-//                    tvPNCFirstVisitDate.setVisibility(View.INVISIBLE);
-//                    first_visit_date = "";
-//                }
-//
-//                if (cbPNCSecondVisit.isChecked() == true) {
-//                    second_visit = "yes";
-//                    tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
-//                    second_visit_date = tvPNCSecondVisitDate.getText().toString();
-//                } else {
-//                    second_visit = "no";
-//                    tvPNCSecondVisitDate.setVisibility(View.INVISIBLE);
-//                    second_visit_date = "";
-//                }
-//
-//                if (cbPNCThirdVisit.isChecked() == true) {
-//                    third_visit = "yes";
-//                    tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
-//                    third_visit_date = tvPNCThirdVisitDate.getText().toString();
-//                } else {
-//                    third_visit = "no";
-//                    tvPNCThirdVisitDate.setVisibility(View.INVISIBLE);
-//                    third_visit_date = "";
-//                }
-//                if (cbANCFourthVisit.isChecked() == true) {
-//                    fourth_visit = "yes";
-//                    tvANCFourthVisitDate.setVisibility(View.VISIBLE);
-//                    fourth_visit_date = tvANCFourthVisitDate.getText().toString();
-//                } else {
-//                    fourth_visit_date = "no";
-//                    tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
-//                    fourth_visit_date = "";
-//                }
+
+                if (cbANCFirstVisit.isChecked() == true) {
+                    first_visit = "yes";
+                    tvANCFirstVisitDate.setVisibility(View.VISIBLE);
+                    first_visit_date = tvANCFirstVisitDate.getText().toString();
+                } else {
+                    first_visit = "no";
+                    tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+                    first_visit_date = "";
+                }
+
+                if (cbANCSecondVisit.isChecked() == true) {
+                    second_visit = "yes";
+                    tvANCSecondVisitDate.setVisibility(View.VISIBLE);
+                    second_visit_date = tvANCSecondVisitDate.getText().toString();
+                } else {
+                    second_visit = "no";
+                    tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+                    second_visit_date = "";
+                }
+
+                if (cbANCThirdVisit.isChecked() == true) {
+                    third_visit = "yes";
+                    tvANCThirdVisitDate.setVisibility(View.VISIBLE);
+                    third_visit_date = tvANCThirdVisitDate.getText().toString();
+                } else {
+                    third_visit = "no";
+                    tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+                    third_visit_date = "";
+                }
+                if (cbANCFourthVisit.isChecked() == true) {
+                    fourth_visit = "yes";
+                    tvANCFourthVisitDate.setVisibility(View.VISIBLE);
+                    fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+                } else {
+                    fourth_visit = "no";
+                    tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
+                    fourth_visit_date = "";
+                }
 
 
 
@@ -578,47 +579,48 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 contact_no = tvContactNo.getText().toString();
                 sm_name = tvSMName.getText().toString();
 
-//                        if (cbPNCFirstVisit.isChecked() == true) {
-//                            first_visit = "yes";
-//                            tvPNCFirstVisitDate.setVisibility(View.VISIBLE);
-//                            first_visit_date = tvPNCFirstVisitDate.getText().toString();
-//                        } else {
-//                            first_visit = "no";
-//                            tvPNCFirstVisitDate.setVisibility(View.INVISIBLE);
-//                            first_visit_date = "";
-//                        }
-//
-//                        if (cbPNCSecondVisit.isChecked() == true) {
-//                            second_visit = "yes";
-//                            tvPNCSecondVisitDate.setVisibility(View.VISIBLE);
-//                            second_visit_date = tvPNCSecondVisitDate.getText().toString();
-//                        } else {
-//                            second_visit = "no";
-//                            tvPNCSecondVisitDate.setVisibility(View.INVISIBLE);
-//                            second_visit_date = "";
-//                        }
-//
-//                        if (cbPNCThirdVisit.isChecked() == true) {
-//                            third_visit = "yes";
-//                            tvPNCThirdVisitDate.setVisibility(View.VISIBLE);
-//                            third_visit_date = tvPNCThirdVisitDate.getText().toString();
-//                        } else {
-//                            third_visit = "no";
-//                            tvPNCThirdVisitDate.setVisibility(View.INVISIBLE);
-//                            third_visit_date = "";
-//                        }
-//                        if (cbANCFourthVisit.isChecked() == true) {
-//                            fourth_visit = "yes";
-//                            tvANCFourthVisitDate.setVisibility(View.VISIBLE);
-//                            fourth_visit_date = tvANCFourthVisitDate.getText().toString();
-//                        } else {
-//                            fourth_visit_date = "no";
-//                            tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
-//                            fourth_visit_date = "";
-//                        }
+                        if (cbANCFirstVisit.isChecked() == true) {
+                            first_visit = "yes";
+                            tvANCFirstVisitDate.setVisibility(View.VISIBLE);
+                            first_visit_date = tvANCFirstVisitDate.getText().toString();
+                        } else {
+                            first_visit = "no";
+                            tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
+                            first_visit_date = "";
+                        }
+
+                        if (cbANCSecondVisit.isChecked() == true) {
+                            second_visit = "yes";
+                            tvANCSecondVisitDate.setVisibility(View.VISIBLE);
+                            second_visit_date = tvANCSecondVisitDate.getText().toString();
+                        } else {
+                            second_visit = "no";
+                            tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
+                            second_visit_date = "";
+                        }
+
+                        if (cbANCThirdVisit.isChecked() == true) {
+                            third_visit = "yes";
+                            tvANCThirdVisitDate.setVisibility(View.VISIBLE);
+                            third_visit_date = tvANCThirdVisitDate.getText().toString();
+                        } else {
+                            third_visit = "no";
+                            tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
+                            third_visit_date = "";
+                        }
+                        if (cbANCFourthVisit.isChecked() == true) {
+                            fourth_visit = "yes";
+                            tvANCFourthVisitDate.setVisibility(View.VISIBLE);
+                            fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+                        } else {
+                            fourth_visit_date = "no";
+                            tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
+                            fourth_visit_date = "";
+                        }
 
 
-                if (networkInfo != null && networkInfo.isConnected()) {
+
+                        if (networkInfo != null && networkInfo.isConnected()) {
 
 
                     DisplayMetrics metrics = context.getResources().getDisplayMetrics();
@@ -982,16 +984,6 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
 
             JSONObject header = new JSONObject();
 
-            ancVisitjson.put("first_visit", first_visit);
-            ancVisitjson.put("second_visit", second_visit);
-            ancVisitjson.put("third_visit", third_visit);
-            ancVisitjson.put("fourth_visit", fourth_visit);
-
-            ancVisitDatejson.put("first_visit_date", first_visit_date);
-            ancVisitDatejson.put("second_visit_date", second_visit_date);
-            ancVisitDatejson.put("third_visit_date", third_visit_date);
-            ancVisitDatejson.put("fourth_visit_date", fourth_visit_date);
-
 
             header.put("tablename", "recording_tool_for_pregnant_woman");
             header.put("name_of_VDC", vdc_name);
@@ -1002,9 +994,16 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
             header.put("ethinicity", ethnicity);
             header.put("LMP", lmp);
             header.put("EDD", edd);
-            header.put("ANC_visit", ancVisitjson.toString());
-            header.put("ANC_visit_date", ancVisitDatejson.toString());
+//            header.put("ANC_visit", ancVisitjson.toString());
+//            header.put("ANC_visit_date", ancVisitDatejson.toString());
+
             header.put("date", visit_date);
+
+            header.put("ANC_First_visit", first_visit_date);
+            header.put("ANC_Second_visit", second_visit_date);
+            header.put("ANC_Third_visit", third_visit_date);
+            header.put("ANC_Fourt_visit", fourth_visit_date);
+
             header.put("time", visit_time);
             header.put("Td", td);
             header.put("Td_+", td_plus);
@@ -1073,7 +1072,7 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         listCf.add(d);
         encodedImage = jsonObj.getString("image");
 
-        Log.e("Pregnent Women", "Parsed data " + garvawati_bhet + anc_visit);
+        Log.e("Pregnent Women", "Parsed data " + garvawati_bhet );
 
         tvPregnentWomenName.setText(pregenent_women_name);
         tvEthnicity.setText(ethnicity);
@@ -1111,38 +1110,39 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
         spinnerFCHVsHelp.setSelection(setFCVHelp);
 
 
-        String anc = jsonObj.getString("ANC_visit");
-        String anc_date = jsonObj.getString("ANC_visit_date");
+//        String anc = jsonObj.getString("ANC_visit");
+//        String anc_date = jsonObj.getString("ANC_visit_date");
+//
+//        JSONObject ancObj = new JSONObject(anc);
+//        first_visit = ancObj.getString("first_visit");
+//        second_visit = ancObj.getString("second_visit");
+//        third_visit = ancObj.getString("third_visit");
+//        fourth_visit = ancObj.getString("fourth_visit");
+//
+//        JSONObject ancVisitObj = new JSONObject(anc_date);
 
-        JSONObject ancObj = new JSONObject(anc);
-        first_visit = ancObj.getString("first_visit");
-        second_visit = ancObj.getString("second_visit");
-        third_visit = ancObj.getString("third_visit");
-        fourth_visit = ancObj.getString("fourth_visit");
-
-        JSONObject ancVisitObj = new JSONObject(anc_date);
-        first_visit_date = ancVisitObj.getString("first_visit_date");
-        second_visit_date = ancVisitObj.getString("second_visit_date");
-        third_visit_date = ancVisitObj.getString("third_visit_date");
-        fourth_visit_date = ancVisitObj.getString("fourth_visit_date");
+        first_visit_date = jsonObj.getString("ANC_First_visit");
+        second_visit_date = jsonObj.getString("ANC_Second_visit");
+        third_visit_date = jsonObj.getString("ANC_(Third_visit");
+        fourth_visit_date = jsonObj.getString("ANC_Fourt_visit");
 
 
 
 
-        if (first_visit.equals("yes")) {
+        if (!first_visit_date.equals("")) {
             cbANCFirstVisit.setChecked(true);
             tvANCFirstVisitDate.setText(first_visit_date);
 
         }
-        if (second_visit.equals("yes")) {
+        if (!second_visit_date.equals("")) {
             cbANCSecondVisit.setChecked(true);
             tvANCSecondVisitDate.setText(second_visit_date);
         }
-        if (third_visit.equals("yes")) {
+        if (!third_visit_date.equals("")) {
             cbANCThirdVisit.setChecked(true);
             tvANCThirdVisitDate.setText(third_visit_date);
         }
-        if (fourth_visit.equals("yes")) {
+        if (!fourth_visit_date.equals("")) {
             cbANCFourthVisit.setChecked(true);
             tvANCFourthVisitDate.setText(fourth_visit_date);
         }
@@ -1901,7 +1901,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 if (cbANCFirstVisit.isChecked() == true) {
                     first_visit = "yes";
                     tvANCFirstVisitDate.setVisibility(View.VISIBLE);
-                    first_visit_date = tvANCFirstVisitDate.getText().toString();
+                    if(!CheckValues.isFromSavedFrom) {
+                        first_visit_date = tvANCFirstVisitDate.getText().toString();
+                    }
                 } else {
                     first_visit = "no";
                     tvANCFirstVisitDate.setVisibility(View.INVISIBLE);
@@ -1914,7 +1916,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 if (cbANCSecondVisit.isChecked() == true) {
                     second_visit = "yes";
                     tvANCSecondVisitDate.setVisibility(View.VISIBLE);
-                    second_visit_date = tvANCSecondVisitDate.getText().toString();
+                    if(!CheckValues.isFromSavedFrom) {
+                        second_visit_date = tvANCSecondVisitDate.getText().toString();
+                    }
                 } else {
                     second_visit = "no";
                     tvANCSecondVisitDate.setVisibility(View.INVISIBLE);
@@ -1927,7 +1931,9 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 if (cbANCThirdVisit.isChecked() == true) {
                     third_visit = "yes";
                     tvANCThirdVisitDate.setVisibility(View.VISIBLE);
-                    third_visit_date = tvANCThirdVisitDate.getText().toString();
+                    if(!CheckValues.isFromSavedFrom) {
+                        third_visit_date = tvANCThirdVisitDate.getText().toString();
+                    }
                 } else {
                     third_visit = "no";
                     tvANCThirdVisitDate.setVisibility(View.INVISIBLE);
@@ -1940,9 +1946,11 @@ public class PregnentWomenActivity extends AppCompatActivity implements AdapterV
                 if (cbANCFourthVisit.isChecked() == true) {
                     fourth_visit = "yes";
                     tvANCFourthVisitDate.setVisibility(View.VISIBLE);
-                    fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+                    if(!CheckValues.isFromSavedFrom) {
+                        fourth_visit_date = tvANCFourthVisitDate.getText().toString();
+                    }
                 } else {
-                    fourth_visit_date = "no";
+                    fourth_visit = "no";
                     tvANCFourthVisitDate.setVisibility(View.INVISIBLE);
                     fourth_visit_date = "";
                 }

@@ -204,7 +204,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         previewImageSite = (ImageView) findViewById(R.id.children_5_PhotographSiteimageViewPreview);
         previewImageSite.setVisibility(View.GONE);
 
-        initilizeUI();
+
 
 //        spinner_diarrhoea_details = (Spinner) findViewById(R.id.suffered_diarrhoea_spinner);
 //        spinner_ari_details = (Spinner) findViewById(R.id.suffered_from_ARI);
@@ -230,6 +230,8 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
         spinnerWardNo.setAdapter(wardNoadpt);
         spinnerWardNo.setOnItemSelectedListener(this);
 
+
+        initilizeUI();
 
         /**₧
          * Author Samir
@@ -1157,11 +1159,11 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
             cbTreatedWithAntibiotic.setChecked(true);
         }
 
-//        int setVDCName = vdcNameadpt.getPosition(vdc_name);
-//        spinnerVDCName.setSelection(setVDCName);
-//
-//        int setWardNo = wardNoadpt.getPosition(ward_no);
-//        spinnerWardNo.setSelection(setWardNo);
+        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(ward_no);
+        spinnerWardNo.setSelection(setWardNo);
 
 
 
