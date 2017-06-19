@@ -1445,7 +1445,7 @@ public class ChildrenUnderTwo extends AppCompatActivity implements AdapterView.O
 
             for (int i = 0; i < selected.length; i++) {
                 if (selected[i]) {
-                    tvMultispinnerVaccination.setText(builder.append(adapter.getItem(i)).append(" & "));
+                    tvMultispinnerVaccination.setText(builder.append(adapter.getItem(i)).append("&"));
                 }
 
             }
