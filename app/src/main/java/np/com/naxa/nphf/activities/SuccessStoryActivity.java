@@ -30,6 +30,8 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,6 +39,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -83,10 +86,11 @@ import np.com.naxa.nphf.dialog.Default_DIalog;
 import np.com.naxa.nphf.gps.GPS_TRACKER_FOR_POINT;
 import np.com.naxa.nphf.gps.MapPointActivity;
 import np.com.naxa.nphf.model.CheckValues;
+import np.com.naxa.nphf.model.Constants;
 import np.com.naxa.nphf.model.StaticListOfCoordinates;
 import np.com.naxa.nphf.model.UrlClass;
 
-public class SuccessStoryActivity extends AppCompatActivity {
+public class SuccessStoryActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "SuccessStoryActivity";
     Toolbar toolbar;
@@ -120,13 +124,14 @@ public class SuccessStoryActivity extends AppCompatActivity {
     ConnectivityManager connectivityManager;
     String dataSentStatus, dateString;
 
-
+    Spinner spinnerVDCName, spinnerWardNo ;
+    ArrayAdapter vdcNameadpt, wardNoadpt ;
     //tvNameOfTool, name_of_tool,
-    AutoCompleteTextView tvVDCName, tvNameOfRespondaents, tvTopics, tvProblems, tvInterventionOfSM, tvResultOfInput;
+    AutoCompleteTextView tvNameOfRespondaents, tvTopics, tvProblems, tvInterventionOfSM, tvResultOfInput;
     CheckBox cbANC, cbPNC, cbInstitunationalDelivery, cbNewBornCare, cbBreastFeeding, cbComplementryFeeding, cbHygieneRelated, cbMotherGroupRelated,
             cbRefer, cbSexualAndRepreductive, cbPeerGroup;
     CardView cv_Send_Save;
-    String vdc_name, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
+    String vdc_name,ward_no, name_of_respondents, topics, anc, pnc, institunationl_delivery, new_born_care, breast_feeding, complementry_feeding,
             hygiene_related, mother_group_related, refer, sexual_and_reproductive, peer_group, img,
             problems, intervention_by_sm, result_of_input;
     JSONArray jsonArrayGPS = new JSONArray();
@@ -142,7 +147,6 @@ public class SuccessStoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tvVDCName = (AutoCompleteTextView) findViewById(R.id.success_story_vdc_name);
 //        tvNameOfTool = (AutoCompleteTextView) findViewById(R.id.success_story_tool_name);
         tvNameOfRespondaents = (AutoCompleteTextView) findViewById(R.id.success_story_respondents_name);
         tvTopics = (AutoCompleteTextView) findViewById(R.id.success_story_story);
@@ -161,6 +165,8 @@ public class SuccessStoryActivity extends AppCompatActivity {
         previewImageSite.setVisibility(View.GONE);
 
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+        spinnerVDCName = (Spinner) findViewById(R.id.success_story_vdc_name);
+        spinnerWardNo = (Spinner) findViewById(R.id.success_story_ward_no);
 
         cbANC = (CheckBox) findViewById(R.id.success_story_anc);
         cbPNC = (CheckBox) findViewById(R.id.success_story_pnc);
@@ -175,6 +181,22 @@ public class SuccessStoryActivity extends AppCompatActivity {
         cbPeerGroup = (CheckBox) findViewById(R.id.success_story_peer_group);
 
         cv_Send_Save = (CardView) findViewById(R.id.cv_SaveSend);
+
+        //VDC name spinner
+        vdcNameadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_NAME);
+        vdcNameadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVDCName.setAdapter(vdcNameadpt);
+        spinnerVDCName.setOnItemSelectedListener(this);
+
+        //ward NO spinner
+        wardNoadpt = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Constants.VDC_WARD_NO);
+        wardNoadpt
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWardNo.setAdapter(wardNoadpt);
+        spinnerWardNo.setOnItemSelectedListener(this);
 
         initilizeUI();
 
@@ -272,7 +294,6 @@ public class SuccessStoryActivity extends AppCompatActivity {
 //
 //                    if (isGpsTaken) {
 
-                        vdc_name = tvVDCName.getText().toString();
 //                        name_of_tool = tvNameOfTool.getText().toString();
                         name_of_respondents = tvNameOfRespondaents.getText().toString();
                         problems = tvProblems.getText().toString();
@@ -451,8 +472,6 @@ public class SuccessStoryActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (isGpsTaken) {
-
-                    vdc_name = tvVDCName.getText().toString();
 //                    name_of_tool = tvNameOfTool.getText().toString();
                     name_of_respondents = tvNameOfRespondaents.getText().toString();
                     problems = tvProblems.getText().toString();
@@ -795,8 +814,8 @@ public class SuccessStoryActivity extends AppCompatActivity {
             Log.d(TAG, "initilizeUI: " + sent_Status);
 
             if (sent_Status.equals("Sent")) {
-                tvVDCName.setEnabled(false);
-//                    tvNameOfTool.setEnabled(false);
+                spinnerVDCName.setEnabled(false);
+                    spinnerWardNo.setEnabled(false);
                 tvNameOfRespondaents.setEnabled(false);
                 tvTopics.setEnabled(false);
                 tvProblems.setEnabled(false);
@@ -870,6 +889,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
             header.put("tablename", "recording_tool_for_success_stories");
 //            header.put("name_of_tool", name_of_tool);
             header.put("name_of_VDC", vdc_name);
+            header.put("ward_no", ward_no);
             header.put("name_of_respondents", name_of_respondents);
             header.put("problems", problems);
             header.put("intervention_by_sm", intervention_by_sm);
@@ -924,7 +944,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
 
         vdc_name = jsonObj.getString("name_of_VDC");
-//        name_of_tool = jsonObj.getString("name_of_tool");
+        ward_no = jsonObj.getString("ward_no");
         name_of_respondents = jsonObj.getString("name_of_respondents");
         topics = jsonObj.getString("story");
         problems = jsonObj.getString("problems");
@@ -947,7 +967,6 @@ public class SuccessStoryActivity extends AppCompatActivity {
         peer_group = jsonObj.getString("peer_group");
 
 
-        tvVDCName.setText(vdc_name);
 //        tvNameOfTool.setText(name_of_tool);
         tvNameOfRespondaents.setText(name_of_respondents);
         tvTopics.setText(topics);
@@ -990,6 +1009,34 @@ public class SuccessStoryActivity extends AppCompatActivity {
             cbPeerGroup.setChecked(true);
         }
 
+        int setVDCName = vdcNameadpt.getPosition(vdc_name);
+        spinnerVDCName.setSelection(setVDCName);
+
+        int setWardNo = wardNoadpt.getPosition(ward_no);
+        spinnerWardNo.setSelection(setWardNo);
+
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int spinnerId = parent.getId();
+
+        if(spinnerId == R.id.success_story_vdc_name){
+            vdc_name = Constants.VDC_NAME[position];
+            Log.e(TAG, "onItemSelected: "+vdc_name );
+
+        }
+
+        if(spinnerId == R.id.success_story_ward_no){
+            ward_no = Constants.VDC_WARD_NO[position];
+            Log.e(TAG, "onItemSelected: "+ward_no );
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -1030,7 +1077,6 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show();
                 previewImageSite.setVisibility(View.VISIBLE);
 
-                tvVDCName.setText(vdc_name);
 //                tvNameOfTool.setText(name_of_tool);
                 tvNameOfRespondaents.setText(name_of_respondents);
                 tvTopics.setText(topics);

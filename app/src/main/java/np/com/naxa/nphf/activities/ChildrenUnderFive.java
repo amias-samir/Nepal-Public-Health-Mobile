@@ -129,7 +129,7 @@ public class ChildrenUnderFive extends AppCompatActivity implements AdapterView.
 
 
 
-    String child5_name, child5_vdc_name, child5_ward_no, child5_age, child5_sex, child5_sm_name, vdc_name, ward_no,
+    String child5_name, child5_age, child5_sex, child5_sm_name, vdc_name, ward_no,
             visit_date, visit_time, img, suffered_diarrhoea, treated_with_zinc, reffered_by_sm, suffered_ari, treated_with_anibiotic, referred_by_sm_ari;
 
     JSONArray jsonArrayGPS = new JSONArray();
